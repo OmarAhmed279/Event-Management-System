@@ -10,7 +10,7 @@ package project.eventmanagementsystem;
  */
 import java.util.ArrayList;
  
-public abstract class Database 
+public class Database 
 {
     // User-related lists
     public static ArrayList<User> users = new ArrayList<>();

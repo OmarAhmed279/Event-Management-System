@@ -103,18 +103,18 @@ public abstract class User {
        Date dateOfbirth = new Date(year, month, day); //fix error handling
           if (x == 1)
             {
-                User newuser = new Organizer(UserName, Password, dateOfbirth);
-                Database.users.add(newuser);
-                Database.organizers.add((Organizer)newuser);
+                //User newuser = new Organizer(UserName, Password, dateOfbirth);
+                //Database.users.add(newuser);
+                //Database.organizers.add((Organizer)newuser);
             }
             else if (x == 2)
            {
                //System.out.println("Enter Gender: (M or F)");
                //String gen = in.nextLine();
                //ask about interest
-               User newuser = new Attendee(UserName, Password, dateOfbirth, gen, interest);
-               Database.users.add(newuser);
-               Database.attendees.add((Attendee)newuser);
+               //User newuser = new Attendee(UserName, Password, dateOfbirth, gen, interest);
+               //Database.users.add(newuser);
+               //Database.attendees.add((Attendee)newuser);
            }
     }
     
@@ -158,7 +158,8 @@ public abstract class User {
                 password = in.nextLine();
             }
             System.out.println("Valid Password");
-            show_dashboard();
+            System.out.println("Dashboard");
+            //show_dashboard();
         }
         
         public static void logOut()
