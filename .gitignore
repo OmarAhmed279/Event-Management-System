@@ -5,6 +5,7 @@ out/
 /shelf/
 /workspace.xml
 /Event-Management-System/.idea
+/.idea
 
 ### Eclipse ###
 .apt_generated
