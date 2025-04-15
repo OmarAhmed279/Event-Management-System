@@ -9,16 +9,18 @@ package project.eventmanagementsystem;
  * @author youss
  */
 import java.util.ArrayList;
-
+ 
 public abstract class Database 
 {
     // User-related lists
     public static ArrayList<User> users = new ArrayList<>();
     public static ArrayList<Admin> admins = new ArrayList<>();
     public static ArrayList<Organizer> organizers = new ArrayList<>();
-    public static ArrayList<Attendee> attendees = new ArrayList<>(); 
+    public static ArrayList<Attendee> attendees = new ArrayList<>();
     // Event-related lists
     public static ArrayList<Event> events = new ArrayList<>();
     public static ArrayList<Category> categories = new ArrayList<>();
     public static ArrayList<Room> rooms = new ArrayList<>();
+    // app creators wallet replica
+    public static double appOwnerBalance;
 }
