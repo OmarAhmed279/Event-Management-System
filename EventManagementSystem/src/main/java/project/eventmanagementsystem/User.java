@@ -3,7 +3,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 
-/**@author Seif Shehta**/
+/**Made by Seif Shehta, Yousef Shehta and Omar Ahmed**/
 
 public abstract class User {
     private String Username;
