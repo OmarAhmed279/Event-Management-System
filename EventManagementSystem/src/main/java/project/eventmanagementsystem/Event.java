@@ -36,7 +36,7 @@ public class Event {
     }
 
     public void setDescription(String description) {
-        this.description = description; // Allowing null
+        this.description = Objects.requireNonNull(description, "Name cannot be null");
     }
 
     public Category getCategory() {
