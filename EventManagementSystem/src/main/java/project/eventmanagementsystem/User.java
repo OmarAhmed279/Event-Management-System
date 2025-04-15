@@ -6,20 +6,21 @@ import java.util.Scanner;
 /**@author Seif Shehta**/
 
 public abstract class User {
-    private String UserName;
+    private String Username;
     private String Password;
-    private Date dateOfbirth;
+    private Date DateOfBirth;
     private Boolean isSuspended = false;
     private int ID;
-    Scanner in = new Scanner (System.in);
+    private int wallet;
+    static private Scanner in = new Scanner (System.in);
      
     public User (){
         
     }
-    public User(String UserName, String Password, Date dateOfbirth) {
-        this.UserName = UserName;
+    public User(String Username, String Password, Date dateOfbirth) {
+        this.Username = Username;
         this.Password = Password;
-        this.dateOfbirth = dateOfbirth;
+        this.DateOfBirth = dateOfbirth;
     }
     
     
@@ -29,12 +30,12 @@ public abstract class User {
     public abstract void UpdateInformation();
     
 
-    public String getUserName() {
-        return UserName;
+    public String getUsername() {
+        return Username;
     }
 
-    public void setUserName(String UserName) {
-        this.UserName = UserName;
+    public void setUsername(String Username) {
+        this.Username = Username;
     }
 
     public String getPassword() {
@@ -45,12 +46,12 @@ public abstract class User {
         this.Password = Password;
     }
 
-    public Date getDateOfbirth() {
-        return dateOfbirth;
+    public Date getDateOfBirth() {
+        return DateOfBirth;
     }
 
-    public void setDateOfbirth(Date dateOfbirth) {
-        this.dateOfbirth = dateOfbirth;
+    public void setDateOfBirth(Date DateOfBirth) {
+        this.DateOfBirth = DateOfBirth;
     }
 
     public Boolean getIsSuspended() {
@@ -64,19 +65,29 @@ public abstract class User {
         return ID;
     }
 
-    public static void signUp()
+    public static void Home()
     {
-     Scanner in = new Scanner(System.in);
-     System.out.println("Welcome to our event managemnet system");
-     System.out.println("[1] Organizer");
-     System.out.println("[2] Attendee");
-     System.out.println("[3] login");
+     System.out.println("Welcome to the Event Managemnet System");
+     System.out.println("[1] Sign Up as Organizer");
+     System.out.println("[2] Sign Up as Attendee");
+     System.out.println("[3] Login");
      int num = in.nextInt();
-     System.out.println("Enter a user name: ");
+     if (num == 1 || num == 2)
+     {
+         signUp(num);
+     } else if(num == 3)
+     {
+        login();
+     }
+    }
+    
+    public static void signUp(int x)
+    {
+     System.out.println("Enter Username: ");
      String UserName = in.nextLine();
-     System.out.println("Enter a strong password: ");
+     System.out.println("Enter Password: ");
      String Password = in.nextLine();
-     System.out.println("Enter your Date of birth: ");
+     System.out.println("Enter Date of birth: ");
      System.out.println("Year: ");
      int year = in.nextInt();
      System.out.println("Month: ");
@@ -89,43 +100,70 @@ public abstract class User {
          do{
          day = in.nextInt();
         }while (day < 1 || day > 31);
-       Date dateOfbirth = new Date(year, month, day);
-          if (num == 1)
-    {
-      User newuser = new Organizer(UserName, Password, dateOfbirth);
-      Database.users. add(newuser);
-      Database.organizers.add( (Organizer)newuser);
-    }
-          else {}
+       Date dateOfbirth = new Date(year, month, day); //fix error handling
+          if (x == 1)
+            {
+                User newuser = new Organizer(UserName, Password, dateOfbirth);
+                Database.users.add(newuser);
+                Database.organizers.add((Organizer)newuser);
+            }
+            else if (x == 2)
+           {
+               //System.out.println("Enter Gender: (M or F)");
+               //String gen = in.nextLine();
+               //ask about interest
+               User newuser = new Attendee(UserName, Password, dateOfbirth, gen, interest);
+               Database.users.add(newuser);
+               Database.attendees.add((Attendee)newuser);
+           }
     }
     
-    public void login()
+    public static void login()
      {
-            System.out.println("Enter your user name:");
+            System.out.println("Enter Username:");
             String name;
             String password;
             name = in.nextLine();
-            if (name.equalsIgnoreCase(this.UserName))
+            boolean isFound = false;
+            while(!isFound);
             {
-                System.out.println(" Valid user name");
+                for(int i = 0; i < DataBase.users.size(); i++)
+                {
+                    if (name.equals(DataBase.users.get(i).Username))
+                    {
+                        isFound = true;
+                        break;
+                    }
+                }
+                System.out.println("Invalid user name");
+                System.out.println("Enter Username: ");
+                name = in.nextLine();
             }
-            else {System.out.println(" Invalid user name");}
-            System.out.println("Enter your Password:");
+            System.out.println("Valid Username");
+            isFound = false;
+            System.out.println("Enter your Password: ");
             password = in.nextLine();
-            if(password.equalsIgnoreCase(this.Password))
+            while(!isFound);
             {
-                System.out.println(" Valid Password");
+                for(int i = 0; i < DataBase.users.size(); i++)
+                {
+                    if (password.equals(DataBase.users.get(i).Password))
+                    {
+                        isFound = true;
+                        break;
+                    }
+                }
+                System.out.println("Invalid Password");
+                System.out.println("Enter Password: ");
+                password = in.nextLine();
             }
-            else{System.out.println(" Invalid password");}
-            if(name.equals(this.UserName)  && password.equals(this.Password))
-            {
-                show_dashboard();
-            }
+            System.out.println("Valid Password");
+            show_dashboard();
         }
         
-        public void logOut()
+        public static void logOut()
         {
-            login();
+          Home();
         }
                 
     }
