@@ -4,7 +4,7 @@ out/
 !**/src/test/**/out/
 /shelf/
 /workspace.xml
-/.idea
+/Event-Management-System/.idea
 
 ### Eclipse ###
 .apt_generated
