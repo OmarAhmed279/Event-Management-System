@@ -12,6 +12,17 @@ public abstract class User {
     private Boolean isSuspended = false;
     private int ID;
     Scanner in = new Scanner (System.in);
+     
+    public User (){
+        
+    }
+    public User(String UserName, String Password, Date dateOfbirth) {
+        this.UserName = UserName;
+        this.Password = Password;
+        this.dateOfbirth = dateOfbirth;
+    }
+    
+    
     
     public abstract void show_dashboard();
     public abstract void showProfile();
@@ -53,50 +64,60 @@ public abstract class User {
         return ID;
     }
 
-    
-    
-        void signUp()
+    public static void signUp()
     {
-        System.out.println("Welcome to our event managemnet system");
-        System.out.println("Enter a user name: ");
-        UserName = in.next();
-        System.out.println("Enter a strong password: ");
-        Password = in.next();
-        System.out.println("Enter your Date of birth: ");
-        System.out.println("Year: ");
-        int year = in.nextInt();
-        System.out.println("Month: ");
-        int month;
-        do{
-           month = in.nextInt();   
+     Scanner in = new Scanner(System.in);
+     System.out.println("Welcome to our event managemnet system");
+     System.out.println("[1] Organizer");
+     System.out.println("[2] Attendee");
+     System.out.println("[3] login");
+     int num = in.nextInt();
+     System.out.println("Enter a user name: ");
+     String UserName = in.nextLine();
+     System.out.println("Enter a strong password: ");
+     String Password = in.nextLine();
+     System.out.println("Enter your Date of birth: ");
+     System.out.println("Year: ");
+     int year = in.nextInt();
+     System.out.println("Month: ");
+     int month;
+     do{
+         month = in.nextInt();   
         }while( month < 1 || month > 12);
-        System.out.println("Day: ");
-        int day;
-        do{
-            day = in.nextInt();
+         System.out.println("Day: ");
+         int day;
+         do{
+         day = in.nextInt();
         }while (day < 1 || day > 31);
-        dateOfbirth = new Date(year, month, day);
+       Date dateOfbirth = new Date(year, month, day);
+          if (num == 1)
+    {
+      User newuser = new Organizer(UserName, Password, dateOfbirth);
+      Database.users. add(newuser);
+      Database.organizers.add( (Organizer)newuser);
     }
-        
-        public void login()
-        {
+          else {}
+    }
+    
+    public void login()
+     {
             System.out.println("Enter your user name:");
             String name;
             String password;
-            name = in.next();
+            name = in.nextLine();
             if (name.equalsIgnoreCase(this.UserName))
             {
                 System.out.println(" Valid user name");
             }
             else {System.out.println(" Invalid user name");}
             System.out.println("Enter your Password:");
-            password = in.next();
+            password = in.nextLine();
             if(password.equalsIgnoreCase(this.Password))
             {
                 System.out.println(" Valid Password");
             }
             else{System.out.println(" Invalid password");}
-            if(name== this.UserName && password == this.Password)
+            if(name.equals(this.UserName)  && password.equals(this.Password))
             {
                 show_dashboard();
             }
@@ -108,5 +129,6 @@ public abstract class User {
         }
                 
     }
+
 
 
