@@ -8,6 +8,97 @@ package project.eventmanagementsystem;
  *
  * @author youss
  */
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Event {
-    
+    private String name;
+    private String description;
+    private Category category;
+    private long price;
+    private Room room;
+    private Organizer organizer;
+    private final List<Attendee> attendees = new ArrayList<>();
+    private LocalDateTime date;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = Objects.requireNonNull(name, "Name cannot be null");
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description; // Allowing null
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = Objects.requireNonNull(category, "Category cannot be null");
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        if (price < 0) {
+            throw new IllegalArgumentException("Price cannot be negative");
+        }
+        this.price = price;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = Objects.requireNonNull(room, "Room cannot be null");
+    }
+
+    public Organizer getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = Objects.requireNonNull(organizer, "Organizer cannot be null");
+    }
+
+    public List<Attendee> getAttendees() {
+        return new ArrayList<>(attendees); // Defensive copy
+    }
+
+    public void addAttendee(Attendee attendee) {
+        attendees.add(Objects.requireNonNull(attendee, "Attendee cannot be null"));
+    }
+
+    public boolean removeAttendee(Attendee attendee) {
+        return attendees.remove(attendee);
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public int getAttendeeCount() {
+        return attendees.size();
+    }
+
+    public boolean hasAttendee(Attendee attendee) {
+        return attendees.contains(attendee);
+    }
 }
