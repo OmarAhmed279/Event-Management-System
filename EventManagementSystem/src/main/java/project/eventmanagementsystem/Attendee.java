@@ -3,13 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package project.eventmanagementsystem;
-/**
- *
- * @author Omars
- */
+/**@author Omars**/
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Attendee extends User {
+
+    @Override
+    public void showProfile() {
+
+    }
+
+    @Override
+    public void UpdateInformation() {
+
+    }
+
     public enum Gender { MALE, FEMALE}
     
     private Gender gender;
@@ -19,15 +28,21 @@ public class Attendee extends User {
     private String address;
     
     public Attendee(String username, String password, Date dateOfBirth, 
-                   Gender gender, String address) {
+                   String gender, String address, String interest) {
         super(username, password, dateOfBirth);
-        this.gender = gender;
+        if(gender.equals("M"))
+        {
+            this.gender = Gender.MALE;
+        } else {
+            this.gender = Gender.FEMALE;
+        }
         this.wallet = new Wallet(0);
         this.interests = new ArrayList<>();
+        this.interests.add(interest);
         this.registeredEvents = new ArrayList<>();
         this.address = address;
-        Database.attendees.add(this);
-        Database.users.add(this);
+        //Database.attendees.add(this);
+        //Database.users.add(this);
     }
     
     // Getters and setters
@@ -58,9 +73,8 @@ public class Attendee extends User {
         if (wallet.getBalance() >= event.getPrice()) {
             wallet.setBalance(wallet.getBalance() - event.getPrice());
             registeredEvents.add(event);
-            event.getOrganizer().getWallet().setBalance(
-                event.getOrganizer().getWallet().getBalance() + event.getPrice());
-            Database.creatorsBalance += event.getPrice();
+            event.getOrganizer().getWallet().setBalance(event.getOrganizer().getWallet().getBalance() + event.getPrice());
+            Database.appOwnerBalance += event.getPrice();
             return true;
         }
         return false;

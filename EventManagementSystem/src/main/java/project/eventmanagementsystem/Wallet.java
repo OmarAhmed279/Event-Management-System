@@ -20,4 +20,9 @@ public class Wallet
     {
         this.balance = balance;
     }
+
+    Wallet (double bal)
+    {
+        setBalance(bal);
+    }
 }

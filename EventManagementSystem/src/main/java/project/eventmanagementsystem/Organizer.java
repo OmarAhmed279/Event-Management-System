@@ -13,14 +13,32 @@ import java.util.Scanner;
  *
  * @author omar
  */
-public abstract class Organizer extends User {
+public class Organizer extends User {
     double wallet;
     ArrayList events;
     
     public Organizer(String name, String password, Date dateOfBirth)
     {
         this.wallet=0.0f;
-        events = new ArrayList<Event>();   
+        events = new ArrayList<Event>();
+        setUsername(name);
+        setPassword(password);
+        setDateOfBirth(dateOfBirth);
+    }
+
+    @Override
+    public void showDashboard() {
+
+    }
+
+    @Override
+    public void showProfile() {
+
+    }
+
+    @Override
+    public void UpdateInformation() {
+
     }
 
     public double getWallet() {
