@@ -1,5 +1,6 @@
 package project.eventmanagementsystem;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -175,11 +176,13 @@ public abstract class User {
         String password;
         name = in.nextLine();
         boolean isFound = false;
+        User U = null;
         while (!isFound)
         {
             for (int i = 0; i < Database.users.size(); i++) {
                 if (name.equals(Database.users.get(i).Username)) {
                     isFound = true;
+                    U = Database.users.get(i);
                     break;
                 }
             }
@@ -205,7 +208,13 @@ public abstract class User {
         }
         System.out.println("Valid Password");
         System.out.println("Dashboard");
-        //show_dashboard();
+        if (U instanceof Attendee)
+        {
+            ((Attendee)U).showDashboard();
+        } else {
+            ((Organizer)U).showDashboard();
+        }
+
     }
 
     public static void logOut() {
