@@ -11,16 +11,17 @@ import java.util.ArrayList;
 public class Room {
    private int id;
    private Event event;
-   int getID(){
+   public int getID(){
        return id;
    } 
-   void setID(int id){
+   public void setID(int id){
        this.id=id;
    }
-    Event getEvent(){
-       return event;
+    public Event getEvent(){
+       Event event_copy = new Event(event);
+        return event_copy;
    } 
-   void setEvent(Event event){
+   public void setEvent(Event event){
        this.event=event;
    }
 }
