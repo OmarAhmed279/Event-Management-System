@@ -70,6 +70,9 @@ public abstract class Organizer extends User {
           
            if(isAvailable(RoomNo, DateOfEvent))
            {
+             
+               
+               
                Event e1= new Event( name, description,  category,  price,  RoomNo,  DateOfEvent);
                Database.events.add(e1);
                break;
