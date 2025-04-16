@@ -1,5 +1,6 @@
 package project.eventmanagementsystem;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -58,8 +59,8 @@ public abstract class User {
         return isSuspended;
     }
 
-    public abstract void setIsSuspended(Object obj);
-    public abstract void setActive(Object obj);
+//    public abstract void setIsSuspended(Object obj);         for admin only
+//    public abstract void setActive(Object obj);
 
     public int getID() {
         return ID;
@@ -71,22 +72,59 @@ public abstract class User {
      System.out.println("[1] Sign Up as Organizer");
      System.out.println("[2] Sign Up as Attendee");
      System.out.println("[3] Login");
-     int num = in.nextInt();
+     boolean invaliddata  = true; 
+     int num;
+     while (invaliddata){
+     try {
+         num = in.nextInt();
      if (num == 1 || num == 2)
      {
          signUp(num);
+         invaliddata = false; 
      } else if(num == 3)
      {
-        login();
+       login();
+        invaliddata = false; 
+     }
+     else {
+         System.out.println("invalid input"); 
+     }
+     } catch(InputMismatchException ex) {
+         System.out.println("invalid input");
+         in.nextLine();
      }
     }
+   }
     
     public static void signUp(int x)
     {
+        while (true){
      System.out.println("Enter Username: ");
-     String UserName = in.nextLine();
+     String UserName = in.nextLine().trim();
+            if (UserName.isEmpty()) {
+                System.out.println("Username cannot be empty. Try again.");
+                continue;
+            }
+            if (!Character.isLetter(UserName.charAt(0))) {
+                System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
+                continue;
+            }
+            if (UserName.contains(" ")) {
+                System.out.println("Username cannot contain spaces. Try again.");
+                continue;
+            }
+            if (UserName.length() < 4 || UserName.length() > 20) {
+                System.out.println("Username must be 4-20 characters long. Try again.");
+                continue;
+            }
+            break; 
+        };
+     while (true ){
      System.out.println("Enter Password: ");
-     String Password = in.nextLine();
+     String Password = in.nextLine().trim();
+            
+     break;
+     };
      System.out.println("Enter Date of birth: ");
      System.out.println("Year: ");
      int year = in.nextInt();
