@@ -21,7 +21,7 @@ public class Event {
     private long price;
     private Room room;
     private Organizer organizer;
-    private final List<Attendee> attendees = new ArrayList<>();
+    private  List<Attendee> attendees = new ArrayList<>();
     private Date date;
 
     public Event(String name, String description, Category category, long price, Room room, Date date) {
@@ -32,8 +32,17 @@ public class Event {
         this.room = room;
         this.date = date;
     }
-
     
+    public Event(Event event)
+    {
+        this.name = event.name;
+        this.description = event.description;
+        this.category = event.category;
+        this.price = event.price;
+        this.room = event.room;
+        this.date = new Date(event.date.getTime());
+        this.attendees = event.attendees;
+    }
     public String getName() {
         return name;
     }
