@@ -4,10 +4,81 @@
  */
 package project.eventmanagementsystem;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+
 /**
  *
  * @author omar
  */
 public abstract class Organizer extends User {
+    double wallet;
+    ArrayList events;
+    
+    public Organizer(String name, String password, Date dateOfBirth)
+    {
+        this.wallet=0.0f;
+        events = new ArrayList<Event>();   
+    }
+
+    public double getWallet() {
+        return wallet;
+    }
+
+    public void AddMoney(double wallet) {
+        this.wallet = wallet;
+    }
+
+    public ArrayList getEvents() {
+        return events;
+    }    
+    
+    public void AddEvent()
+    {
+        Scanner in = new Scanner (System.in);
+        System.out.println("To add event, please Enter the following Data: ");
+        System.out.println("Enter the event name");
+        String name = in.nextLine();
+        System.out.println("Enter Category:");
+        String category = in.nextLine();
+        System.out.println("Enter Discribtion");
+        String description = in.nextLine();
+        System.out.println("Enter price: ");
+        long price = in.nextLong();
+        int RoomNo;
+        Date DateOfEvent;
+        while (true)
+        {
+           System.out.println("Enter room number: ");
+           RoomNo =in.nextInt();
+           System.out.println("Enter room Date of Event: ");
+           System.out.println("Year: ");
+           int year = in.nextInt();
+           System.out.println("Month: ");
+           int month;
+            do{
+               month = in.nextInt();   
+              }while( month < 1 || month > 12);
+           System.out.println("Day: ");
+           int day;
+            do{
+               day = in.nextInt();
+              }while (day < 1 || day > 31);
+           DateOfEvent = new Date(year, month, day);
+          
+           if(isAvailable(RoomNo, DateOfEvent))
+           {
+               Event e1= new Event( name, description,  category,  price,  RoomNo,  DateOfEvent);
+               Database.events.add(e1);
+               break;
+           }
+           else
+           {
+               System.out.println("The Rooom number " + RoomNo + " is not available in that day");
+           }
+        }
+    }
     
 }

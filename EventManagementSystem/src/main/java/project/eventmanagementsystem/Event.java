@@ -8,21 +8,32 @@ package project.eventmanagementsystem;
  *
  * @author youss
  */
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class Event {
     private String name;
     private String description;
-    private Category category;
+    private String category;
     private long price;
-    private Room room;
+    private int roomId;
     private Organizer organizer;
     private final List<Attendee> attendees = new ArrayList<>();
-    private LocalDateTime date;
+    private Date date;
 
+    public Event(String name, String description, String category, long price, int roomId, Date date) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.price = price;
+        this.roomId = roomId;
+        this.date = date;
+    }
+
+    
     public String getName() {
         return name;
     }
