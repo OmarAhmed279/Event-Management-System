@@ -4,6 +4,7 @@ import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import static project.eventmanagementsystem.Organizer.in;
 
 
 /**
@@ -34,7 +35,96 @@ public abstract class User {
 
     public abstract void showProfile();
 
-    public abstract void UpdateInformation();
+     public void UpdateInformation() {
+        System.out.println("----------------------Update Profile information------------------------");
+        System.out.println("[1] Update username: ");
+        System.out.println("[2] Update password: ");
+        System.out.println("[3] Update date of birth: : ");
+        int choice;
+        while (true) 
+        {
+            try 
+            {
+                choice = in.nextInt();
+                if (choice == 1) 
+                {
+                    String newName = in.next();
+                    while (true) 
+                        {
+                                if (newName.isEmpty()) 
+                                {
+                                    System.out.println("Username cannot be empty. Try again.");
+                                    newName = in.next().trim();
+                                    continue;
+                                }
+                                if (!Character.isLetter(newName.charAt(0))) 
+                                {
+                                    System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
+                                    newName = in.next().trim();
+                                    continue;
+                                }
+                                if (newName.contains(" ")) 
+                                {
+                                    System.out.println("Username cannot contain spaces. Try again.");
+                                    newName = in.next().trim();
+                                    continue;
+                                }
+                                if (newName.length() < 4 || newName.length() > 20) 
+                                {
+                                    System.out.println("Username must be 4-20 characters long. Try again.");
+                                    newName = in.next().trim();
+                                    continue;
+                                }
+                                this.setUsername(newName);
+                                break;
+                                 
+                       }
+                } else if (choice ==2) 
+                {
+                    String newPassword = in.next(); 
+                           while (true) {
+                              System.out.println("Enter New Password: ");
+                              newPassword = in.next().trim();
+                               if (newPassword.isEmpty()) {
+                                 System.out.println("Password cannot be empty. Try again.");
+                                 continue;
+                                 }
+                               if (newPassword.length() < 4 || newPassword.length() > 20) {
+                                 System.out.println("Password must be 4-20 characters long. Try again.");
+                                 continue;
+                                 }
+                                 this.setPassword(newPassword);
+                                 break;
+                            }
+                   } 
+                else if (choice ==3){
+                 System.out.println("Enter New Date of birth: ");
+                 System.out.println("Year: ");
+                 int Newyear = in.nextInt();
+                 System.out.println("Month: ");
+                 int NewMonth = in.nextInt();
+                 while (NewMonth > 12 || NewMonth < 1) {
+                 System.out.println("Invalid Month. Try again.");
+                 NewMonth = in.nextInt();
+                }
+                System.out.println("Day: ");
+                int NewDay = in.nextInt();
+                while (NewDay < 1 || NewDay > 31) {
+                System.out.println("Invalid Day. Try again.");
+                NewDay = in.nextInt();
+                Date NewDate = new Date(Newyear, NewMonth, NewDay ); 
+                this.setDateOfBirth(NewDate);
+                   }
+                
+                }
+                else {
+                    System.out.println("invalid input");
+                }
+            } catch (InputMismatchException ex) {
+                System.out.println("invalid input");
+            }
+        }
+    }
 
 
     public String getUsername() {

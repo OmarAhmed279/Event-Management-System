@@ -10,6 +10,7 @@ import java.util.Date;
  * @author omar
  */
 public class Room {
+   boolean isAvailable = true;
    private int id;
    private Event event;
    public int getID(){

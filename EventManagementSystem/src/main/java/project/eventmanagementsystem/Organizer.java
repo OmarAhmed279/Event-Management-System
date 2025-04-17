@@ -41,12 +41,38 @@ public class Organizer extends User {
             if(choice == 1)
             {
                 this.showProfile();
+                break;
             }
             else if(choice == 2 )
             {
                 this.UpdateInformation();
+                break;
             }
-            
+            else if(choice == 3)
+            {
+               this.ManageEvents();
+               break;
+            }
+            else if(choice == 4)
+            {
+               this.ManageRooms();
+               break;
+            }
+            else if(choice == 5)
+            {
+               this.ManageWallet();
+               break;
+            }
+            else if(choice == 6)
+            {
+                this.RentRooms();
+                break;
+            }
+            else
+            {
+                System.out.println("Invalid input. Please try again: ");
+                choice = in.nextInt();
+            }
         }
        
     }
@@ -136,11 +162,76 @@ public class Organizer extends User {
                 Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent);
                 Database.events.add(e1);
                 events.add(e1);
+                Database.rooms.get(RoomNo).isAvailable= false;
                 break;
             } else {
                 System.out.println("The Rooom number " + RoomNo + " is not available in that day");
             }
         }
     }
-
+    public void ManageRooms()
+    {}
+    public void ManageWallet()
+    {}
+    public void ManageEvents()
+    {
+        System.out.println("Enter what do you want 1 for add Event 2 for deleate Event  : " );
+        int choise = in.nextInt();
+        while (true){
+        if (choise == 1) {
+            this.AddEvent();
+            break;
+        }
+        else if (choise ==2){
+            this.DeleteEvent();
+            break; 
+        }
+            else if (choise ==3){
+            this.SeeAttendees();
+            break; 
+        }
+        else {
+            System.out.println(" invalid choise ");
+            choise = in.nextInt();
+        }
+        }
+        
+        
+    }
+    public void RentRooms()
+    {}
+    public void SeeAttendees (){}
+    public void DeleteEvent()
+    {   
+        System.out.println("Enter the RoomId of the event you want to delete : " );
+        int roomId = in.nextInt(); 
+        System.out.println("Enter the date of the event you want to delete : " );
+            System.out.println("Year: ");
+            int year = in.nextInt();
+            System.out.println("Month: ");
+            int month = in.nextInt();
+            while(month > 12 || month < 1)
+            {
+                System.out.println("Invalid Month. Try again.");
+                month = in.nextInt();
+            }
+            System.out.println("Day: ");
+            int day = in.nextInt();
+            while(day < 1 || day > 31);
+            {
+                System.out.println("Invalid Day. Try again.");
+                day = in.nextInt();
+            }
+            Date DateOfEvent = new Date(year, month, day);
+        for (int i = 0; i< this.events.size(); i++)
+        {
+            if(roomId == this.events.get(i).getRoom().getID() && DateOfEvent.equals(this.events.get(i).getDate()))
+            {
+                Database.events.remove(events.get(i)); 
+                this. events.remove(events.get(i));
+                Database.rooms.get(roomId).isAvailable = true;
+                
+            }
+        }
+    }
 }
