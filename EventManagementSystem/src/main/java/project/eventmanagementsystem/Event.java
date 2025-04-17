@@ -21,7 +21,7 @@ public class Event {
     private long price;
     private Room room;
     private Organizer organizer;
-    private  List<Attendee> attendees = new ArrayList<>();
+    private  ArrayList<Attendee> attendees = new ArrayList<>();
     private Date date;
 
     public Event(String name, String description, Category category, long price, Room room, Date date) {
@@ -94,8 +94,8 @@ public class Event {
         this.organizer = Objects.requireNonNull(organizer, "Organizer cannot be null");
     }
 
-    public List<Attendee> getAttendees() {
-        return new ArrayList<>(attendees); // Defensive copy (what the hell does this mean) - omar
+    public ArrayList<Attendee> getAttendees() {
+        return  attendees; // Defensive copy (what the hell does this mean) - omar
     }
 
     public void addAttendee(Attendee attendee) {
