@@ -12,7 +12,14 @@ import java.util.Date;
 public class Room {
    boolean isAvailable = true;
    private int id;
+   private long price;
    private Event event;
+   public Room(int id, long price, Event event)
+   {
+       this.id = id;
+       this.price = price;
+       this.event = event;
+   }
    public int getID(){
        return id;
    } 
@@ -26,8 +33,18 @@ public class Room {
    public void setEvent(Event event){
        this.event=event;
    }
+   public void setPrice(long price){
+       this.price = price;
+   }
+   public long getPrice(){
+       return price;
+   } 
+   public void setAvailability(boolean isAvailable)
+   {
+       this.isAvailable = isAvailable;
+   }
    public boolean IsAvailable(Date date)
    {
-       return true;
+       return isAvailable;
    }
 }

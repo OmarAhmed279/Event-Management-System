@@ -12,6 +12,11 @@ package project.eventmanagementsystem;
 public class Wallet 
 {
     private double balance;
+    
+    Wallet (double balance)
+    {
+        this.balance = balance;
+    }
     public  double getBalance()
     {
         return balance;
@@ -19,10 +24,5 @@ public class Wallet
     public void setBalance(double balance)
     {
         this.balance = balance;
-    }
-
-    Wallet (double bal)
-    {
-        setBalance(bal);
     }
 }
