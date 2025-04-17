@@ -102,33 +102,33 @@ public abstract class User {
         String Password;
         Date dateOfbirth;
         System.out.println("Enter Username: ");
-        UserName = in.nextLine().trim();
+        UserName = in.next();
         while (true) {
             if (UserName.isEmpty()) {
                 System.out.println("Username cannot be empty. Try again.");
-                UserName = in.nextLine().trim();
+                UserName = in.next().trim();
                 continue;
             }
             if (!Character.isLetter(UserName.charAt(0))) {
                 System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
-                UserName = in.nextLine().trim();
+                UserName = in.next().trim();
                 continue;
             }
             if (UserName.contains(" ")) {
                 System.out.println("Username cannot contain spaces. Try again.");
-                UserName = in.nextLine().trim();
+                UserName = in.next().trim();
                 continue;
             }
             if (UserName.length() < 4 || UserName.length() > 20) {
                 System.out.println("Username must be 4-20 characters long. Try again.");
-                UserName = in.nextLine().trim();
+                UserName = in.next().trim();
                 continue;
             }
             break;
         }
         while (true) {
             System.out.println("Enter Password: ");
-            Password = in.nextLine().trim();
+            Password = in.next().trim();
             if (Password.isEmpty()) {
                 System.out.println("Password cannot be empty. Try again.");
                 continue;
@@ -144,26 +144,25 @@ public abstract class User {
         int year = in.nextInt();
         System.out.println("Month: ");
         int month = in.nextInt();
-        while(month > 12 || month < 1)
-        {
+        while (month > 12 || month < 1) {
             System.out.println("Invalid Month. Try again.");
             month = in.nextInt();
         }
         System.out.println("Day: ");
         int day = in.nextInt();
-        while(day < 1 || day > 31)
-        {
+        while (day < 1 || day > 31) {
             System.out.println("Invalid Day. Try again.");
             day = in.nextInt();
         }
-         //fix error handling
+        //fix error handling
         System.out.println("Enter Address: ");
-        String Ad = in.nextLine();
+        String Ad = in.next();
         if (x == 1) {
             dateOfbirth = new Date(year, month, day);
             User newuser = new Organizer(UserName, Password, dateOfbirth);
             Database.users.add(newuser);
-            Database.organizers.add((Organizer)newuser);
+            Database.organizers.add((Organizer) newuser);
+            System.out.println("User created Succesfully.");
             User.Home();
         } else if (x == 2) {
             dateOfbirth = new Date(year, month, day);
@@ -173,7 +172,8 @@ public abstract class User {
             String interest = in.nextLine();
             User newuser = new Attendee(UserName, Password, dateOfbirth, gen, Ad, interest);
             Database.users.add(newuser);
-            Database.attendees.add((Attendee)newuser);
+            Database.attendees.add((Attendee) newuser);
+            System.out.println("User created Succesfully.");
             User.Home();
         }
     }
@@ -182,45 +182,50 @@ public abstract class User {
         System.out.println("Enter Username:");
         String name;
         String password;
-        name = in.nextLine();
+        name = in.next();
         boolean isFound = false;
         User U = null;
-        while (!isFound)
-        {
+        while (!isFound) {
             for (int i = 0; i < Database.users.size(); i++) {
-                if (name.equals(Database.users.get(i).Username)) {
+                //System.out.println(Database.users.get(i).getUsername());
+                if (name.equals(Database.users.get(i).getUsername())) {
                     isFound = true;
                     U = Database.users.get(i);
                     break;
                 }
             }
+            if (isFound) {
+                break;
+            }
             System.out.println("Invalid user name");
             System.out.println("Enter Username: ");
-            name = in.nextLine();
+            name = in.next();
         }
         System.out.println("Valid Username");
         isFound = false;
         System.out.println("Enter your Password: ");
-        password = in.nextLine();
-        while (!isFound)
-        {
+        password = in.next();
+        while (!isFound) {
             for (int i = 0; i < Database.users.size(); i++) {
                 if (password.equals(Database.users.get(i).Password)) {
                     isFound = true;
                     break;
                 }
             }
+            if (isFound) {
+                break;
+            }
             System.out.println("Invalid Password");
             System.out.println("Enter Password: ");
-            password = in.nextLine();
+            password = in.next();
         }
         System.out.println("Valid Password");
-        System.out.println("Dashboard");
-        if (U instanceof Attendee)
-        {
-            ((Attendee)U).showDashboard();
+        if (U instanceof Attendee) {
+            System.out.println("Dashboard");
+            ((Attendee) U).showDashboard();
         } else {
-            ((Organizer)U).showDashboard();
+            System.out.println("Dashboard");
+            ((Organizer) U).showDashboard();
         }
 
     }

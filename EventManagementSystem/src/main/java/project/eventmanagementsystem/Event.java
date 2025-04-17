@@ -95,7 +95,7 @@ public class Event {
     }
 
     public List<Attendee> getAttendees() {
-        return new ArrayList<>(attendees); // Defensive copy
+        return new ArrayList<>(attendees); // Defensive copy (what the hell does this mean) - omar
     }
 
     public void addAttendee(Attendee attendee) {

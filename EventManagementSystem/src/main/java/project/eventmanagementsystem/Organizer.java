@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class Organizer extends User {
     Wallet wallet;
-    ArrayList events;
+    ArrayList<Event> events;
     static Scanner in = new Scanner(System.in);
 
     public Organizer(String name, String password, Date dateOfBirth) {
@@ -25,11 +25,32 @@ public class Organizer extends User {
 
     @Override
     public void showDashboard() {
-
+        System.out.println("Welcome to Dashboard");
+        System.out.println("[1] Profile");
+        System.out.println("[2] Manage Events");
+        System.out.println("[3] See");
     }
 
     @Override
     public void showProfile() {
+        System.out.println("Username: " + this.getUsername());
+        System.out.println("Password: " + this.getPassword());
+        System.out.println("Date of Birth: " + this.getDateOfBirth());
+        System.out.println("Wallet Balance: " + this.getWallet().getBalance());
+        for (int i = 0; i < this.events.size(); i++)
+        {
+            System.out.println("Name: " + this.events.get(i).getName());
+            System.out.println("Description: " + this.events.get(i).getDescription());
+            System.out.println("Name: " + this.events.get(i).getName());
+            System.out.println("Category: " + this.events.get(i).getCategory().getName());
+            System.out.println("Price: " + this.events.get(i).getPrice());
+            System.out.println("Room: " + this.events.get(i).getRoom().getID());
+            for (int j = 0; j < this.events.get(i).getAttendees().size(); j++)
+            {
+                System.out.println("    Name: " + this.events.get(i).getAttendees().get(j).getUsername());
+            }
+            System.out.println("Date of Event: " + this.events.get(i).getDate());
+        }
 
     }
 
