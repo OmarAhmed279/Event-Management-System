@@ -175,32 +175,50 @@ public class Organizer extends User {
     {}
     public void ManageEvents()
     {
-        System.out.println("Enter what do you want 1 for add Event 2 for deleate Event  : " );
-        int choise = in.nextInt();
+        System.out.println("[1] Add Event: " );
+        System.out.println("[2] Delete Event: " );
+        System.out.println("[3] See Attendees: " );
+        
+        int choice = in.nextInt();
         while (true){
-        if (choise == 1) {
+        if (choice == 1) {
             this.AddEvent();
             break;
         }
-        else if (choise ==2){
+        else if (choice ==2){
             this.DeleteEvent();
             break; 
         }
-            else if (choise ==3){
+            else if (choice ==3){
             this.SeeAttendees();
             break; 
         }
         else {
-            System.out.println(" invalid choise ");
-            choise = in.nextInt();
+            System.out.println(" Invalid input ");
+            choice = in.nextInt();
         }
         }
         
         
     }
     public void RentRooms()
-    {}
-    public void SeeAttendees (){}
+    {
+    
+    
+    }
+    public void SeeAttendees (){
+    for (int i=0; i< this.events.size() ; i++){
+        System.out.println("Event " + (i+1));
+        System.out.println("Name: " + this.events.get(i).getName());
+        for (int j=0 ; j< this.events.get(i).getAttendees().size(); j++)
+        {
+            System.out.println("Attendee " + (j+1) + " name: " + this.events.get(i).getAttendees().get(j).getUsername());
+        }
+        
+    }
+    
+    
+    }
     public void DeleteEvent()
     {   
         System.out.println("Enter the RoomId of the event you want to delete : " );
