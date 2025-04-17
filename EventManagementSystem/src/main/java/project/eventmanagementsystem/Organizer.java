@@ -13,17 +13,19 @@ import static project.eventmanagementsystem.User.login;
 import static project.eventmanagementsystem.User.signUp;
 
 /**
- * @author omar
+ * Made by Seif Shehta, Yousef Shehta and Omar Ahmed
  */
 public class Organizer extends User {
     Wallet wallet;
     ArrayList<Event> events;
+    ArrayList<Room> ReservedRooms;
     static Scanner in = new Scanner(System.in);
 
     public Organizer(String name, String password, Date dateOfBirth) {
         super(name, password, dateOfBirth);
         this.wallet = new Wallet(0);
         events = new ArrayList<Event>();
+        ReservedRooms = new ArrayList<Room>();
     }
 
     @Override
@@ -162,6 +164,7 @@ public class Organizer extends User {
                 Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent);
                 Database.events.add(e1);
                 events.add(e1);
+                ReservedRooms.add(Database.rooms.get(RoomNo));
                 Database.rooms.get(RoomNo).isAvailable= false;
                 break;
             } else {
@@ -172,7 +175,30 @@ public class Organizer extends User {
     public void ManageRooms()
     {}
     public void ManageWallet()
-    {}
+    {
+        System.out.println("--------------------Manage wallet--------------------");
+        System.out.println("[1] Add money to wallet");
+        System.out.println("[2] see Balance");
+        int choice = in.nextInt();
+        while (true)
+        {
+            if (choice == 1)
+            {
+                this.AddMoney();
+                break;
+            }
+            else if (choice == 2)
+            {
+                this.wallet.getBalance();
+                break;
+            }
+            else
+            {
+                System.out.println("Invalid input, please try again");
+                choice = in.nextInt();
+            }
+        }
+    }
     public void ManageEvents()
     {
         System.out.println("[1] Add Event: " );
@@ -203,10 +229,42 @@ public class Organizer extends User {
     }
     public void RentRooms()
     {
-    
-    
+        SeeRooms(); 
+        System.out.println("Enter the RoomId of the room you want to rent");
+        int choice; 
+        while (true ){
+            choice = in.nextInt();
+            for (int i=0 ; i< Database.AvailableRooms.size(); i++ ){
+                if (choice == Database.AvailableRooms.get(i).getID()){
+                    Database.rooms.get(i).isAvailable= false; 
+                    this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(i).getPrice());
+                        Database.appOwnerBalance+= Database.rooms.get(i).getPrice();
+                        break;
+                }
+                else {
+                    System.out.println("This Room isn't available");
+                    choice=in.nextInt();
+                }
+                if (choice == Database.AvailableRooms.get(i).getID()){
+                    break; 
+                }
+            }
+        }
     }
-    public void SeeAttendees (){
+        public void SeeRooms()
+    {
+        
+        for (int i=0 ; i<Database.rooms.size() ; i++){
+            if (Database.rooms.get(i).isAvailable){
+                Database.AvailableRooms.add(Database.rooms.get(i)); 
+                System.out.println("The avilable Rooms are : ");
+            System.out.println("The room no" + Database.rooms.get(i).getID());
+        }
+        }
+    }
+    
+    public void SeeAttendees ()
+    {
     for (int i=0; i< this.events.size() ; i++){
         System.out.println("Event " + (i+1));
         System.out.println("Name: " + this.events.get(i).getName());
@@ -215,10 +273,29 @@ public class Organizer extends User {
             System.out.println("Attendee " + (j+1) + " name: " + this.events.get(i).getAttendees().get(j).getUsername());
         }
         
+     }
+    }
+    
+    public void AddMoney()
+    {
+        System.out.println("Enter the amount of money you want to add to the wallet: ");
+        int amount =in.nextInt();
+        while(true)
+        {
+          if(amount > 0)
+          {
+              this.wallet.setBalance(amount);
+              break;
+          }
+          else
+          {
+              System.out.println("Invalid amount. please try again: ");
+              amount = in.nextInt();
+          }
+        }
     }
     
     
-    }
     public void DeleteEvent()
     {   
         System.out.println("Enter the RoomId of the event you want to delete : " );

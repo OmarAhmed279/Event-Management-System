@@ -21,6 +21,7 @@ public class Database
     public static ArrayList<Event> events = new ArrayList<>();
     public static ArrayList<Category> categories = new ArrayList<>();
     public static ArrayList<Room> rooms = new ArrayList<>();
+    public static ArrayList<Room> AvailableRooms = new ArrayList<Room>();
     // app creators wallet replica
     public static double appOwnerBalance;
 }
