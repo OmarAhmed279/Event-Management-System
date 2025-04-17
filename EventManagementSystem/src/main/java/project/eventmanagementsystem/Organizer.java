@@ -10,20 +10,17 @@ import java.util.Date;
 import java.util.Scanner;
 
 /**
- *
  * @author omar
  */
 public class Organizer extends User {
-    double wallet;
+    Wallet wallet;
     ArrayList events;
-    
-    public Organizer(String name, String password, Date dateOfBirth)
-    {
-        this.wallet=0.0f;
+    static Scanner in = new Scanner(System.in);
+
+    public Organizer(String name, String password, Date dateOfBirth) {
+        super(name, password, dateOfBirth);
+        this.wallet = new Wallet(0);
         events = new ArrayList<Event>();
-        setUsername(name);
-        setPassword(password);
-        setDateOfBirth(dateOfBirth);
     }
 
     @Override
@@ -41,65 +38,73 @@ public class Organizer extends User {
 
     }
 
-    public double getWallet() {
+    public Wallet getWallet() {
         return wallet;
     }
 
     public void AddMoney(double wallet) {
-        this.wallet = wallet;
+        this.wallet.setBalance(wallet);
     }
 
     public ArrayList getEvents() {
         return events;
-    }    
-    
-    public void AddEvent()
-    {
-        Scanner in = new Scanner (System.in);
+    }
+
+    public void AddEvent() {
         System.out.println("To add event, please Enter the following Data: ");
         System.out.println("Enter the event name");
         String name = in.nextLine();
-        System.out.println("Enter Category:");
-        String category = in.nextLine();
-        System.out.println("Enter Discribtion");
+        System.out.println("Enter Category: ");
+        Category category;
+        for (int i = 0; i < Database.categories.size(); i++)
+        {
+            System.out.println(Database.categories.get(i).getName() + " " + (i+1));
+        }
+
+        int Catindex = 0;
+        Catindex = in.nextInt();
+        while(Catindex < 1 || Catindex > Database.categories.size())
+        {
+            System.out.println("Invalid input. Try again.");
+            Catindex = in.nextInt();
+        }
+        System.out.println("Enter Description: ");
         String description = in.nextLine();
         System.out.println("Enter price: ");
         long price = in.nextLong();
         int RoomNo;
         Date DateOfEvent;
-        while (true)
-        {
-           System.out.println("Enter room number: ");
-           RoomNo =in.nextInt();
-           System.out.println("Enter room Date of Event: ");
-           System.out.println("Year: ");
-           int year = in.nextInt();
-           System.out.println("Month: ");
-           int month;
-            do{
-               month = in.nextInt();   
-              }while( month < 1 || month > 12);
-           System.out.println("Day: ");
-           int day;
-            do{
-               day = in.nextInt();
-              }while (day < 1 || day > 31);
-           DateOfEvent = new Date(year, month, day);
-          
-           if(isAvailable(RoomNo, DateOfEvent))
-           {
-             
-               
-               
-               Event e1= new Event( name, description,  category,  price,  RoomNo,  DateOfEvent);
-               Database.events.add(e1);
-               break;
-           }
-           else
-           {
-               System.out.println("The Rooom number " + RoomNo + " is not available in that day");
-           }
+        while (true) {
+            System.out.println("Enter room number: ");
+            RoomNo = in.nextInt();
+            System.out.println("Enter room Date of Event: ");
+            System.out.println("Year: ");
+            int year = in.nextInt();
+            System.out.println("Month: ");
+            int month = in.nextInt();
+            while(month > 12 || month < 1)
+            {
+                System.out.println("Invalid Month. Try again.");
+                month = in.nextInt();
+            }
+            System.out.println("Day: ");
+            int day = in.nextInt();
+            while(day < 1 || day > 31);
+            {
+                System.out.println("Invalid Day. Try again.");
+                day = in.nextInt();
+            }
+            DateOfEvent = new Date(year, month, day);
+
+            if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
+                Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent);
+                Database.events.add(e1);
+                events.add(e1);
+                break;
+            } else {
+                System.out.println("The Rooom number " + RoomNo + " is not available in that day");
+            }
         }
     }
-    
+
 }

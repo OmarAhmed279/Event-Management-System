@@ -101,23 +101,27 @@ public abstract class User {
         String UserName;
         String Password;
         Date dateOfbirth;
+        System.out.println("Enter Username: ");
+        UserName = in.nextLine().trim();
         while (true) {
-            System.out.println("Enter Username: ");
-            UserName = in.nextLine().trim();
             if (UserName.isEmpty()) {
                 System.out.println("Username cannot be empty. Try again.");
+                UserName = in.nextLine().trim();
                 continue;
             }
             if (!Character.isLetter(UserName.charAt(0))) {
                 System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
+                UserName = in.nextLine().trim();
                 continue;
             }
             if (UserName.contains(" ")) {
                 System.out.println("Username cannot contain spaces. Try again.");
+                UserName = in.nextLine().trim();
                 continue;
             }
             if (UserName.length() < 4 || UserName.length() > 20) {
                 System.out.println("Username must be 4-20 characters long. Try again.");
+                UserName = in.nextLine().trim();
                 continue;
             }
             break;
@@ -147,19 +151,22 @@ public abstract class User {
         }
         System.out.println("Day: ");
         int day = in.nextInt();
-        while (day < 1 || day > 31);
+        while(day < 1 || day > 31)
         {
             System.out.println("Invalid Day. Try again.");
             day = in.nextInt();
         }
-        dateOfbirth = new Date(year, month, day); //fix error handling
+         //fix error handling
         System.out.println("Enter Address: ");
         String Ad = in.nextLine();
         if (x == 1) {
+            dateOfbirth = new Date(year, month, day);
             User newuser = new Organizer(UserName, Password, dateOfbirth);
             Database.users.add(newuser);
             Database.organizers.add((Organizer)newuser);
+            User.Home();
         } else if (x == 2) {
+            dateOfbirth = new Date(year, month, day);
             System.out.println("Enter Gender: (M or F)");
             String gen = in.nextLine();
             System.out.println("Enter one Interest: ");
@@ -167,6 +174,7 @@ public abstract class User {
             User newuser = new Attendee(UserName, Password, dateOfbirth, gen, Ad, interest);
             Database.users.add(newuser);
             Database.attendees.add((Attendee)newuser);
+            User.Home();
         }
     }
 

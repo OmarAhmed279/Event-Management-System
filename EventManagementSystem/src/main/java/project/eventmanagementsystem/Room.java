@@ -4,6 +4,7 @@
  */
 package project.eventmanagementsystem;
 import java.util.ArrayList;
+import java.util.Date;
 /**
  *
  * @author omar
@@ -23,5 +24,9 @@ public class Room {
    } 
    public void setEvent(Event event){
        this.event=event;
+   }
+   public boolean IsAvailable(Date date)
+   {
+       return true;
    }
 }
