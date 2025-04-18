@@ -15,6 +15,8 @@ public class Room {
     private int id;
     private long price;
     private Event event = null; //we need an array of events? because multiple dates? -omar
+    //private ArrayList<Event> events; //like this so we can access multiple dates
+
 
     public Room(int id, long price, Event event) {
         this.id = id;
