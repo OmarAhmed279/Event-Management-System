@@ -11,6 +11,7 @@ package project.eventmanagementsystem;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.List;
 
 public class Event {
     private String name;
@@ -92,8 +93,14 @@ public class Event {
         this.organizer = Objects.requireNonNull(organizer, "Organizer cannot be null");
     }
 
-    public ArrayList<Attendee> getAttendees() {
-        return attendees; // Defensive copy (what the hell does this mean) - omar
+    public List<Attendee> getAttendees() {
+        ArrayList <Attendee> attendees_copy = new ArrayList<>();
+        for(Attendee attendee : attendees)
+        {
+            Attendee copy = new Attendee(attendee.getUsername(),attendee.getPassword(),attendee.getDateOfBirth(),attendee.getGender(),attendee.getAddress(),attendee.getInterests());
+            attendees_copy.add(copy);
+        }
+        return List.copyOf(attendees_copy);
     }
 
     public void addAttendee(Attendee attendee) {
