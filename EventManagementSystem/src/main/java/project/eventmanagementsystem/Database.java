@@ -5,13 +5,12 @@
 package project.eventmanagementsystem;
 
 /**
- *
  * @author youss
  */
+
 import java.util.ArrayList;
- 
-public class Database 
-{
+
+public class Database {
     // User-related lists
     public static ArrayList<User> users = new ArrayList<>();
     public static ArrayList<Admin> admins = new ArrayList<>();

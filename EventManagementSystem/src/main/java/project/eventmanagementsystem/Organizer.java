@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import static project.eventmanagementsystem.User.login;
 import static project.eventmanagementsystem.User.signUp;
 
@@ -36,9 +35,9 @@ public class Organizer extends User {
         System.out.println("[1] Show Profile");
         System.out.println("[2] Update Profile");
         System.out.println("[3] Manage Events");
-        System.out.println("[4] Manage Rooms");
-        System.out.println("[5] Manage wallet");
-        System.out.println("[6] Rent Rooms");
+        //System.out.println("[4] Manage Rooms");
+        System.out.println("[4] Manage wallet");
+        //System.out.println("[6] Rent Rooms");
         int choice = in.nextInt();
         while (true) {
             if (choice == 1) {
@@ -51,13 +50,7 @@ public class Organizer extends User {
                 this.ManageEvents();
                 break;
             } else if (choice == 4) {
-                this.ManageRooms();
-                break;
-            } else if (choice == 5) {
                 this.ManageWallet();
-                break;
-            } else if (choice == 6) {
-                this.RentRooms();
                 break;
             } else {
                 System.out.println("Invalid input. Please try again: ");
@@ -97,7 +90,7 @@ public class Organizer extends User {
         this.wallet.setBalance(wallet);
     }
 
-    public ArrayList getEvents() {
+    public ArrayList<Event> getEvents() {
         return events;
     }
 
@@ -106,11 +99,11 @@ public class Organizer extends User {
         System.out.println("Enter Event Name: ");
         String name = in.nextLine();
         System.out.println("Enter Category ID: ");
-        Category category;
+        //Category category;
         for (int i = 0; i < Database.categories.size(); i++) {
             System.out.println(Database.categories.get(i).getName() + " " + (i + 1));
         }
-        int Catindex = 0;
+        int Catindex;
         Catindex = in.nextInt();
         while (Catindex < 1 || Catindex > Database.categories.size()) {
             System.out.println("Invalid input. Try again.");
@@ -123,8 +116,6 @@ public class Organizer extends User {
         int RoomNo;
         Date DateOfEvent;
         while (true) {
-            System.out.println("Enter room number: ");
-            RoomNo = in.nextInt();
             System.out.println("Enter Date of Event: ");
             System.out.println("Year: ");
             int year = in.nextInt();
@@ -141,13 +132,16 @@ public class Organizer extends User {
                 day = in.nextInt();
             }
             DateOfEvent = new Date(year, month, day);
-
+            RoomNo = RentRooms(DateOfEvent);
             if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
                 Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent);
                 Database.events.add(e1);
                 events.add(e1);
                 ReservedRooms.add(Database.rooms.get(RoomNo));
-                Database.rooms.get(RoomNo).isAvailable = false;
+                Database.rooms.get(RoomNo).setEvent(e1);
+                Database.rooms.get(RoomNo).setAvailability(false);
+                this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(RoomNo).getPrice());
+                Database.appOwnerBalance += Database.rooms.get(RoomNo).getPrice();
                 break;
             } else {
                 System.out.println("The Room number " + RoomNo + " is not available.");
@@ -155,9 +149,9 @@ public class Organizer extends User {
         }
     }
 
-    public void ManageRooms() {
-
-    }
+    //public void ManageRooms() {
+//
+   //  }
 
     public void ManageWallet() {
         System.out.println("--------------------Manage wallet--------------------");
@@ -202,47 +196,50 @@ public class Organizer extends User {
         }
     }
 
-    public void RentRooms() {
-        SeeRooms();
+    public int RentRooms(Date d) {
+        SeeRooms(d);
         System.out.println("Enter Room Id of the room you wish to rent.");
-        int choice = in.nextInt();
-        /**boolean isfound = false;
-        while (true) {
-            choice = in.nextInt();
-            for (int i = 0; i < Database.AvailableRooms.size(); i++) {
-                if (choice == Database.AvailableRooms.get(i).getID()) {
-                    Database.rooms.get(i).isAvailable = false;
-                    this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(i).getPrice());
-                    Database.appOwnerBalance += Database.rooms.get(i).getPrice();
-                    isfound = true;
-                    break;
-                }
-            }
-            if (isfound)
-            {
-                isfound = false;
-                break;
-            } else {
-                System.out.println("Room isn't available. Try again.");
-            }
+        /**
+         boolean isfound = false;
+         while (true) {
+         choice = in.nextInt();
+         for (int i = 0; i < Database.AvailableRooms.size(); i++) {
+         if (choice == Database.AvailableRooms.get(i).getID()) {
+         Database.rooms.get(i).isAvailable = false;
+         this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(i).getPrice());
+         Database.appOwnerBalance += Database.rooms.get(i).getPrice();
+         isfound = true;
+         break;
+         }
+         }
+         if (isfound)
+         {
+         isfound = false;
+         break;
+         } else {
+         System.out.println("Room isn't available. Try again.");
+         }
 
-        }**/
-        if (choice > Database.rooms.size() || choice < 0)
-        {
-            System.out.println("Invalid input. Try again.");
-        } else if (Database.rooms.get(choice).isAvailable) {
-            Database.rooms.get(choice).isAvailable = false;
-            this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(choice).getPrice());
-            Database.appOwnerBalance += Database.rooms.get(choice).getPrice();
-        } else {
-            System.out.println("Room isn't Available. Try again.");
+         }**/
+        while (true) {
+            int choice = in.nextInt();
+            if (choice > Database.rooms.size() || choice < 0) {
+                System.out.println("Invalid input. Try again.");
+            } else if (Database.rooms.get(choice).IsAvailable(d)) {
+                /**Database.rooms.get(choice).isAvailable = false;
+                 this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(choice).getPrice());
+                 Database.appOwnerBalance += Database.rooms.get(choice).getPrice();**/
+                return choice;
+            } else {
+                System.out.println("Room isn't Available. Try again.");
+            }
         }
     }
 
-    public void SeeRooms() {
+    public void SeeRooms(Date d) {
         System.out.println("--------------------Rent Room--------------------");
         for (int i = 0; i < Database.rooms.size(); i++) {
-            if (Database.rooms.get(i).isAvailable) {
+            if (Database.rooms.get(i).IsAvailable(d)) {
                 //Database.AvailableRooms.add(Database.rooms.get(i));
                 System.out.println("Room Number (" + Database.rooms.get(i).getID() + ")");
             }
@@ -289,8 +286,7 @@ public class Organizer extends User {
         }
         System.out.println("Day: ");
         int day = in.nextInt();
-        while (day < 1 || day > 31)
-        {
+        while (day < 1 || day > 31) {
             System.out.println("Invalid Day. Try again.");
             day = in.nextInt();
         }
@@ -299,7 +295,8 @@ public class Organizer extends User {
             if (roomId == this.events.get(i).getRoom().getID() && DateOfEvent.equals(this.events.get(i).getDate())) {
                 Database.events.remove(events.get(i));
                 this.events.remove(events.get(i));
-                Database.rooms.get(roomId).isAvailable = true;
+                Database.rooms.get(roomId).setAvailability(true);
+                Database.rooms.get(roomId).setEvent(null);
             }
         }
     }

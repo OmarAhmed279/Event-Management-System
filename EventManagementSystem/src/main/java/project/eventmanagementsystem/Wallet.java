@@ -5,24 +5,21 @@
 package project.eventmanagementsystem;
 
 /**
- *
  * @author youss
  */
 
-public class Wallet 
-{
+public class Wallet {
     private double balance;
-    
-    Wallet (double balance)
-    {
+
+    Wallet(double balance) {
         this.balance = balance;
     }
-    public  double getBalance()
-    {
+
+    public double getBalance() {
         return balance;
     }
-    public void setBalance(double balance)
-    {
+
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 }

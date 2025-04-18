@@ -5,9 +5,8 @@
 package project.eventmanagementsystem;
 
 /**
- *
  * @author omar
  */
 public abstract class Admin extends User {
-    
+
 }

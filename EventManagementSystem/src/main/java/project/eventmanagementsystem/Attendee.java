@@ -1,5 +1,6 @@
 
 package project.eventmanagementsystem;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,19 +16,18 @@ public class Attendee extends User {
 
     }
 
-    public enum Gender { MALE, FEMALE}
-    
+    public enum Gender {MALE, FEMALE}
+
     private Gender gender;
     private Wallet wallet;
     private ArrayList<String> interests;
     private ArrayList<Event> registeredEvents;
     private String address;
-    
-    public Attendee(String username, String password, Date dateOfBirth, 
-                   String gender, String address, String interest) {
+
+    public Attendee(String username, String password, Date dateOfBirth,
+                    String gender, String address, String interest) {
         super(username, password, dateOfBirth);
-        if(gender.equals("M"))
-        {
+        if (gender.equals("M")) {
             this.gender = Gender.MALE;
         } else {
             this.gender = Gender.FEMALE;
@@ -40,20 +40,36 @@ public class Attendee extends User {
         //Database.attendees.add(this);
         //Database.users.add(this);
     }
-    
+
     // Getters and setters
-    public Gender getGender() { return gender; }
-    public void setGender(Gender gender) { this.gender = gender; }
-    
-    public Wallet getWallet() { return wallet; }
-    
-    public ArrayList<String> getInterests() { return interests; }
-    
-    public ArrayList<Event> getRegisteredEvents() { return registeredEvents; }
-    
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-    
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public ArrayList<String> getInterests() {
+        return interests;
+    }
+
+    public ArrayList<Event> getRegisteredEvents() {
+        return registeredEvents;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public void showDashboard() {
         System.out.println("Attendee Dashboard");
@@ -63,7 +79,7 @@ public class Attendee extends User {
         }
         System.out.println("Wallet Balance: " + wallet.getBalance());
     }
-    
+
     // Attendee-specific methods
     public boolean buyTicket(Event event) {
         if (wallet.getBalance() >= event.getPrice()) {
@@ -75,13 +91,13 @@ public class Attendee extends User {
         }
         return false;
     }
-    
+
     public void browseEvents() {
         for (Event event : Database.events) {
             System.out.println(event.getName() + " - " + event.getPrice());
         }
     }
-    
+
     public void viewRegisteredEvents() {
         for (Event event : registeredEvents) {
             System.out.println(event.getName());

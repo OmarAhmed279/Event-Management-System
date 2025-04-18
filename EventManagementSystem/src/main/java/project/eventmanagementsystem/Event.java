@@ -5,7 +5,6 @@
 package project.eventmanagementsystem;
 
 /**
- *
  * @author youss
  */
 
@@ -21,7 +20,7 @@ public class Event {
     private long price;
     private Room room;
     private Organizer organizer;
-    private  ArrayList<Attendee> attendees = new ArrayList<>();
+    private ArrayList<Attendee> attendees = new ArrayList<>();
     private Date date;
 
     public Event(String name, String description, Category category, long price, Room room, Date date) {
@@ -32,9 +31,8 @@ public class Event {
         this.room = room;
         this.date = date;
     }
-    
-    public Event(Event event)
-    {
+
+    public Event(Event event) {
         this.name = event.name;
         this.description = event.description;
         this.category = event.category;
@@ -43,6 +41,7 @@ public class Event {
         this.date = new Date(event.date.getTime());
         this.attendees = event.attendees;
     }
+
     public String getName() {
         return name;
     }
@@ -95,7 +94,7 @@ public class Event {
     }
 
     public ArrayList<Attendee> getAttendees() {
-        return  attendees; // Defensive copy (what the hell does this mean) - omar
+        return attendees; // Defensive copy (what the hell does this mean) - omar
     }
 
     public void addAttendee(Attendee attendee) {
