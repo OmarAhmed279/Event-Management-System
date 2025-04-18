@@ -150,14 +150,11 @@ public class Organizer extends User {
         this.ManageEvents();
     }
 
-    //public void ManageRooms() {
-//
-   //  }
-
     public void ManageWallet() {
         System.out.println("--------------------Manage wallet--------------------");
         System.out.println("[1] Add money to wallet");
         System.out.println("[2] see Balance");
+        System.out.println("[3] Return to Dashboard");
         int choice = in.nextInt();
         while (true) {
             if (choice == 1) {
@@ -165,6 +162,9 @@ public class Organizer extends User {
                 break;
             } else if (choice == 2) {
                 System.out.println("Wallet Balance: " + this.wallet.getBalance());
+                break;
+            } else if (choice == 3) {
+                this.showDashboard();
                 break;
             } else {
                 System.out.println("Invalid input, please try again.");
@@ -179,6 +179,7 @@ public class Organizer extends User {
         System.out.println("[1] Add Event: ");
         System.out.println("[2] Delete Event: ");
         System.out.println("[3] See Attendees: ");
+        System.out.println("[4] Return to Dashboard");
 
         int choice = in.nextInt();
         while (true) {
@@ -191,6 +192,8 @@ public class Organizer extends User {
             } else if (choice == 3) {
                 this.SeeAttendees();
                 break;
+            } else if (choice == 4) {
+                this.showDashboard();
             } else {
                 System.out.println(" Invalid input ");
                 choice = in.nextInt();
@@ -275,7 +278,6 @@ public class Organizer extends User {
         }
         this.ManageWallet();
     }
-
 
     public void DeleteEvent() {
         System.out.println("Enter the Room Id of the event you wish to delete: ");
