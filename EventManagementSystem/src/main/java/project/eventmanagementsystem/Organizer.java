@@ -97,14 +97,13 @@ public class Organizer extends User {
     public void AddEvent() {
         System.out.println("To add event, please Enter the following Data: ");
         System.out.println("Enter Event Name: ");
-        String name = in.nextLine();
+        String name = in.next();
         System.out.println("Enter Category ID: ");
         //Category category;
         for (int i = 0; i < Database.categories.size(); i++) {
             System.out.println(Database.categories.get(i).getName() + " " + (i + 1));
         }
-        int Catindex;
-        Catindex = in.nextInt();
+        int Catindex = in.nextInt();
         while (Catindex < 1 || Catindex > Database.categories.size()) {
             System.out.println("Invalid input. Try again.");
             Catindex = in.nextInt();
@@ -175,9 +174,9 @@ public class Organizer extends User {
 
     public void ManageEvents() {
         System.out.println("--------------------Manage Events--------------------");
-        System.out.println("[1] Add Event: ");
-        System.out.println("[2] Delete Event: ");
-        System.out.println("[3] See Attendees: ");
+        System.out.println("[1] Add Event");
+        System.out.println("[2] Delete Event");
+        System.out.println("[3] See Attendees");
         System.out.println("[4] Return to Dashboard");
 
         int choice = in.nextInt();
