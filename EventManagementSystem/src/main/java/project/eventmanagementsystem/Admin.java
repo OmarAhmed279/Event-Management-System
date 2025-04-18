@@ -4,6 +4,7 @@
  */
 package project.eventmanagementsystem;
 
+import javax.xml.crypto.Data;
 import java.util.Scanner;
 
 /**
@@ -14,14 +15,14 @@ public class Admin extends User {
     private String role;
 
 
-    public void Addroom(Room room) {
+    public void Addroom() {
         System.out.println("Enter Price of room: ");
         int pr = in.nextInt();
         while (pr < 0) {
             System.out.println("Invalid Price. Try again.");
             pr = in.nextInt();
         }
-        Room room1 = new Room(pr);
+        Room room = new Room(pr);
         Database.rooms.add(room);
         System.out.println("Room added successfully.");
         this.showDashboard();
@@ -68,9 +69,49 @@ public class Admin extends User {
     }
 
     public void ManageRooms() {
+        System.out.println("--------------------Manage Rooms--------------------");
+        System.out.println("[1] Add Room");
+        System.out.println("[2] Delete Room");
+        System.out.println("[3] Show Rooms");
+        int choice = in.nextInt();
+        while (true) {
+            if (choice == 1) {
+                this.Addroom();
+                break;
+            } else if (choice == 2) {
+                this.deleteRoom();
+                break;
+            } else if (choice == 3)
+            {
+                this.showRooms();
+                break;
+            } else {
+                System.out.println("Invalid input. Please try again: ");
+                choice = in.nextInt();
+            }
+        }
+    }
+
+    private void showRooms() {
+        System.out.println("There is currently " + Database.rooms.size() + " rooms.");
+        this.showDashboard();
+    }
+
+    private void deleteRoom() {
+        System.out.println("Enter Room ID: ");
+        int id = in.nextInt();
+        while(id > Database.rooms.size() || id < 0)
+        {
+            System.out.println("Invalid ID. Try again.");
+            id = in.nextInt();
+        }
+        Database.rooms.remove(id);
+        System.out.println("Room removed successfully.");
+        this.showDashboard();
     }
 
     public void ManageEvents() {
+        
     }
 
     public void ManageUsers() {

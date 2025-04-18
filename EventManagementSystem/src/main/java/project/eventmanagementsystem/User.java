@@ -257,7 +257,7 @@ public abstract class User {
             String interest = in.nextLine();
             User newuser = new Attendee(UserName, Password, dateOfbirth, gen, Ad, interest);
             Database.users.add(newuser);
-            Database.attendees.add((Attendee) newuser);
+            Database.attendees.add((Attendee)newuser);
             System.out.println("User created Succesfully.");
             User.Home();
         }
