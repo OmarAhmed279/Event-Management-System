@@ -79,7 +79,7 @@ public class Organizer extends User {
             }
             System.out.println("Date of Event: " + this.events.get(i).getDate());
         }
-
+        showDashboard();
     }
 
     public Wallet getWallet() {
@@ -147,6 +147,7 @@ public class Organizer extends User {
                 System.out.println("The Room number " + RoomNo + " is not available.");
             }
         }
+        this.ManageEvents();
     }
 
     //public void ManageRooms() {
@@ -170,6 +171,7 @@ public class Organizer extends User {
                 choice = in.nextInt();
             }
         }
+        showDashboard();
     }
 
     public void ManageEvents() {
@@ -194,6 +196,7 @@ public class Organizer extends User {
                 choice = in.nextInt();
             }
         }
+        showDashboard();
     }
 
     public int RentRooms(Date d) {
@@ -255,6 +258,7 @@ public class Organizer extends User {
             }
 
         }
+        this.ManageEvents();
     }
 
     public void AddMoney() {
@@ -269,6 +273,7 @@ public class Organizer extends User {
                 amount = in.nextInt();
             }
         }
+        this.ManageWallet();
     }
 
 
@@ -299,5 +304,6 @@ public class Organizer extends User {
                 Database.rooms.get(roomId).setEvent(null);
             }
         }
+        this.ManageEvents();
     }
 }

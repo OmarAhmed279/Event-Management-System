@@ -69,11 +69,11 @@ public abstract class User {
                             continue;
                         }
                         this.setUsername(newName);
+                        System.out.println("Username changed successfully.");
                         break;
-
                     }
                 } else if (choice == 2) {
-                    String newPassword = in.next();
+                    String newPassword;
                     while (true) {
                         System.out.println("Enter New Password: ");
                         newPassword = in.next().trim();
@@ -86,6 +86,7 @@ public abstract class User {
                             continue;
                         }
                         this.setPassword(newPassword);
+                        System.out.println("Password changed successfully.");
                         break;
                     }
                 } else if (choice == 3) {
@@ -105,15 +106,19 @@ public abstract class User {
                         NewDay = in.nextInt();
                         Date NewDate = new Date(Newyear, NewMonth, NewDay);
                         this.setDateOfBirth(NewDate);
+                        System.out.println("Date changed successfully.");
+                        break;
                     }
 
                 } else {
-                    System.out.println("invalid input");
+                    System.out.println("Invalid input. Try Again.");
+                    break;
                 }
             } catch (InputMismatchException ex) {
-                System.out.println("invalid input");
+                System.out.println("Invalid input. Try Again.");
             }
         }
+        this.showDashboard();
     }
 
 
@@ -153,7 +158,7 @@ public abstract class User {
     }
 
     public static void Home() {
-        System.out.println("Welcome to the Event Managemnet System");
+        System.out.println("Welcome to the Event Management System");
         System.out.println("[1] Sign Up as Organizer");
         System.out.println("[2] Sign Up as Attendee");
         System.out.println("[3] Login");
