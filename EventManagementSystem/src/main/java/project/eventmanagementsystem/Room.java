@@ -6,22 +6,19 @@ package project.eventmanagementsystem;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
 /**
- * @author omar
+ * @author Wafaey
  */
 public class Room {
-    private boolean isAvailable = true; //this variable has no meaning as rooms are available depending on the date, having an array of dates that we check for availability makes more sense -omar
     private int id;
     private long price;
-    private Event event = null; //we need an array of events? because multiple dates? -omar
-    //private ArrayList<Event> events; //like this so we can access multiple dates
+    private final ArrayList<Event> events = new ArrayList<>();
 
 
-    public Room(int id, long price, Event event) {
+    public Room(int id, long price) {
         this.id = id;
         this.price = price;
-        this.event = event;
     }
 
     public int getID() {
@@ -32,15 +29,17 @@ public class Room {
         this.id = id;
     }
 
-    public Event getEvent() {
-        Event event_copy = new Event(event);
-        return event_copy;
+    public List<Event> getEvents() {
+        return List.copyOf(events);
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void addEvent(Event event) {
+        this.events.add(event);
     }
 
+    public void removeEvent(Event event) {
+        this.events.remove(event);
+    }
     public void setPrice(long price) {
         this.price = price;
     }
@@ -49,14 +48,14 @@ public class Room {
         return price;
     }
 
-    public void setAvailability(boolean isAvailable) {
-        this.isAvailable = isAvailable;
-    }
-
     public boolean IsAvailable(Date date) {
-        //if (date.equals(this.event.getDate()) || this.event == null) {
-           // return false;
-        //} we need to add logic here but without an array of events(dates) we can't - omar
-        return isAvailable;
+        for(Event event : events)
+        {
+            if(event.getDate() == date)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
