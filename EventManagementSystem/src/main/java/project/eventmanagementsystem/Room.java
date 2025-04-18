@@ -4,6 +4,7 @@
  */
 package project.eventmanagementsystem;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +17,8 @@ public class Room {
     private final ArrayList<Event> events = new ArrayList<>();
 
 
-    public Room(int id, long price) {
-        this.id = id;
+    public Room(long price) {
+        this.id = Database.rooms.size() - 1;
         this.price = price;
     }
 

@@ -138,8 +138,7 @@ public class Organizer extends User {
                 Database.events.add(e1);
                 events.add(e1);
                 ReservedRooms.add(Database.rooms.get(RoomNo));
-                Database.rooms.get(RoomNo).setEvent(e1);
-                Database.rooms.get(RoomNo).setAvailability(false);
+                Database.rooms.get(RoomNo).addEvent(e1);
                 this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(RoomNo).getPrice());
                 Database.appOwnerBalance += Database.rooms.get(RoomNo).getPrice();
                 break;
@@ -302,8 +301,7 @@ public class Organizer extends User {
             if (roomId == this.events.get(i).getRoom().getID() && DateOfEvent.equals(this.events.get(i).getDate())) {
                 Database.events.remove(events.get(i));
                 this.events.remove(events.get(i));
-                Database.rooms.get(roomId).setAvailability(true);
-                Database.rooms.get(roomId).setEvent(null);
+                Database.rooms.get(roomId).removeEvent(events.get(i));
             }
         }
         this.ManageEvents();
