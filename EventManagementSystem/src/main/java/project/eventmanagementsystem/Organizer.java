@@ -278,31 +278,44 @@ public class Organizer extends User {
     }
 
     public void DeleteEvent() {
-        System.out.println("Enter the Room Id of the event you wish to delete: ");
-        int roomId = in.nextInt();
-        System.out.println("Enter the date of the event you wish to delete: ");
-        System.out.println("Year: ");
-        int year = in.nextInt();
-        System.out.println("Month: ");
-        int month = in.nextInt();
-        while (month > 12 || month < 1) {
-            System.out.println("Invalid Month. Try again.");
-            month = in.nextInt();
+        //System.out.println("Enter the Room Id of the event you wish to delete: ");
+        //int roomId = in.nextInt();
+        //System.out.println("Enter the date of the event you wish to delete: ");
+        //System.out.println("Year: ");
+        //int year = in.nextInt();
+        //System.out.println("Month: ");
+        //int month = in.nextInt();
+        //while (month > 12 || month < 1) {
+        //    System.out.println("Invalid Month. Try again.");
+        //    month = in.nextInt();
+        //}
+        //System.out.println("Day: ");
+        //int day = in.nextInt();
+        //while (day < 1 || day > 31) {
+        //    System.out.println("Invalid Day. Try again.");
+        //    day = in.nextInt();
+        //}
+        //Date DateOfEvent = new Date(year, month, day);
+        System.out.println("Enter event ID: ");
+        int id = in.nextInt();
+        while (id > Database.events.size() || id > 0) {
+            System.out.println("Invalid Input. Try again.");
+            id = in.nextInt();
         }
-        System.out.println("Day: ");
-        int day = in.nextInt();
-        while (day < 1 || day > 31) {
-            System.out.println("Invalid Day. Try again.");
-            day = in.nextInt();
+        Database.events.get(id).getRoom().removeEvent(Database.events.get(id));
+        this.events.remove(Database.events.get(id));
+        Database.events.remove(id);
+        for (int i = 0; i < Database.events.size(); i++) {
+            Database.events.get(i).setID();
         }
-        Date DateOfEvent = new Date(year, month, day);
-        for (int i = 0; i < this.events.size(); i++) {
-            if (roomId == this.events.get(i).getRoom().getID() && DateOfEvent.equals(this.events.get(i).getDate())) {
-                Database.events.remove(events.get(i));
-                this.events.remove(events.get(i));
-                Database.rooms.get(roomId).removeEvent(events.get(i));
-            }
-        }
+        //for (int i = 0; i < this.events.size(); i++) {
+            //if (roomId == this.events.get(i).getRoom().getID() && DateOfEvent.equals(this.events.get(i).getDate())) {
+                //Database.events.remove(events.get(i));
+                //this.events.remove(events.get(i));
+                //Database.rooms.get(roomId).removeEvent(events.get(i));
+      //      }
+        //}
         this.ManageEvents();
     }
 }
+

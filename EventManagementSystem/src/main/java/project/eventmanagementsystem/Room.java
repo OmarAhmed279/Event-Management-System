@@ -14,11 +14,11 @@ import java.util.List;
 public class Room {
     private int id;
     private long price;
-    private final ArrayList<Event> events = new ArrayList<>();
+    private final ArrayList<Event> events = new ArrayList<>(); //why final?
 
 
     public Room(long price) {
-        this.id = Database.rooms.size() - 1;
+        this.id = Database.rooms.size();
         this.price = price;
     }
 
@@ -26,8 +26,9 @@ public class Room {
         return id;
     }
 
-    public void setID(int id) {
-        this.id = id;
+    public void setID() { //i changed all the set id in all classes due to a reason too long to explain so if you wanna know why ask me in call -omar
+
+        this.id = Database.rooms.indexOf(this);
     }
 
     public List<Event> getEvents() {

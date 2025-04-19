@@ -22,6 +22,7 @@ public class Event {
     private Organizer organizer;
     private ArrayList<Attendee> attendees = new ArrayList<>();
     private Date date;
+    private int ID;
 
     public Event(String name, String description, Category category, long price, Room room, Date date) {
         this.name = name;
@@ -30,6 +31,7 @@ public class Event {
         this.price = price;
         this.room = room;
         this.date = date;
+        this.ID = Database.events.indexOf(this);
     }
 
     public Event(Event event) {
@@ -40,6 +42,16 @@ public class Event {
         this.room = event.room;
         this.date = new Date(event.date.getTime());
         this.attendees = event.attendees;
+        this.ID = Database.events.indexOf(this);
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID() //i changed all the set id in all classes due to a reason too long to explain so if you wanna know why ask me in call -omar
+    {
+        this.ID = Database.events.indexOf(this);
     }
 
     public String getName() {

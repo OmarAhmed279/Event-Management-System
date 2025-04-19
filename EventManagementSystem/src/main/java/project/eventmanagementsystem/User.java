@@ -31,6 +31,9 @@ public abstract class User {
         this.DateOfBirth = dateOfbirth;
     }
 
+    public void setID() { //i changed all the set id in all classes due to a reason too long to explain so if you wanna know why ask me in call -omar
+        this.ID = Database.users.indexOf(this);
+    }
 
     public abstract void showDashboard();
 
@@ -150,8 +153,10 @@ public abstract class User {
         return isSuspended;
     }
 
-//    public abstract void setIsSuspended(Object obj);         for admin only
-//    public abstract void setActive(Object obj);
+    public void setIsSuspended(boolean sus)
+    {
+        this.isSuspended = sus; //sus?
+    }
 
     public int getID() {
         return ID;
