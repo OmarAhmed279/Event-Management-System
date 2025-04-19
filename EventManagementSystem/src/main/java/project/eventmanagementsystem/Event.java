@@ -24,7 +24,7 @@ public class Event {
     private Date date;
     private int ID;
 
-    public Event(String name, String description, Category category, long price, Room room, Date date) {
+    public Event(String name, String description, Category category, long price, Room room, Date date, Organizer u) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -32,6 +32,7 @@ public class Event {
         this.room = room;
         this.date = date;
         this.ID = Database.events.indexOf(this);
+        this.organizer = u;
     }
 
     public Event(Event event) {

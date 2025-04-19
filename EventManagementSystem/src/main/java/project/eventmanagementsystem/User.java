@@ -41,9 +41,9 @@ public abstract class User {
 
     public void UpdateInformation() {
         System.out.println("----------------------Update Profile information------------------------");
-        System.out.println("[1] Update username: ");
-        System.out.println("[2] Update password: ");
-        System.out.println("[3] Update date of birth: : ");
+        System.out.println("[1] Update username");
+        System.out.println("[2] Update password");
+        System.out.println("[3] Update date of birth");
         int choice;
         while (true) {
             try {
@@ -75,6 +75,7 @@ public abstract class User {
                         System.out.println("Username changed successfully.");
                         break;
                     }
+                    break;
                 } else if (choice == 2) {
                     String newPassword;
                     while (true) {
@@ -92,6 +93,7 @@ public abstract class User {
                         System.out.println("Password changed successfully.");
                         break;
                     }
+                    break;
                 } else if (choice == 3) {
                     System.out.println("Enter New Date of birth: ");
                     System.out.println("Year: ");

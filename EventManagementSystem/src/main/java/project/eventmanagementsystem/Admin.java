@@ -5,6 +5,7 @@
 package project.eventmanagementsystem;
 
 import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.Objects;
 
@@ -14,6 +15,12 @@ import java.util.Objects;
 public class Admin extends User {
     public static final Scanner in = new Scanner(System.in);
     private String role;
+
+    public Admin(String user, String pass, Date d, String r)
+    {
+        super(user,pass,d);
+        this.role = r;
+    }
 
 
     public void Addroom() {

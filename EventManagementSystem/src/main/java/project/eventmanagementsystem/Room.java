@@ -22,6 +22,12 @@ public class Room {
         this.price = price;
     }
 
+    public Room(long price, Event e)
+    {
+        this(price);
+        events.add(e);
+    }
+
     public int getID() {
         return id;
     }

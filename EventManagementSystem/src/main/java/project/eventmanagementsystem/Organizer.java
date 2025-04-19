@@ -29,6 +29,13 @@ public class Organizer extends User {
         ReservedRooms = new ArrayList<Room>();
     }
 
+    public Organizer(String user, String pass, Date d, Event e)
+    {
+        this(user,pass,d);
+        this.events.add(e);
+        this.ReservedRooms.add(Database.events.get(Database.events.indexOf(e)).getRoom());
+    }
+
     @Override
     public void showDashboard() {
         System.out.println("--------------------Dashboard--------------------");
@@ -133,7 +140,7 @@ public class Organizer extends User {
             DateOfEvent = new Date(year, month, day);
             RoomNo = RentRooms(DateOfEvent);
             if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
-                Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent);
+                Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent,this);
                 Database.events.add(e1);
                 events.add(e1);
                 ReservedRooms.add(Database.rooms.get(RoomNo));
