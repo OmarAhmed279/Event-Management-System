@@ -169,7 +169,7 @@ public class Admin extends User {
     private void seeEvents() {
         System.out.println("There is currently " + Database.events.size() + " events.");
         for (int i = 0; i < Database.events.size(); i++) {
-            System.out.println("\n");
+            System.out.print("\n");
             System.out.println("Event [" + i + "]:");
             System.out.println("    Event organizer: " + Database.events.get(i).getOrganizer().getUsername());
             System.out.println("    Event name: " + Database.events.get(i).getName());
@@ -232,7 +232,7 @@ public class Admin extends User {
 
     private void showUsers() {
         System.out.println("There is currently " + Database.users.size() + " users.");
-        System.out.println("\n");
+        System.out.print("\n");
         for (int i = 0; i < Database.users.size(); i++) {
             System.out.println("User [" + i + "]:");
             System.out.println("    User Type: " + Database.users.get(i).getClass().getName());
