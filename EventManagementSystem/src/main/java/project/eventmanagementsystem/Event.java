@@ -112,10 +112,9 @@ public class Event {
     }
 
     public List<Attendee> getAttendees() {
-        ArrayList <Attendee> attendees_copy = new ArrayList<>();
-        for(Attendee attendee : attendees)
-        {
-            Attendee copy = new Attendee(attendee.getUsername(),attendee.getPassword(),attendee.getDateOfBirth(),attendee.getGender(),attendee.getAddress(),attendee.getInterests());
+        ArrayList<Attendee> attendees_copy = new ArrayList<>();
+        for (Attendee attendee : attendees) {
+            Attendee copy = new Attendee(attendee.getUsername(), attendee.getPassword(), attendee.getDateOfBirth(), attendee.getGender(), attendee.getAddress(), attendee.getInterests());
             attendees_copy.add(copy);
         }
         return List.copyOf(attendees_copy);

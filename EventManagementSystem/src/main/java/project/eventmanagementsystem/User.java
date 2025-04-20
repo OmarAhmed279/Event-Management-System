@@ -158,8 +158,7 @@ public abstract class User {
         return isSuspended;
     }
 
-    public void setIsSuspended(boolean sus)
-    {
+    public void setIsSuspended(boolean sus) {
         this.isSuspended = sus; //sus?
     }
 
@@ -300,10 +299,8 @@ public abstract class User {
         isFound = false;
         System.out.println("Enter your Password: ");
         password = in.next();
-        while(true)
-        {
-            if(U.getPassword().equals(password))
-            {
+        while (true) {
+            if (U.getPassword().equals(password)) {
                 System.out.println("Valid Password. Welcome " + U.getUsername() + "!");
                 break;
             } else {
@@ -325,14 +322,13 @@ public abstract class User {
             System.out.println("Enter Password: ");
             password = in.next();
         }*/
-        if(U.getIsSuspended())
-        {
+        if (U.getIsSuspended()) {
             System.out.println("User is suspended.");
             Home();
         } else {
             if (U instanceof Attendee) {
                 ((Attendee) U).showDashboard();
-            } else if (U instanceof Organizer){
+            } else if (U instanceof Organizer) {
                 ((Organizer) U).showDashboard();
             } else {
                 ((Admin) U).showDashboard();

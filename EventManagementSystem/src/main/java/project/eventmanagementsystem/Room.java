@@ -8,6 +8,7 @@ import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 /**
  * @author Wafaey
  */
@@ -23,8 +24,7 @@ public class Room {
         this.setID();
     }
 
-    public Room(long price, Event e)
-    {
+    public Room(long price, Event e) {
         this(price);
         events.add(e);
     }
@@ -49,6 +49,7 @@ public class Room {
     public void removeEvent(Event event) {
         this.events.remove(event);
     }
+
     public void setPrice(long price) {
         this.price = price;
     }
@@ -58,10 +59,8 @@ public class Room {
     }
 
     public boolean IsAvailable(Date date) {
-        for(Event event : events)
-        {
-            if(event.getDate() == date)
-            {
+        for (Event event : events) {
+            if (event.getDate() == date) {
                 return false;
             }
         }

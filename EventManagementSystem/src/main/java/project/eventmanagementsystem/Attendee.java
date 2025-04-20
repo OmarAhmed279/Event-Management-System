@@ -6,23 +6,31 @@ import java.util.Date;
 
 public class Attendee extends User {
 
-    @Override
-    public void showProfile() {
-
-    }
-
-    @Override
-    public void UpdateInformation() {
-
-    }
-
-    public enum Gender {MALE, FEMALE}
-
     private Gender gender;
     private Wallet wallet;
     private ArrayList<String> interests;
     private ArrayList<Event> registeredEvents;
     private String address;
+    public enum Gender {MALE, FEMALE}
+
+    @Override
+    public void showProfile() {
+        System.out.println("--------------------Profile--------------------");
+        System.out.println("Username: " + this.getUsername());
+        System.out.println("Password: " + this.getPassword());
+        System.out.println("Date of Birth: " + this.getDateOfBirth());
+        System.out.println("Wallet Balance: " + this.getWallet().getBalance());
+        for (int i = 0; i < interests.size(); i++) {
+            System.out.println("Interest [" + i + "]: " + interests.get(i));
+        }
+        for (int i = 0; i < registeredEvents.size(); i++) {
+            System.out.println("Event [" + i + "]:");
+            System.out.println("    Event organizer: " + registeredEvents.get(i).getOrganizer().getUsername());
+            System.out.println("    Event name: " + registeredEvents.get(i).getName());
+            System.out.println("    Event date: " + registeredEvents.get(i).getDate());
+        }
+        this.showDashboard();
+    }
 
     public Attendee(String username, String password, Date dateOfBirth,
                     String gender, String address, String interest) {
@@ -51,6 +59,7 @@ public class Attendee extends User {
         this.address = address;
         Database.attendees.add(this);
     }
+
     // Getters and setters
     public Gender getGender() {
         return gender;

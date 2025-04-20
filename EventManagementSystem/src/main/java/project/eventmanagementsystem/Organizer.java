@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import static project.eventmanagementsystem.User.login;
 import static project.eventmanagementsystem.User.signUp;
 
@@ -31,9 +32,8 @@ public class Organizer extends User {
         this.setID();
     }
 
-    public Organizer(String user, String pass, Date d, Event e)
-    {
-        this(user,pass,d);
+    public Organizer(String user, String pass, Date d, Event e) {
+        this(user, pass, d);
         this.events.add(e);
         this.ReservedRooms.add(Database.events.get(Database.events.indexOf(e)).getRoom());
         Database.organizers.add(this);
@@ -144,7 +144,7 @@ public class Organizer extends User {
             DateOfEvent = new Date(year, month, day);
             RoomNo = RentRooms(DateOfEvent);
             if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
-                Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent,this);
+                Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent, this);
                 //Database.events.add(e1);
                 events.add(e1);
                 ReservedRooms.add(Database.rooms.get(RoomNo));
@@ -321,11 +321,11 @@ public class Organizer extends User {
             Database.events.get(i).setID();
         }
         //for (int i = 0; i < this.events.size(); i++) {
-            //if (roomId == this.events.get(i).getRoom().getID() && DateOfEvent.equals(this.events.get(i).getDate())) {
-                //Database.events.remove(events.get(i));
-                //this.events.remove(events.get(i));
-                //Database.rooms.get(roomId).removeEvent(events.get(i));
-      //      }
+        //if (roomId == this.events.get(i).getRoom().getID() && DateOfEvent.equals(this.events.get(i).getDate())) {
+        //Database.events.remove(events.get(i));
+        //this.events.remove(events.get(i));
+        //Database.rooms.get(roomId).removeEvent(events.get(i));
+        //      }
         //}
         this.ManageEvents();
     }

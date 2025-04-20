@@ -16,9 +16,8 @@ public class Admin extends User {
     public static final Scanner in = new Scanner(System.in);
     private String role;
 
-    public Admin(String user, String pass, Date d, String r)
-    {
-        super(user,pass,d);
+    public Admin(String user, String pass, Date d, String r) {
+        super(user, pass, d);
         this.role = r;
         Database.admins.add(this);
     }
@@ -95,12 +94,10 @@ public class Admin extends User {
             } else if (choice == 3) {
                 this.showRooms();
                 break;
-            } else if (choice == 4)
-            {
+            } else if (choice == 4) {
                 this.showDashboard();
                 break;
-            } else
-            {
+            } else {
                 System.out.println("Invalid input. Please try again: ");
                 choice = in.nextInt();
             }
@@ -139,8 +136,7 @@ public class Admin extends User {
             id = in.nextInt();
         }
         Database.rooms.remove(id);
-        for (int i = 0; i < Database.rooms.size(); i++)
-        {
+        for (int i = 0; i < Database.rooms.size(); i++) {
             Database.rooms.get(i).setID();
         }
         System.out.println("Room removed successfully.");
@@ -256,8 +252,7 @@ public class Admin extends User {
             id = in.nextInt();
         }
         Database.users.remove(id);
-        for (int i = 0; i < Database.users.size(); i++)
-        {
+        for (int i = 0; i < Database.users.size(); i++) {
             Database.users.get(i).setID();
         }
         System.out.println("User deleted successfully.");
