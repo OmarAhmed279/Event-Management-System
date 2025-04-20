@@ -27,6 +27,7 @@ public class Organizer extends User {
         this.wallet = new Wallet(0);
         events = new ArrayList<Event>();
         ReservedRooms = new ArrayList<Room>();
+        Database.organizers.add(this);
     }
 
     public Organizer(String user, String pass, Date d, Event e)
@@ -34,6 +35,7 @@ public class Organizer extends User {
         this(user,pass,d);
         this.events.add(e);
         this.ReservedRooms.add(Database.events.get(Database.events.indexOf(e)).getRoom());
+        Database.organizers.add(this);
     }
 
     @Override
@@ -141,15 +143,16 @@ public class Organizer extends User {
             RoomNo = RentRooms(DateOfEvent);
             if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
                 Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent,this);
-                Database.events.add(e1);
+                //Database.events.add(e1);
                 events.add(e1);
                 ReservedRooms.add(Database.rooms.get(RoomNo));
-                Database.rooms.get(RoomNo).addEvent(e1);
+                //Database.rooms.get(RoomNo).addEvent(e1);
                 this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(RoomNo).getPrice());
                 Database.appOwnerBalance += Database.rooms.get(RoomNo).getPrice();
                 break;
             } else {
                 System.out.println("The Room number " + RoomNo + " is not available.");
+                System.out.println("\n");
             }
         }
         this.ManageEvents();

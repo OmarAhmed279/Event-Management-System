@@ -37,6 +37,7 @@ public class Attendee extends User {
         this.interests.add(interest);
         this.registeredEvents = new ArrayList<>();
         this.address = address;
+        Database.attendees.add(this);
     }
 
     public Attendee(String username, String password, Date dateOfBirth,
@@ -48,6 +49,7 @@ public class Attendee extends User {
         this.interests = interest;
         this.registeredEvents = new ArrayList<>();
         this.address = address;
+        Database.attendees.add(this);
     }
     // Getters and setters
     public Gender getGender() {

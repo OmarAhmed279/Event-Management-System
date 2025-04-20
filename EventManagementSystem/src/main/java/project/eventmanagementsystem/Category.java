@@ -19,6 +19,7 @@ public class Category {
        else{*/
         this.name = name;
         this.description = description;
+        Database.categories.add(this);
 
     }
 

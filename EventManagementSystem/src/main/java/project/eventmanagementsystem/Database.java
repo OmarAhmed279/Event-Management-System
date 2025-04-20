@@ -8,43 +8,41 @@ package project.eventmanagementsystem;
  * @author youss
  */
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
 
 public final class Database {
     // User-related lists
-    public static ArrayList<Room> rooms = new ArrayList<>(){
-        //{
-       //     add(new Room(10));
-       //     add(new Room(100));
-        //    add(new Room(1000));
-        //}
-    };
-    public static ArrayList<User> users = new ArrayList<>(){
-       // {
-        //    add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
-        //}
-    };
-    public static ArrayList<Admin> admins = new ArrayList<>(){
-       // {
-       //     add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
-       // }
-    };
-    ;
-    public static ArrayList<Organizer> organizers = new ArrayList<>(){
-       // {
-        //    add(new Organizer("mrorg","1234",new Date(1,1,1)));
-        //}
-    };
+    public static ArrayList<Room> rooms = new ArrayList<>();
+    public static ArrayList<User> users = new ArrayList<>();
+    public static ArrayList<Admin> admins = new ArrayList<>();
+    public static ArrayList<Organizer> organizers = new ArrayList<>();
     public static ArrayList<Attendee> attendees = new ArrayList<>();
     // Event-related lists
-    public static ArrayList<Event> events = new ArrayList<>(){
-        //{
-        //    add(new Event("big", "", new Category("big", ""), 4, Database.rooms.get(0), new Date(1,1,1),Database.organizers.get(0)));
-        //}
-    };
+    public static ArrayList<Event> events = new ArrayList<>();
     public static ArrayList<Category> categories = new ArrayList<>();
     //public static ArrayList<Room> AvailableRooms = new ArrayList<Room>();
     // app creators wallet replica
     public static double appOwnerBalance;
+
+    static {
+        rooms.add(new Room(10));
+        rooms.add(new Room(100));
+        rooms.add(new Room(1000));
+
+        User owner = new Admin("mradmin","0000",new Date(1,1,1), "owner");
+        //users.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
+
+        new Organizer("mrorg","1234",new Date(1,1,1));
+
+        new Attendee("baduser", "1234", new Date(1,1,1), "M", "G", "notpaying");
+
+        //admins.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
+
+        new Event("big", "", new Category("big", ""), 4, Database.rooms.get(0), new Date(1,1,1),Database.organizers.get(0));
+
+        rooms.get(0).addEvent(Database.events.get(0));
+        users.get(2).setIsSuspended(true);
+    }
 }

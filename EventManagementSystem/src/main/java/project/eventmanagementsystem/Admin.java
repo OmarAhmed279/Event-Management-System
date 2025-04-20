@@ -20,6 +20,7 @@ public class Admin extends User {
     {
         super(user,pass,d);
         this.role = r;
+        Database.admins.add(this);
     }
 
 
@@ -198,6 +199,7 @@ public class Admin extends User {
         for (int i = 0; i < Database.events.size(); i++) {
             Database.events.get(i).setID();
         }
+        this.showDashboard();
     }
 
     public void ManageUsers() {

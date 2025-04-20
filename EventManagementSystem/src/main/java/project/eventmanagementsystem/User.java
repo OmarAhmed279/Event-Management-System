@@ -22,13 +22,14 @@ public abstract class User {
     static private Scanner in = new Scanner(System.in);
 
     public User() {
-
+        Database.users.add(this);
     }
 
     public User(String Username, String Password, Date dateOfbirth) {
         this.Username = Username;
         this.Password = Password;
         this.DateOfBirth = dateOfbirth;
+        Database.users.add(this);
     }
 
     public void setID() { //i changed all the set id in all classes due to a reason too long to explain so if you wanna know why ask me in call -omar
@@ -252,10 +253,10 @@ public abstract class User {
         if (x == 1) {
             dateOfbirth = new Date(year, month, day);
             User newuser = new Organizer(UserName, Password, dateOfbirth);
-            Database.users.add(newuser);
-            Database.organizers.add((Organizer) newuser);
+            //Database.users.add(newuser);
+            //Database.organizers.add((Organizer) newuser);
             System.out.println("User created Succesfully.");
-            User.Home();
+            Home();
         } else if (x == 2) {
             dateOfbirth = new Date(year, month, day);
             System.out.println("Enter Gender: (M or F)");
@@ -263,10 +264,10 @@ public abstract class User {
             System.out.println("Enter one Interest: ");
             String interest = in.nextLine();
             User newuser = new Attendee(UserName, Password, dateOfbirth, gen, Ad, interest);
-            Database.users.add(newuser);
-            Database.attendees.add((Attendee)newuser);
+            //Database.users.add(newuser);
+            //Database.attendees.add((Attendee)newuser);
             System.out.println("User created Succesfully.");
-            User.Home();
+            Home();
         }
     }
 
@@ -312,14 +313,19 @@ public abstract class User {
             password = in.next();
         }
         System.out.println("Valid Password");
-        if (U instanceof Attendee) {
-            System.out.println("Dashboard");
-            ((Attendee) U).showDashboard();
+        if(U.getIsSuspended())
+        {
+            System.out.println("User is suspended.");
+            Home();
         } else {
-            System.out.println("Dashboard");
-            ((Organizer) U).showDashboard();
+            if (U instanceof Attendee) {
+                ((Attendee) U).showDashboard();
+            } else if (U instanceof Organizer){
+                ((Organizer) U).showDashboard();
+            } else {
+                ((Admin) U).showDashboard();
+            }
         }
-
     }
 
     public static void logOut() {

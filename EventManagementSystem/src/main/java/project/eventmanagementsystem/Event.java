@@ -8,6 +8,7 @@ package project.eventmanagementsystem;
  * @author youss
  */
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -30,9 +31,11 @@ public class Event {
         this.category = category;
         this.price = price;
         this.room = room;
+        this.room.addEvent(this);
         this.date = date;
         this.ID = Database.events.indexOf(this);
         this.organizer = u;
+        Database.events.add(this);
     }
 
     public Event(Event event) {
@@ -44,6 +47,7 @@ public class Event {
         this.date = new Date(event.date.getTime());
         this.attendees = event.attendees;
         this.ID = Database.events.indexOf(this);
+        Database.events.add(this);
     }
 
     public int getID() {
