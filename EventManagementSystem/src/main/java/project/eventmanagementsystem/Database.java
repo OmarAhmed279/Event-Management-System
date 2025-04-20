@@ -27,9 +27,9 @@ public final class Database {
     public static double appOwnerBalance;
 
     static {
-        rooms.add(new Room(10));
-        rooms.add(new Room(100));
-        rooms.add(new Room(1000));
+        new Room(10);
+        new Room(100);
+        new Room(1000);
 
         User owner = new Admin("mradmin","0000",new Date(1,1,1), "owner");
         //users.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
@@ -42,7 +42,7 @@ public final class Database {
 
         new Event("big", "", new Category("big", ""), 4, Database.rooms.get(0), new Date(1,1,1),Database.organizers.get(0));
 
-        rooms.get(0).addEvent(Database.events.get(0));
         users.get(2).setIsSuspended(true);
+        events.get(0).addAttendee((Attendee) users.get(2));
     }
 }

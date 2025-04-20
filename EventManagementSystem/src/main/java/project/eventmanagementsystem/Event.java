@@ -33,9 +33,9 @@ public class Event {
         this.room = room;
         this.room.addEvent(this);
         this.date = date;
+        Database.events.add(this);
         this.ID = Database.events.indexOf(this);
         this.organizer = u;
-        Database.events.add(this);
     }
 
     public Event(Event event) {
@@ -44,10 +44,11 @@ public class Event {
         this.category = event.category;
         this.price = event.price;
         this.room = event.room;
+        this.room.addEvent(this);
         this.date = new Date(event.date.getTime());
         this.attendees = event.attendees;
-        this.ID = Database.events.indexOf(this);
         Database.events.add(this);
+        this.ID = Database.events.indexOf(this);
     }
 
     public int getID() {

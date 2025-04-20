@@ -23,6 +23,7 @@ public abstract class User {
 
     public User() {
         Database.users.add(this);
+        this.setID();
     }
 
     public User(String Username, String Password, Date dateOfbirth) {
@@ -30,6 +31,7 @@ public abstract class User {
         this.Password = Password;
         this.DateOfBirth = dateOfbirth;
         Database.users.add(this);
+        this.setID();
     }
 
     public void setID() { //i changed all the set id in all classes due to a reason too long to explain so if you wanna know why ask me in call -omar
@@ -298,7 +300,18 @@ public abstract class User {
         isFound = false;
         System.out.println("Enter your Password: ");
         password = in.next();
-        while (!isFound) {
+        while(true)
+        {
+            if(U.getPassword().equals(password))
+            {
+                System.out.println("Valid Password. Welcome " + U.getUsername() + "!");
+                break;
+            } else {
+                System.out.println("Invalid Password. Try again.");
+                password = in.next();
+            }
+        }
+        /*while (!isFound) {
             for (int i = 0; i < Database.users.size(); i++) {
                 if (password.equals(Database.users.get(i).Password)) {
                     isFound = true;
@@ -311,8 +324,7 @@ public abstract class User {
             System.out.println("Invalid Password");
             System.out.println("Enter Password: ");
             password = in.next();
-        }
-        System.out.println("Valid Password");
+        }*/
         if(U.getIsSuspended())
         {
             System.out.println("User is suspended.");

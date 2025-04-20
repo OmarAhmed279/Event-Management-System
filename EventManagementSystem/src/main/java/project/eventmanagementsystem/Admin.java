@@ -110,8 +110,9 @@ public class Admin extends User {
     private void showRooms() {
         System.out.println("There is currently " + Database.rooms.size() + " rooms.");
         for (int i = 0; i < Database.rooms.size(); i++) {
-            System.out.println("\n");
+            System.out.print("\n");
             System.out.println("Room [" + i + "]:");
+            System.out.println("    Room Price: " + Database.rooms.get(i).getPrice());
             for (int j = 0; j < Database.rooms.get(i).getEvents().size(); j++) {
                 if (Objects.nonNull(Database.rooms.get(i).getEvents().get(j))) {
                     System.out.println("    Event organizer: " + Database.rooms.get(i).getEvents().get(j).getOrganizer().getUsername());

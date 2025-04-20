@@ -18,16 +18,15 @@ public class Room {
 
 
     public Room(long price) {
-        this.id = Database.rooms.size();
         this.price = price;
         Database.rooms.add(this);
+        this.setID();
     }
 
     public Room(long price, Event e)
     {
         this(price);
         events.add(e);
-        Database.rooms.add(this);
     }
 
     public int getID() {
