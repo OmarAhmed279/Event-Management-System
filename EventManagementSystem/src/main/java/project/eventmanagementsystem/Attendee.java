@@ -3,6 +3,8 @@ package project.eventmanagementsystem;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Attendee extends User {
 
@@ -12,6 +14,7 @@ public class Attendee extends User {
     private ArrayList<Event> registeredEvents;
     private String address;
     public enum Gender {MALE, FEMALE}
+    static final public Scanner in = new Scanner(System.in);
 
     @Override
     public void showProfile() {
@@ -91,12 +94,58 @@ public class Attendee extends User {
 
     @Override
     public void showDashboard() {
-        System.out.println("Attendee Dashboard");
-        System.out.println("Registered Events:");
-        for (Event event : registeredEvents) {
-            System.out.println("- " + event.getName());
+        System.out.println("--------------------Dashboard--------------------");
+        System.out.println("[1] Show Profile");
+        System.out.println("[2] Update Profile");
+        System.out.println("[3] Manage Events");
+        //System.out.println("[4] Manage Rooms");
+        System.out.println("[4] Manage wallet");
+        //System.out.println("[6] Rent Rooms");
+        System.out.println("[5] Logout");
+        int choice = 0;
+        boolean logout = false;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
         }
-        System.out.println("Wallet Balance: " + wallet.getBalance());
+        while (true) {
+            if (choice == 1) {
+                this.showProfile();
+                break;
+            } else if (choice == 2) {
+                this.UpdateInformation();
+                break;
+            } else if (choice == 3) {
+                this.ManageEvents();
+                break;
+            } else if (choice == 4) {
+                this.ManageWallet();
+                break;
+            } else if (choice == 5) {
+                logout = true;
+                break;
+            } else {
+                System.out.println("Invalid input. Try again");
+                choice = in.nextInt();
+            }
+        }
+        if (logout)
+        {
+            User.logOut();
+        } else {
+            this.showDashboard();
+        }
+    }
+
+    private void ManageWallet() {
+    }
+
+    private void ManageEvents() {
     }
 
     // Attendee-specific methods

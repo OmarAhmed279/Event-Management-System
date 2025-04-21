@@ -126,9 +126,7 @@ public abstract class User {
                 System.out.println("Invalid input. Try Again.");
             }
         }
-        this.showDashboard();
     }
-
 
     public String getUsername() {
         return Username;

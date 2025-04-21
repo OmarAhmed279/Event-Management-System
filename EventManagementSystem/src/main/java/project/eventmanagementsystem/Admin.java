@@ -6,6 +6,7 @@ package project.eventmanagementsystem;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Objects;
 
@@ -44,7 +45,18 @@ public class Admin extends User {
         System.out.println("[3] Manage Users");
         System.out.println("[4] Manage Events");
         System.out.println("[5] Manage Rooms");
-        int choice = in.nextInt();
+        System.out.println("[6] Logout");
+        int choice = 0;
+        boolean logout = false;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
         while (true) {
             if (choice == 1) {
                 this.showProfile();
@@ -61,10 +73,19 @@ public class Admin extends User {
             } else if (choice == 5) {
                 this.ManageRooms();
                 break;
+            } else if (choice == 6) {
+               logout = true;
+               break;
             } else {
                 System.out.println("Invalid input. Please try again: ");
                 choice = in.nextInt();
             }
+        }
+        if (logout)
+        {
+            User.logOut();
+        } else {
+            this.showDashboard();
         }
     }
 
@@ -74,7 +95,6 @@ public class Admin extends User {
         System.out.println("Username: " + this.getUsername());
         System.out.println("Password: " + this.getPassword());
         System.out.println("Date of Birth: " + this.getDateOfBirth());
-        this.showDashboard();
     }
 
     public void ManageRooms() {
@@ -83,7 +103,17 @@ public class Admin extends User {
         System.out.println("[2] Delete Room");
         System.out.println("[3] Show Rooms");
         System.out.println("[4] Return to Dashboard");
-        int choice = in.nextInt();
+        boolean back = false;
+        int choice = 0;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
         while (true) {
             if (choice == 1) {
                 this.Addroom();
@@ -95,12 +125,16 @@ public class Admin extends User {
                 this.showRooms();
                 break;
             } else if (choice == 4) {
-                this.showDashboard();
+                back = true;
                 break;
             } else {
                 System.out.println("Invalid input. Please try again: ");
                 choice = in.nextInt();
             }
+        }
+        if (back)
+        {
+            this.showDashboard();
         }
     }
 
@@ -148,7 +182,17 @@ public class Admin extends User {
         System.out.println("[1] Delete Event");
         System.out.println("[2] See Events");
         System.out.println("[3] Return to Dashboard");
-        int choice = in.nextInt();
+        boolean back = false;
+        int choice = 0;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
         while (true) {
             if (choice == 1) {
                 this.deleteEvent();
@@ -157,12 +201,16 @@ public class Admin extends User {
                 this.seeEvents();
                 break;
             } else if (choice == 3) {
-                this.showDashboard();
+                back = true;
                 break;
             } else {
                 System.out.println("Invalid input. Please try again: ");
                 choice = in.nextInt();
             }
+        }
+        if (back)
+        {
+            this.showDashboard();
         }
     }
 
@@ -206,7 +254,17 @@ public class Admin extends User {
         System.out.println("[3] Delete User");
         System.out.println("[4] Show all Users");
         System.out.println("[5] Return to Dashboard");
-        int choice = in.nextInt();
+        boolean back = false;
+        int choice = 0;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
         while (true) {
             if (choice == 1) {
                 this.suspendUser();
@@ -221,12 +279,16 @@ public class Admin extends User {
                 this.showUsers();
                 break;
             } else if (choice == 5) {
-                this.showDashboard();
+                back = true;
                 break;
             } else {
                 System.out.println("Invalid input. Please try again: ");
                 choice = in.nextInt();
             }
+        }
+        if (back)
+        {
+            this.showDashboard();
         }
     }
 

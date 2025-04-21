@@ -49,7 +49,18 @@ public class Organizer extends User {
         //System.out.println("[4] Manage Rooms");
         System.out.println("[4] Manage wallet");
         //System.out.println("[6] Rent Rooms");
-        int choice = in.nextInt();
+        System.out.println("[5] Logout");
+        int choice = 0;
+        boolean logout = false;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
         while (true) {
             if (choice == 1) {
                 this.showProfile();
@@ -63,12 +74,20 @@ public class Organizer extends User {
             } else if (choice == 4) {
                 this.ManageWallet();
                 break;
+            } else if (choice == 5) {
+                logout = true;
+                break;
             } else {
-                System.out.println("Invalid input. Please try again: ");
+                System.out.println("Invalid input. Try again");
                 choice = in.nextInt();
             }
         }
-
+        if (logout)
+        {
+            User.logOut();
+        } else {
+            this.showDashboard();
+        }
     }
 
     @Override
@@ -90,7 +109,6 @@ public class Organizer extends User {
             }
             System.out.println("Date of Event: " + this.events.get(i).getDate());
         }
-        showDashboard();
     }
 
     public Wallet getWallet() {
@@ -165,7 +183,17 @@ public class Organizer extends User {
         System.out.println("[1] Add money to wallet");
         System.out.println("[2] see Balance");
         System.out.println("[3] Return to Dashboard");
-        int choice = in.nextInt();
+        boolean back = false;
+        int choice = 0;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
         while (true) {
             if (choice == 1) {
                 this.AddMoney();
@@ -174,14 +202,17 @@ public class Organizer extends User {
                 System.out.println("Wallet Balance: " + this.wallet.getBalance());
                 break;
             } else if (choice == 3) {
-                this.showDashboard();
+                back = true;
                 break;
             } else {
                 System.out.println("Invalid input, please try again.");
                 choice = in.nextInt();
             }
         }
-        showDashboard();
+        if (back)
+        {
+            this.showDashboard();
+        }
     }
 
     public void ManageEvents() {
@@ -190,8 +221,17 @@ public class Organizer extends User {
         System.out.println("[2] Delete Event");
         System.out.println("[3] See Attendees");
         System.out.println("[4] Return to Dashboard");
-
-        int choice = in.nextInt();
+        boolean back = false;
+        int choice = 0;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
         while (true) {
             if (choice == 1) {
                 this.AddEvent();
@@ -203,13 +243,17 @@ public class Organizer extends User {
                 this.SeeAttendees();
                 break;
             } else if (choice == 4) {
-                this.showDashboard();
+                back = true;
+                break;
             } else {
                 System.out.println(" Invalid input ");
                 choice = in.nextInt();
             }
         }
-        showDashboard();
+        if (back)
+        {
+            this.showDashboard();
+        }
     }
 
     public int RentRooms(Date d) {
