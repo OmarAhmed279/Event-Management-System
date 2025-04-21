@@ -31,18 +31,18 @@ public final class Database {
         new Room(100);
         new Room(1000);
 
-        User owner = new Admin("mradmin", "0000", new Date(1, 1, 1), "owner");
+        User owner = new Admin("mradmin", "0000", new Date(2000, 1, 1), "owner");
         //users.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 
-        new Organizer("mrorg", "1234", new Date(1, 1, 1));
+        new Organizer("mrorg", "1234", new Date(2000, 1, 1));
 
-        new Attendee("baduser", "1234", new Date(1, 1, 1), "M", "G", "notpaying");
+        new Attendee("baduser", "1234", new Date(2000, 1, 1), "M", "G", "notpaying");
 
         //admins.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 
-        Event bigevent = new Event("big", "", new Category("big", ""), 4, Database.rooms.get(0), new Date(1, 1, 1), Database.organizers.get(0));
+        Event bigevent = new Event("big", "", new Category("big", ""), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
 
-        users.get(2).setIsSuspended(true);
+        users.get(2).setIsSuspended(true); // baduser is suspended
         events.get(0).addAttendee((Attendee) users.get(2));
         ((Attendee) users.get(2)).getRegisteredEvents().add(bigevent);
         organizers.get(0).getEvents().add(bigevent);
