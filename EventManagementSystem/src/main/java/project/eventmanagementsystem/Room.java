@@ -16,7 +16,7 @@ public class Room {
     private int id;
     private long price;
     private final ArrayList<Event> events = new ArrayList<>(); //why final?
-
+    private final Month[] months = new Month[12];
 
     public Room(long price) {
         this.price = price;
@@ -44,10 +44,12 @@ public class Room {
 
     public void addEvent(Event event) {
         this.events.add(event);
+        months[event.getDate().getMonth()].setSlot(event.getDate().getDay(),event.getDate().getHours());
     }
 
     public void removeEvent(Event event) {
         this.events.remove(event);
+        months[event.getDate().getMonth()].deleteSlot(event.getDate().getDay(),event.getDate().getHours());
     }
 
     public void setPrice(long price) {
