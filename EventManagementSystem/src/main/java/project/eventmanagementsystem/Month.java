@@ -9,7 +9,7 @@ package project.eventmanagementsystem;
  * @author youss
  */
 public class Month {
-    private final Day[] days = new Day[31];
+    private final Day[] days = {new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day(),new Day()};
     public boolean isAvailable()
     {
         for(Day day : days)

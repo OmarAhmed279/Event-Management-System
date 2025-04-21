@@ -32,7 +32,6 @@ public class Admin extends User {
             pr = in.nextInt();
         }
         Room room = new Room(pr);
-        Database.rooms.add(room);
         System.out.println("Room added successfully.");
         this.showDashboard();
     }
@@ -45,7 +44,8 @@ public class Admin extends User {
         System.out.println("[3] Manage Users");
         System.out.println("[4] Manage Events");
         System.out.println("[5] Manage Rooms");
-        System.out.println("[6] Logout");
+        System.out.println("[6] Manage Rooms");
+        System.out.println("[7] Logout");
         int choice = 0;
         boolean logout = false;
         while (true) {
@@ -74,19 +74,95 @@ public class Admin extends User {
                 this.ManageRooms();
                 break;
             } else if (choice == 6) {
-               logout = true;
-               break;
+                this.ManageCat();
+            } else if (choice == 7) {
+                logout = true;
+                break;
             } else {
                 System.out.println("Invalid input. Please try again: ");
                 choice = in.nextInt();
             }
         }
-        if (logout)
-        {
+        if (logout) {
             User.logOut();
         } else {
             this.showDashboard();
         }
+    }
+
+    private void ManageCat() {
+        System.out.println("--------------------Manage Categories-------------------");
+        System.out.println("[1] Add Category");
+        System.out.println("[2] Delete Category");
+        System.out.println("[3] Show Categories");
+        System.out.println("[4] Return to Dashboard");
+        boolean back = false;
+        int choice = 0;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
+        while (true) {
+            if (choice == 1) {
+                this.AddCat();
+                break;
+            } else if (choice == 2) {
+                this.deleteCat();
+                break;
+            } else if (choice == 3) {
+                this.showCats();
+                break;
+            } else if (choice == 4) {
+                back = true;
+                break;
+            } else {
+                System.out.println("Invalid input. Please try again: ");
+                choice = in.nextInt();
+            }
+        }
+        if (back) {
+            this.showDashboard();
+        }
+    }
+
+    private void showCats() {
+        System.out.println("There are currently " + Database.categories.size() + " Categories.");
+        for (int i = 0; i < Database.categories.size(); i++) {
+            System.out.println("Category [" + i + "]: ");
+            System.out.println("    Name: " + Database.categories.get(i).getName());
+            System.out.println("    Description: " + Database.categories.get(i).getDescription());
+        }
+        this.showDashboard();
+    }
+
+    private void deleteCat() {
+        System.out.println("Enter Category ID: ");
+        int id = in.nextInt();
+        while (id > Database.categories.size() || id < 0) {
+            System.out.println("Invalid ID. Try again.");
+            id = in.nextInt();
+        }
+        Database.categories.remove(id);
+        for (int i = 0; i < Database.categories.size(); i++) {
+            Database.categories.get(i).setID();
+        }
+        System.out.println("Category removed successfully.");
+        this.showDashboard();
+    }
+
+    private void AddCat() {
+        System.out.println("Enter Name of Category: ");
+        String name = in.next();
+        System.out.println("Enter Description of Category: ");
+        String catescription = in.next();
+        Category cat = new Category(name,catescription);
+        System.out.println("Category added successfully.");
+        this.showDashboard();
     }
 
     @Override
@@ -132,8 +208,7 @@ public class Admin extends User {
                 choice = in.nextInt();
             }
         }
-        if (back)
-        {
+        if (back) {
             this.showDashboard();
         }
     }
@@ -146,16 +221,17 @@ public class Admin extends User {
             System.out.println("    Room Price: " + Database.rooms.get(i).getPrice());
             for (int j = 0; j < Database.rooms.get(i).getEvents().size(); j++) {
                 if (Objects.nonNull(Database.rooms.get(i).getEvents().get(j))) {
-                    System.out.println("    Event organizer: " + Database.rooms.get(i).getEvents().get(j).getOrganizer().getUsername());
-                    System.out.println("    Event name: " + Database.rooms.get(i).getEvents().get(j).getName());
-                    System.out.println("    Event date: " + Database.rooms.get(i).getEvents().get(j).getDate());
-                    System.out.println("    Attendees:");
+                    System.out.println("    Event [" + j + "]: ");
+                    System.out.println("        Event organizer: " + Database.rooms.get(i).getEvents().get(j).getOrganizer().getUsername());
+                    System.out.println("        Event name: " + Database.rooms.get(i).getEvents().get(j).getName());
+                    System.out.println("        Event date: " + Database.rooms.get(i).getEvents().get(j).getDate());
+                    System.out.println("        Attendees:");
                     for (int k = 0; k < Database.rooms.get(i).getEvents().get(j).getAttendees().size(); k++) {
-                        System.out.println("        Attendee Name: " + Database.rooms.get(i).getEvents().get(j).getAttendees().get(k).getUsername());
+                        System.out.println("            Attendee Name: " + Database.rooms.get(i).getEvents().get(j).getAttendees().get(k).getUsername());
                     }
-                    System.out.println("    Event price: " + Database.rooms.get(i).getEvents().get(j).getPrice());
-                    System.out.println("    Event category: " + Database.rooms.get(i).getEvents().get(j).getCategory().getName());
-                    System.out.println("    Event description: " + Database.rooms.get(i).getEvents().get(j).getDescription());
+                    System.out.println("        Event price: " + Database.rooms.get(i).getEvents().get(j).getPrice());
+                    System.out.println("        Event category: " + Database.rooms.get(i).getEvents().get(j).getCategory().getName());
+                    System.out.println("        Event description: " + Database.rooms.get(i).getEvents().get(j).getDescription());
                 }
             }
         }
@@ -208,8 +284,7 @@ public class Admin extends User {
                 choice = in.nextInt();
             }
         }
-        if (back)
-        {
+        if (back) {
             this.showDashboard();
         }
     }
@@ -286,8 +361,7 @@ public class Admin extends User {
                 choice = in.nextInt();
             }
         }
-        if (back)
-        {
+        if (back) {
             this.showDashboard();
         }
     }

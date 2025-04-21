@@ -16,7 +16,7 @@ public class Room {
     private int id;
     private long price;
     private final ArrayList<Event> events = new ArrayList<>(); //why final?
-    private final Month[] months = new Month[12];
+    private final Month[] months = {new Month(), new Month(), new Month(), new Month(), new Month(), new Month(),new Month(), new Month(), new Month(), new Month(), new Month(), new Month()};
 
     public Room(long price) {
         this.price = price;

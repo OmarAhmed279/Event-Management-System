@@ -22,7 +22,7 @@ public class Event {
     private Room room;
     private Organizer organizer;
     private ArrayList<Attendee> attendees = new ArrayList<>();
-    private Date date;
+    private Date date = new Date(1,1,1);
     private int ID;
 
     public Event(String name, String description, Category category, long price, Room room, Date date, Organizer u) {

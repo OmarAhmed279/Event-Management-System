@@ -11,6 +11,7 @@ package project.eventmanagementsystem;
 public class Category {
     private String name;
     private String description;
+    private int ID;
 
     Category(String name, String description) {
      /*  if (Database.categories.size()!=0 && Database.categories.contains(name)) {
@@ -20,7 +21,7 @@ public class Category {
         this.name = name;
         this.description = description;
         Database.categories.add(this);
-
+        setID();
     }
 
     public String getName() {
@@ -29,5 +30,10 @@ public class Category {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setID() { //i changed all the set id in all classes due to a reason too long to explain so if you wanna know why ask me in call -omar
+
+        this.ID = Database.categories.indexOf(this);
     }
 }

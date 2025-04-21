@@ -45,5 +45,6 @@ public final class Database {
         users.get(2).setIsSuspended(true);
         events.get(0).addAttendee((Attendee) users.get(2));
         ((Attendee) users.get(2)).getRegisteredEvents().add(bigevent);
+        organizers.get(0).getEvents().add(bigevent);
     }
 }

@@ -5,6 +5,7 @@
 package project.eventmanagementsystem;
 
 import javax.xml.crypto.Data;
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -138,7 +139,7 @@ public class Organizer extends User {
             Catindex = in.nextInt();
         }
         System.out.println("Enter Description: ");
-        String description = in.nextLine();
+        String description = in.next();
         System.out.println("Enter price: ");
         long price = in.nextLong();
         int RoomNo;
@@ -162,7 +163,7 @@ public class Organizer extends User {
             DateOfEvent = new Date(year, month, day);
             RoomNo = RentRooms(DateOfEvent);
             if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
-                Event e1 = new Event(name, description, Database.categories.get(Catindex), price, Database.rooms.get(RoomNo), DateOfEvent, this);
+                Event e1 = new Event(name, description, Database.categories.get(Catindex - 1), price, Database.rooms.get(RoomNo), DateOfEvent, this);
                 //Database.events.add(e1);
                 events.add(e1);
                 ReservedRooms.add(Database.rooms.get(RoomNo));
@@ -219,7 +220,7 @@ public class Organizer extends User {
         System.out.println("--------------------Manage Events--------------------");
         System.out.println("[1] Add Event");
         System.out.println("[2] Delete Event");
-        System.out.println("[3] See Attendees");
+        System.out.println("[3] Show Events");
         System.out.println("[4] Return to Dashboard");
         boolean back = false;
         int choice = 0;
@@ -308,26 +309,34 @@ public class Organizer extends User {
 
     public void SeeAttendees() {
         for (int i = 0; i < this.events.size(); i++) {
-            System.out.println("Event (" + (i + 1) + ")");
-            System.out.println("Name: " + this.events.get(i).getName());
+            System.out.println("Event [" + (i + 1) + "]");
+            System.out.println("    Name: " + this.events.get(i).getName());
+            System.out.println("    Attendees: ");
             for (int j = 0; j < this.events.get(i).getAttendees().size(); j++) {
-                System.out.println("Attendee (" + (j + 1) + ")" + " Name: " + this.events.get(i).getAttendees().get(j).getUsername());
+                System.out.println("        Attendee [" + (j + 1) + "]" + " Name: " + this.events.get(i).getAttendees().get(j).getUsername());
             }
-
         }
         this.ManageEvents();
     }
 
     public void AddMoney() {
         System.out.println("Enter amount of money you wish to add to the wallet: ");
-        int amount = in.nextInt();
-        while (true) {
-            if (amount > 0) {
-                this.wallet.setBalance(amount);
-                break;
-            } else {
-                System.out.println("Invalid amount. please try again: ");
+        int amount;
+        while (true)
+        {
+            try {
                 amount = in.nextInt();
+                if (amount > 0) {
+                    this.wallet.setBalance(amount);
+                    break;
+                } else {
+                    System.out.println("Invalid amount. please try again: ");
+                    in.next();
+                }
+            } catch (InputMismatchException e)
+            {
+                System.out.println("Invalid input. Try again.");
+                in.next();
             }
         }
         this.ManageWallet();

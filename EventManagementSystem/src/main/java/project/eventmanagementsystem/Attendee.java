@@ -98,9 +98,7 @@ public class Attendee extends User {
         System.out.println("[1] Show Profile");
         System.out.println("[2] Update Profile");
         System.out.println("[3] Manage Events");
-        //System.out.println("[4] Manage Rooms");
         System.out.println("[4] Manage wallet");
-        //System.out.println("[6] Rent Rooms");
         System.out.println("[5] Logout");
         int choice = 0;
         boolean logout = false;
@@ -181,23 +179,22 @@ public class Attendee extends User {
 
     private void AddMoney() {
         System.out.println("Enter amount of money you wish to add to the wallet: ");
-        int amount = 0;
-        while (true) {
+        int amount;
+        while (true)
+        {
             try {
                 amount = in.nextInt();
-                break;
-            } catch (InputMismatchException e) {
+                if (amount > 0) {
+                    this.wallet.setBalance(amount);
+                    break;
+                } else {
+                    System.out.println("Invalid amount. please try again: ");
+                    in.next();
+                }
+            } catch (InputMismatchException e)
+            {
                 System.out.println("Invalid input. Try again.");
                 in.next();
-            }
-        }
-        while (true) {
-            if (amount > 0) {
-                this.wallet.setBalance(amount);
-                break;
-            } else {
-                System.out.println("Invalid amount. Try again.");
-                amount = in.nextInt();
             }
         }
         this.ManageWallet();
