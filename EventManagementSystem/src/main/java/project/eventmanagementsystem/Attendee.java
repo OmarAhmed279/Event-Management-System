@@ -143,6 +143,64 @@ public class Attendee extends User {
     }
 
     private void ManageWallet() {
+        System.out.println("--------------------Manage wallet--------------------");
+        System.out.println("[1] Add money to wallet");
+        System.out.println("[2] see Balance");
+        System.out.println("[3] Return to Dashboard");
+        boolean back = false;
+        int choice = 0;
+        while (true) {
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
+        while (true) {
+            if (choice == 1) {
+                this.AddMoney();
+                break;
+            } else if (choice == 2) {
+                System.out.println("Wallet Balance: " + this.wallet.getBalance());
+                choice = in.nextInt();
+            } else if (choice == 3) {
+                back = true;
+                break;
+            } else {
+                System.out.println("Invalid input, please try again.");
+                choice = in.nextInt();
+            }
+        }
+        if (back)
+        {
+            this.showDashboard();
+        }
+    }
+
+    private void AddMoney() {
+        System.out.println("Enter amount of money you wish to add to the wallet: ");
+        int amount = 0;
+        while (true) {
+            try {
+                amount = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                in.next();
+            }
+        }
+        while (true) {
+            if (amount > 0) {
+                this.wallet.setBalance(amount);
+                break;
+            } else {
+                System.out.println("Invalid amount. Try again.");
+                amount = in.nextInt();
+            }
+        }
+        this.ManageWallet();
     }
 
     private void ManageEvents() {
