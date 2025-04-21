@@ -30,14 +30,14 @@ public class Day {
     }
     public void setHours(int hour)
     {
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i <= 2; i++)
         {
             hours[hour+i] = true;
         }
     }
     public void deleteHours(int hour)
     {
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i <= 2; i++)
         {
             hours[hour+i] = false;
         }
