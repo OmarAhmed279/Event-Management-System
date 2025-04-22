@@ -62,7 +62,7 @@ public class Room {
 
     public boolean IsAvailable(Date date) {
         for (Event event : events) {
-            if (event.getDate() == date) {
+            if (event.getDate().equals(date)) {
                 return false;
             }
         }

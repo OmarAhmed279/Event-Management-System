@@ -164,22 +164,40 @@ public class Organizer extends User {
                         System.out.println("Invalid Month. Try again.");
                         month = in.nextInt();
                     }
+                    month--;
                     System.out.println("Day: ");
                     int day = in.nextInt();
                     while (day < 1 || day > 31) {
                         System.out.println("Invalid Day. Try again.");
                         day = in.nextInt();
                     }
-                    DateOfEvent = new Date(year, month, day);
+                    System.out.println("hour in 24hour format (disclaimer any room is rented 2hours starting from the hour you enter here, eg. if you choose 2 then event is from 2 to 4): ");
+                    int hour = in.nextInt();
+                    while (hour < 0 || hour > 23) {
+                        System.out.println("Invalid hour. Try again.");
+                        hour = in.nextInt();
+                    }
+                    DateOfEvent = new Date(year, month, day,hour,0);
                     RoomNo = RentRooms(DateOfEvent);
                     if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
+                        if(wallet.getBalance() >= Database.rooms.get(RoomNo).getPrice())
+                        {
+                            this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(RoomNo).getPrice());
+                            Database.appOwnerBalance += Database.rooms.get(RoomNo).getPrice();
+                        }
+                        else
+                        {
+                            System.out.println("Insufficient funds :(");
+                            break;
+                        }
                         Event e1 = new Event(name, description, Database.categories.get(Catindex - 1), price, Database.rooms.get(RoomNo), DateOfEvent, this);
                         //Database.events.add(e1);
                         events.add(e1);
-                        ReservedRooms.add(Database.rooms.get(RoomNo));
+                        if(!ReservedRooms.contains(Database.rooms.get(RoomNo)))
+                        {
+                            ReservedRooms.add(Database.rooms.get(RoomNo));
+                        }
                         //Database.rooms.get(RoomNo).addEvent(e1);
-                        this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(RoomNo).getPrice());
-                        Database.appOwnerBalance += Database.rooms.get(RoomNo).getPrice();
                         break;
                     } else {
                         System.out.println("The Room number " + RoomNo + " is not available.");
@@ -327,6 +345,8 @@ public class Organizer extends User {
         for (int i = 0; i < this.events.size(); i++) {
             System.out.println("Event [" + (i + 1) + "]");
             System.out.println("    Name: " + this.events.get(i).getName());
+            System.out.println("    Room: " + this.events.get(i).getRoom().getID());
+            System.out.println("    Date: " + this.events.get(i).getDate());
             System.out.println("    Attendees: ");
             for (int j = 0; j < this.events.get(i).getAttendees().size(); j++) {
                 System.out.println("        Attendee [" + (j + 1) + "]" + " Name: " + this.events.get(i).getAttendees().get(j).getUsername());
@@ -347,12 +367,12 @@ public class Organizer extends User {
                     break;
                 } else {
                     System.out.println("Invalid amount. please try again: ");
-                    in.next();
+                    in.nextLine();
                 }
             } catch (InputMismatchException e)
             {
                 System.out.println("Invalid input. Try again.");
-                in.next();
+                in.nextLine();
             }
         }
         this.ManageWallet();

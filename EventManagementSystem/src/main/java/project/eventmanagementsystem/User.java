@@ -127,6 +127,7 @@ public abstract class User {
                 }
             } catch (InputMismatchException ex) {
                 System.out.println("Invalid input. Try Again.");
+                in.nextLine();
             }
         }
     }
