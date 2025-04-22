@@ -117,6 +117,11 @@ public class Organizer extends User {
     }
 
     public void AddMoney(double wallet) {
+        if(wallet <=0)
+        {
+            System.out.println("invalid amount!");
+            return;
+        }
         this.wallet.setBalance(wallet);
     }
 

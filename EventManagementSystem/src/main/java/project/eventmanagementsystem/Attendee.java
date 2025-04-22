@@ -1,10 +1,7 @@
 
 package project.eventmanagementsystem;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Attendee extends User {
 
@@ -200,8 +197,12 @@ public class Attendee extends User {
         this.ManageWallet();
     }
 
-    private void ManageEvents() {
-    }
+   /* private void ManageEvents(Event event) {
+        if(buyTicket(event))
+        {
+            return;
+        }
+    }*/
 
     // Attendee-specific methods
     public boolean buyTicket(Event event) {
@@ -209,21 +210,79 @@ public class Attendee extends User {
             wallet.setBalance(wallet.getBalance() - event.getPrice());
             registeredEvents.add(event);
             event.getOrganizer().getWallet().setBalance(event.getOrganizer().getWallet().getBalance() + event.getPrice());
-            Database.appOwnerBalance += event.getPrice();
             return true;
         }
         return false;
     }
 
     public void browseEvents() {
-        for (Event event : Database.events) {
-            System.out.println(event.getName() + " - " + event.getPrice());
+        ArrayList<Event> not_interesting_events = new ArrayList<>();
+        for (Event event : Database.events)
+        {
+            boolean found = false;
+            for(String interest : interests)
+            {
+                if(event.getCategory().getName().equalsIgnoreCase(interest))
+                {
+                    System.out.println( "[" + Database.events.indexOf(event)+1 + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory() + " - " + event.getDescription());
+                    found = true;
+                    break;
+                }
+            }
+            if(!found)
+            {
+                not_interesting_events.add(event);
+            }
+        }
+        for (Event event : not_interesting_events)
+        {
+            System.out.println( "[" + Database.events.indexOf(event)+1 + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory() + " - " + event.getDescription());
+        }
+        System.out.println("Enter Event number to register it eg.(1,2) or 0 to go back to the dashboard");
+        boolean valid = false;
+        int index = 0;
+        while(!valid)
+        {
+            try
+            {
+                index = in.nextInt();
+                if(index <= Database.events.size() && index >= 1)
+                {
+                    valid = true;
+                }
+                else if(index == 0)
+                {
+                    valid = true;
+                    showDashboard();
+                }
+                else
+                {
+                    System.out.println("Invalid Event, please try again.");
+                    in.next();
+                }
+            }
+            catch(InputMismatchException ex)
+            {
+                System.out.println("Invalid Event, please try again.");
+                in.next();
+            }
+
+        }
+        if(buyTicket(Database.events.get(index - 1)))
+        {
+            System.out.println("Ticket bought :)");
+            showDashboard();
+        }
+        else
+        {
+            System.out.println("Insufficient funds :(");
+            showDashboard();
         }
     }
 
     public void viewRegisteredEvents() {
         for (Event event : registeredEvents) {
-            System.out.println(event.getName());
+            System.out.println(event.getName() + " - " + event.getDate() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory() + " - " + event.getDescription());
         }
     }
 }
