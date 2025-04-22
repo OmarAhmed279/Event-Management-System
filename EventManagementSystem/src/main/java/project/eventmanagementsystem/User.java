@@ -305,9 +305,15 @@ public abstract class User {
         } else if (x == 2) {
             dateOfbirth = new Date(year, month, day);
             System.out.println("Enter Gender: (M or F)");
+            in.nextLine();
             String gen = in.nextLine();
+            while(!gen.equalsIgnoreCase("M") && !gen.equalsIgnoreCase("F"))
+            {
+                System.out.println("Invalid input,must be M or F.");
+                gen = in.nextLine();
+            }
             System.out.println("Enter one Interest: ");
-            String interest = in.nextLine();
+            String interest = in.nextLine();// DONT FORGET TO ADD VALIDATION YA OMAAAAARRRRRRRRR YA AHMEDDDDD!!!!!!!
             User newuser = new Attendee(UserName, Password, dateOfbirth, gen, Ad, interest);
             //Database.users.add(newuser);
             //Database.attendees.add((Attendee)newuser);

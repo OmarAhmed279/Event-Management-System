@@ -94,8 +94,9 @@ public class Attendee extends User {
         System.out.println("--------------------Dashboard--------------------");
         System.out.println("[1] Show Profile");
         System.out.println("[2] Update Profile");
-        System.out.println("[3] Manage Events");
-        System.out.println("[4] Manage wallet");
+        System.out.println("[3] Browse Events");
+        System.out.println("[4] See Registered Events");
+        System.out.println("[5] Manage wallet");
         System.out.println("[5] Logout");
         int choice = 0;
         boolean logout = false;
@@ -228,7 +229,8 @@ public class Attendee extends User {
             {
                 if(event.getCategory().getName().equalsIgnoreCase(interest))
                 {
-                    System.out.println( "[" + Database.events.indexOf(event)+1 + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory() + " - " + event.getDescription());
+                    int index = Database.events.indexOf(event)+1;
+                    System.out.println( "[" + index + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory().getName() + " - " + event.getDescription());
                     found = true;
                     break;
                 }
@@ -240,7 +242,8 @@ public class Attendee extends User {
         }
         for (Event event : not_interesting_events)
         {
-            System.out.println( "[" + Database.events.indexOf(event)+1 + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory() + " - " + event.getDescription());
+            int index = Database.events.indexOf(event)+1;
+            System.out.println( "[" + index + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory().getName() + " - " + event.getDescription());
         }
         System.out.println("Enter Event number to register it eg.(1,2) or 0 to go back to the dashboard");
         boolean valid = false;
@@ -286,7 +289,7 @@ public class Attendee extends User {
 
     public void viewRegisteredEvents() {
         for (Event event : registeredEvents) {
-            System.out.println(event.getName() + " - " + event.getDate() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory() + " - " + event.getDescription());
+            System.out.println(event.getName() + " - " + event.getDate() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory().getName() + " - " + event.getDescription());
         }
     }
 }

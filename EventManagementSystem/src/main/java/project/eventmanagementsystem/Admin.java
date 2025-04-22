@@ -43,7 +43,7 @@ public class Admin extends User {
         System.out.println("[3] Manage Users");
         System.out.println("[4] Manage Events");
         System.out.println("[5] Manage Rooms");
-        System.out.println("[6] Manage Rooms");
+        System.out.println("[6] Manage Categories");
         System.out.println("[7] Logout");
         int choice = 0;
         boolean logout = false;
