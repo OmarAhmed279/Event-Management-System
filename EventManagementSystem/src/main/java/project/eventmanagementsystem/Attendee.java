@@ -116,16 +116,20 @@ public class Attendee extends User {
                 this.UpdateInformation();
                 break;
             } else if (choice == 3) {
-                this.ManageEvents();
+                this.browseEvents();
                 break;
-            } else if (choice == 4) {
+            }else if (choice == 4) {
+                this.viewRegisteredEvents();
+                break;
+            }else if (choice == 5) {
                 this.ManageWallet();
                 break;
-            } else if (choice == 5) {
+            } else if (choice == 6) {
                 logout = true;
                 break;
             } else {
                 System.out.println("Invalid input. Try again");
+                in.next();
                 choice = in.nextInt();
             }
         }
