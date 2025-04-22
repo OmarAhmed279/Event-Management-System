@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static project.eventmanagementsystem.Organizer.in;
+import static project.eventmanagementsystem.Organizer.in; //whats this?
 
 
 /**
@@ -203,6 +203,7 @@ public abstract class User {
         String UserName;
         String Password;
         Date dateOfbirth;
+        boolean same = false;
         System.out.println("Enter Username: ");
         in.nextLine();
         UserName = in.nextLine();
@@ -225,6 +226,21 @@ public abstract class User {
             if (UserName.length() < 4 || UserName.length() > 20) {
                 System.out.println("Username must be 4-20 characters long. Try again.");
                 UserName = in.nextLine().trim();
+                continue;
+            }
+            for (int i = 0; i < Database.users.size(); i++)
+            {
+                if (UserName.equals(Database.users.get(i).getUsername()))
+                {
+                    System.out.println("Username already exists. Try again.");
+                    same = true;
+                    break;
+                }
+            }
+            if (same)
+            {
+                same = false;
+                UserName = in.nextLine();
                 continue;
             }
             break;
