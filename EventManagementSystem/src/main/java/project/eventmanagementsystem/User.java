@@ -1,6 +1,6 @@
 package project.eventmanagementsystem;
 
-import javax.xml.crypto.Data;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -104,12 +104,22 @@ public abstract class User {
                     System.out.println("Enter New Date of birth: ");
                     System.out.println("Year: ");
                     int Newyear = in.nextInt();
+                    while (Newyear > 2015 || Newyear < 1900)
+                    {
+                        if(Newyear > 2015){
+                            System.out.println("You are so young. please enter valid year: ");
+                            Newyear = in.nextInt();}
+                        else if(Newyear < 1900){
+                            System.out.println("You are so old . please enter valid year: ");
+                            Newyear = in.nextInt();}
+                    }
                     System.out.println("Month: ");
                     int NewMonth = in.nextInt();
                     while (NewMonth > 12 || NewMonth < 1) {
                         System.out.println("Invalid Month. Try again.");
                         NewMonth = in.nextInt();
                     }
+                    NewMonth--;
                     System.out.println("Day: ");
                     int NewDay = in.nextInt();
                     while (NewDay < 1 || NewDay > 31) {
@@ -204,7 +214,7 @@ public abstract class User {
         String Password;
         Date dateOfbirth;
         boolean same = false;
-        System.out.println("Enter Username: ");
+        System.out.println("Enter Username (spaces before and after the username are neglected): ");
         in.nextLine();
         UserName = in.nextLine();
         while (true) {

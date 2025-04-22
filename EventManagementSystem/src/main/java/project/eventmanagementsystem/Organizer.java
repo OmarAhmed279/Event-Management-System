@@ -4,14 +4,13 @@
  */
 package project.eventmanagementsystem;
 
-import javax.xml.crypto.Data;
-import java.awt.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import java.time.LocalDateTime;
 import static project.eventmanagementsystem.User.login;
 import static project.eventmanagementsystem.User.signUp;
 
@@ -158,6 +157,10 @@ public class Organizer extends User {
                     System.out.println("Enter Date of Event: ");
                     System.out.println("Year: ");
                     int year = in.nextInt();
+                    while (year < LocalDateTime.now().getYear() ) {
+                        System.out.println("Invalid year. Try again.");
+                        year = in.nextInt();
+                    }
                     System.out.println("Month: ");
                     int month = in.nextInt();
                     while (month > 12 || month < 1) {
@@ -167,7 +170,7 @@ public class Organizer extends User {
                     month--;
                     System.out.println("Day: ");
                     int day = in.nextInt();
-                    while (day < 1 || day > 31) {
+                    while (day < 1 || day > 31 || (month == 2 && day >28)) {
                         System.out.println("Invalid Day. Try again.");
                         day = in.nextInt();
                     }
@@ -226,7 +229,7 @@ public class Organizer extends User {
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Try again.");
-                in.next();
+                in.nextLine();
             }
         }
         while (true) {
@@ -264,7 +267,7 @@ public class Organizer extends User {
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Try again.");
-                in.next();
+                in.nextLine();
             }
         }
         while (true) {
