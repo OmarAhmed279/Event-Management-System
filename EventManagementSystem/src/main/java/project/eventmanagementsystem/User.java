@@ -52,26 +52,28 @@ public abstract class User {
             try {
                 choice = in.nextInt();
                 if (choice == 1) {
-                    String newName = in.next();
+                    System.out.println("Enter new Username :");
+                    in.nextLine();
+                    String newName = in.nextLine();
                     while (true) {
                         if (newName.isEmpty()) {
                             System.out.println("Username cannot be empty. Try again.");
-                            newName = in.next().trim();
+                            newName = in.nextLine().trim();
                             continue;
                         }
                         if (!Character.isLetter(newName.charAt(0))) {
                             System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
-                            newName = in.next().trim();
+                            newName = in.nextLine().trim();
                             continue;
                         }
                         if (newName.contains(" ")) {
                             System.out.println("Username cannot contain spaces. Try again.");
-                            newName = in.next().trim();
+                            newName = in.nextLine().trim();
                             continue;
                         }
                         if (newName.length() < 4 || newName.length() > 20) {
                             System.out.println("Username must be 4-20 characters long. Try again.");
-                            newName = in.next().trim();
+                            newName = in.nextLine().trim();
                             continue;
                         }
                         this.setUsername(newName);
@@ -83,7 +85,8 @@ public abstract class User {
                     String newPassword;
                     while (true) {
                         System.out.println("Enter New Password: ");
-                        newPassword = in.next().trim();
+                        in.nextLine();
+                        newPassword = in.nextLine().trim();
                         if (newPassword.isEmpty()) {
                             System.out.println("Password cannot be empty. Try again.");
                             continue;
@@ -174,6 +177,7 @@ public abstract class User {
         while (invaliddata) {
             try {
                 num = in.nextInt();
+
                 if (num == 1 || num == 2) {
                     signUp(num);
                     invaliddata = false;
@@ -185,6 +189,11 @@ public abstract class User {
                 }
             } catch (InputMismatchException ex) {
                 System.out.println("invalid input");
+                in.nextLine();
+
+                System.out.println("[1] Sign Up as Organizer");
+                System.out.println("[2] Sign Up as Attendee");
+                System.out.println("[3] Login");
             }
         }
     }
@@ -194,33 +203,34 @@ public abstract class User {
         String Password;
         Date dateOfbirth;
         System.out.println("Enter Username: ");
-        UserName = in.next();
+        in.nextLine();
+        UserName = in.nextLine();
         while (true) {
             if (UserName.isEmpty()) {
                 System.out.println("Username cannot be empty. Try again.");
-                UserName = in.next().trim();
+                UserName = in.nextLine().trim();
                 continue;
             }
             if (!Character.isLetter(UserName.charAt(0))) {
                 System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
-                UserName = in.next().trim();
+                UserName = in.nextLine().trim();
                 continue;
             }
             if (UserName.contains(" ")) {
                 System.out.println("Username cannot contain spaces. Try again.");
-                UserName = in.next().trim();
+                UserName = in.nextLine().trim();
                 continue;
             }
             if (UserName.length() < 4 || UserName.length() > 20) {
                 System.out.println("Username must be 4-20 characters long. Try again.");
-                UserName = in.next().trim();
+                UserName = in.nextLine().trim();
                 continue;
             }
             break;
         }
         while (true) {
             System.out.println("Enter Password: ");
-            Password = in.next().trim();
+            Password = in.nextLine().trim();
             if (Password.isEmpty()) {
                 System.out.println("Password cannot be empty. Try again.");
                 continue;
@@ -234,11 +244,15 @@ public abstract class User {
         System.out.println("Enter Date of birth: ");
         System.out.println("Year: ");
         int year = in.nextInt();
-         while (year > 2015)
+         while (year > 2015 || year < 1900)
          {
+             if(year > 2015){
              System.out.println("You are so young. please enter valid year: ");
-             year = in.nextInt();
-         }
+             year = in.nextInt();}
+             else if(year < 1900){
+            System.out.println("You are so old . please enter valid year: ");
+            year = in.nextInt();}
+        }
         System.out.println("Month: ");
         int month = in.nextInt();
         while (month > 12 || month < 1) {
@@ -279,7 +293,8 @@ public abstract class User {
         System.out.println("Enter Username:");
         String name;
         String password;
-        name = in.next();
+        in.nextLine();
+        name = in.nextLine();
         boolean isFound = false;
         User U = null;
         while (!isFound) {
@@ -296,19 +311,19 @@ public abstract class User {
             }
             System.out.println("Invalid user name");
             System.out.println("Enter Username: ");
-            name = in.next();
+            name = in.nextLine();
         }
         System.out.println("Valid Username");
         isFound = false;
         System.out.println("Enter your Password: ");
-        password = in.next();
+        password = in.nextLine();
         while (true) {
             if (U.getPassword().equals(password)) {
                 System.out.println("Valid Password. Welcome " + U.getUsername() + "!");
                 break;
             } else {
                 System.out.println("Invalid Password. Try again.");
-                password = in.next();
+                password = in.nextLine();
             }
         }
         /*while (!isFound) {

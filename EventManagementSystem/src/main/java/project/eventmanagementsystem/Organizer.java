@@ -116,69 +116,80 @@ public class Organizer extends User {
         return wallet;
     }
 
-    public void AddMoney(double wallet) {
+    /*public void AddMoney(double wallet) {
         if(wallet <=0)
         {
             System.out.println("invalid amount!");
             return;
         }
         this.wallet.setBalance(wallet);
-    }
+    }*/
 
     public ArrayList<Event> getEvents() {
         return events;
     }
 
     public void AddEvent() {
-        System.out.println("To add event, please Enter the following Data: ");
-        System.out.println("Enter Event Name: ");
-        String name = in.next();
-        System.out.println("Enter Category ID: ");
-        //Category category;
-        for (int i = 0; i < Database.categories.size(); i++) {
-            System.out.println(Database.categories.get(i).getName() + " " + (i + 1));
-        }
-        int Catindex = in.nextInt();
-        while (Catindex < 1 || Catindex > Database.categories.size()) {
-            System.out.println("Invalid input. Try again.");
-            Catindex = in.nextInt();
-        }
-        System.out.println("Enter Description: ");
-        String description = in.next();
-        System.out.println("Enter price: ");
-        long price = in.nextLong();
-        int RoomNo;
-        Date DateOfEvent;
-        while (true) {
-            System.out.println("Enter Date of Event: ");
-            System.out.println("Year: ");
-            int year = in.nextInt();
-            System.out.println("Month: ");
-            int month = in.nextInt();
-            while (month > 12 || month < 1) {
-                System.out.println("Invalid Month. Try again.");
-                month = in.nextInt();
+        boolean valid = false;
+        while(!valid) {
+            try {
+                System.out.println("To add event, please Enter the following Data: ");
+                System.out.println("Enter Event Name: ");
+                in.nextLine();
+                String name = in.nextLine();
+                System.out.println("Enter Category ID: ");
+                //Category category;
+                for (int i = 0; i < Database.categories.size(); i++) {
+                    System.out.println(Database.categories.get(i).getName() + " [" + (i + 1) + "]");
+                }
+                int Catindex = in.nextInt();
+                while (Catindex < 1 || Catindex > Database.categories.size()) {
+                    System.out.println("Invalid input. Try again.");
+                    Catindex = in.nextInt();
+                }
+                System.out.println("Enter Description: ");
+                in.nextLine();
+                String description = in.nextLine();
+                System.out.println("Enter price: ");
+                long price = in.nextLong();
+                int RoomNo;
+                Date DateOfEvent;
+                while (true) {
+                    System.out.println("Enter Date of Event: ");
+                    System.out.println("Year: ");
+                    int year = in.nextInt();
+                    System.out.println("Month: ");
+                    int month = in.nextInt();
+                    while (month > 12 || month < 1) {
+                        System.out.println("Invalid Month. Try again.");
+                        month = in.nextInt();
+                    }
+                    System.out.println("Day: ");
+                    int day = in.nextInt();
+                    while (day < 1 || day > 31) {
+                        System.out.println("Invalid Day. Try again.");
+                        day = in.nextInt();
+                    }
+                    DateOfEvent = new Date(year, month, day);
+                    RoomNo = RentRooms(DateOfEvent);
+                    if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
+                        Event e1 = new Event(name, description, Database.categories.get(Catindex - 1), price, Database.rooms.get(RoomNo), DateOfEvent, this);
+                        //Database.events.add(e1);
+                        events.add(e1);
+                        ReservedRooms.add(Database.rooms.get(RoomNo));
+                        //Database.rooms.get(RoomNo).addEvent(e1);
+                        this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(RoomNo).getPrice());
+                        Database.appOwnerBalance += Database.rooms.get(RoomNo).getPrice();
+                        break;
+                    } else {
+                        System.out.println("The Room number " + RoomNo + " is not available.");
+                        System.out.println("\n");
+                    }
+                }
+                valid=true;
             }
-            System.out.println("Day: ");
-            int day = in.nextInt();
-            while (day < 1 || day > 31) {
-                System.out.println("Invalid Day. Try again.");
-                day = in.nextInt();
-            }
-            DateOfEvent = new Date(year, month, day);
-            RoomNo = RentRooms(DateOfEvent);
-            if (Database.rooms.get(RoomNo).IsAvailable(DateOfEvent)) {
-                Event e1 = new Event(name, description, Database.categories.get(Catindex - 1), price, Database.rooms.get(RoomNo), DateOfEvent, this);
-                //Database.events.add(e1);
-                events.add(e1);
-                ReservedRooms.add(Database.rooms.get(RoomNo));
-                //Database.rooms.get(RoomNo).addEvent(e1);
-                this.wallet.setBalance(this.wallet.getBalance() - Database.rooms.get(RoomNo).getPrice());
-                Database.appOwnerBalance += Database.rooms.get(RoomNo).getPrice();
-                break;
-            } else {
-                System.out.println("The Room number " + RoomNo + " is not available.");
-                System.out.println("\n");
+            catch(InputMismatchException ex){
+                System.out.println("invalid input try again");
             }
         }
         this.ManageEvents();
@@ -332,7 +343,7 @@ public class Organizer extends User {
             try {
                 amount = in.nextInt();
                 if (amount > 0) {
-                    this.wallet.setBalance(amount);
+                    this.wallet.setBalance(this.wallet.getBalance()+amount);
                     break;
                 } else {
                     System.out.println("Invalid amount. please try again: ");
