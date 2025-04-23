@@ -25,14 +25,28 @@ public class Admin extends User {
 
     public void Addroom() {
         System.out.println("Enter Price of room: ");
-        int pr = in.nextInt();
-        while (pr < 0) {
-            System.out.println("Invalid Price. Try again.");
-            pr = in.nextInt();
+        int pr = 0;
+        while (true)
+        {
+            while (true) {
+                try {
+                    pr = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Try again.");
+                    in.next();
+                }
+            }
+            if (pr < 0)
+            {
+                System.out.println("Invalid price. Try again.");
+                continue;
+            }
+            break;
         }
         Room room = new Room(pr);
         System.out.println("Room added successfully.");
-        this.showDashboard();
+        this.ManageRooms();
     }
 
     @Override
@@ -136,30 +150,44 @@ public class Admin extends User {
             System.out.println("    Name: " + Database.categories.get(i).getName());
             System.out.println("    Description: " + Database.categories.get(i).getDescription());
         }
-        this.showDashboard();
+        this.ManageCat();
     }
 
     private void deleteCat() {
         System.out.println("Enter Category ID: ");
-        int id = in.nextInt();
-        while (id > Database.categories.size() || id < 0) {
-            System.out.println("Invalid ID. Try again.");
-            id = in.nextInt();
+        int id = 0;
+        while (true)
+        {
+            while (true) {
+                try {
+                    id = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Try again.");
+                    in.next();
+                }
+            }
+            if(id < 0 || id > Database.categories.size())
+            {
+                System.out.println("Invalid input. Try again.");
+                continue;
+            }
+            break;
         }
         Database.categories.remove(id);
         for (int i = 0; i < Database.categories.size(); i++) {
             Database.categories.get(i).setID();
         }
         System.out.println("Category removed successfully.");
-        this.showDashboard();
+        this.ManageCat();
     }
 
     private void AddCat() {
         System.out.println("Enter Name of Category: ");
         String name = in.next();
         System.out.println("Enter Description of Category: ");
-        String catescription = in.next();
-        Category cat = new Category(name,catescription);
+        String catdescription = in.next();
+        Category cat = new Category(name, catdescription);
         System.out.println("Category added successfully.");
         this.showDashboard();
     }
@@ -234,22 +262,36 @@ public class Admin extends User {
                 }
             }
         }
-        this.showDashboard();
+        this.ManageRooms();
     }
 
     private void deleteRoom() {
         System.out.println("Enter Room ID: ");
-        int id = in.nextInt();
-        while (id > Database.rooms.size() || id < 0) {
-            System.out.println("Invalid ID. Try again.");
-            id = in.nextInt();
+        int id = 0;
+        while (true)
+        {
+            while (true) {
+                try {
+                    id = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Try again.");
+                    in.next();
+                }
+            }
+            if(id < 0 || id > Database.rooms.size())
+            {
+                System.out.println("Invalid input. Try again.");
+                continue;
+            }
+            break;
         }
         Database.rooms.remove(id);
         for (int i = 0; i < Database.rooms.size(); i++) {
             Database.rooms.get(i).setID();
         }
         System.out.println("Room removed successfully.");
-        this.showDashboard();
+        this.ManageRooms();
     }
 
     public void ManageEvents() {
@@ -304,7 +346,7 @@ public class Admin extends User {
             System.out.println("    Event category: " + Database.events.get(i).getCategory().getName());
             System.out.println("    Event description: " + Database.events.get(i).getDescription());
         }
-        this.showDashboard();
+        this.ManageEvents();
     }
 
     private void deleteEvent() {
@@ -376,45 +418,102 @@ public class Admin extends User {
             System.out.println("    Date of Birth: " + Database.users.get(i).getDateOfBirth());
             System.out.println("    Suspension Status: " + Database.users.get(i).getIsSuspended());
         }
-        this.showDashboard();
+        this.ManageUsers();
     }
 
     private void deleteUser() {
         System.out.println("Enter User ID: ");
-        int id = in.nextInt();
-        while (id > Database.users.size() || id < 0) {
-            System.out.println("Invalid ID. Try again.");
-            id = in.nextInt();
+        int id = 0;
+        while (true)
+        {
+            while (true) {
+                try {
+                    id = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Try again.");
+                    in.next();
+                }
+            }
+            if (id == this.getID())
+            {
+                System.out.println("Can't delete yourself. Try again.");
+                continue;
+            }
+            if(id < 0 || id > Database.users.size())
+            {
+                System.out.println("Invalid input. Try again.");
+                continue;
+            }
+            break;
         }
         Database.users.remove(id);
         for (int i = 0; i < Database.users.size(); i++) {
             Database.users.get(i).setID();
         }
         System.out.println("User deleted successfully.");
-        this.showDashboard();
+        this.ManageUsers();
     }
 
     private void unsuspendUser() {
         System.out.println("Enter User ID: ");
-        int id = in.nextInt();
-        while (id > Database.users.size() || id < 0) {
-            System.out.println("Invalid ID. Try again.");
-            id = in.nextInt();
+        int id = 0;
+        while (true)
+        {
+            while (true) {
+                try {
+                    id = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Try again.");
+                    in.next();
+                }
+            }
+            if (id == this.getID())
+            {
+                System.out.println("Can't ban yourself. Try again.");
+                continue;
+            }
+            if(id < 0 || id > Database.users.size())
+            {
+                System.out.println("Invalid input. Try again.");
+                continue;
+            }
+            break;
         }
         Database.users.get(id).setIsSuspended(false);
         System.out.println("User unsuspended successfully.");
-        this.showDashboard();
+        this.ManageUsers();
     }
 
     private void suspendUser() {
         System.out.println("Enter User ID: ");
-        int id = in.nextInt();
-        while (id > Database.users.size() || id < 0) {
-            System.out.println("Invalid ID. Try again.");
-            id = in.nextInt();
+        int id = 0;
+        while (true)
+        {
+            while (true) {
+                try {
+                    id = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Try again.");
+                    in.next();
+                }
+            }
+            if (id == this.getID())
+            {
+                System.out.println("Can't ban yourself. Try again.");
+                continue;
+            }
+            if(id < 0 || id > Database.users.size())
+            {
+                System.out.println("Invalid input. Try again.");
+                continue;
+            }
+            break;
         }
         Database.users.get(id).setIsSuspended(true);
         System.out.println("User suspended successfully.");
-        this.showDashboard();
+        this.ManageUsers();
     }
 }

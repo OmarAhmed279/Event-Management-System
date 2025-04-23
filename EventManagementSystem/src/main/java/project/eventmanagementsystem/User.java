@@ -103,43 +103,67 @@ public abstract class User {
                 } else if (choice == 3) {
                     System.out.println("Enter New Date of birth: ");
                     System.out.println("Year: ");
-                    int Newyear = in.nextInt();
-                    while (Newyear > 2015 || Newyear < 1900)
+                    int year = 0;
+                    while (true)
                     {
-                        if(Newyear > 2015){
-                            System.out.println("You are so young. please enter valid year: ");
-                            Newyear = in.nextInt();}
-                        else if(Newyear < 1900){
-                            System.out.println("You are so old . please enter valid year: ");
-                            Newyear = in.nextInt();}
+                        while (true) {
+                            try {
+                                year = in.nextInt();
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input. Try again.");
+                                in.next();
+                            }
+                        }
+                        if (year > 2015)
+                        {
+                            System.out.println("You are too young. Try again.");
+                            continue;
+                        }
+                        break;
                     }
                     System.out.println("Month: ");
-                    int NewMonth = in.nextInt();
-                    while (NewMonth > 12 || NewMonth < 1) {
-                        System.out.println("Invalid Month. Try again.");
-                        NewMonth = in.nextInt();
+                    int month = 0;
+                    while (true)
+                    {
+                        while (true) {
+                            try {
+                                month = in.nextInt();
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input. Try again.");
+                                in.next();
+                            }
+                        }
+                        if (month < 0 || month > 12)
+                        {
+                            System.out.println("Invalid input. Try again.");
+                            continue;
+                        }
+                        break;
                     }
-                    NewMonth--;
+                    month--;
                     System.out.println("Day: ");
                     int NewDay = in.nextInt();
                     while (NewDay < 1 || NewDay > 31) {
                         System.out.println("Invalid Day. Try again.");
                         NewDay = in.nextInt();
-                        Date NewDate = new Date(Newyear, NewMonth, NewDay);
-                        this.setDateOfBirth(NewDate);
-                        System.out.println("Date changed successfully.");
-                        break;
                     }
+                    Date NewDate = new Date(year, month, NewDay);
+                    this.setDateOfBirth(NewDate);
+                    System.out.println("Date changed successfully.");
+                    break;
 
                 } else {
                     System.out.println("Invalid input. Try Again.");
-                    break;
+                    in.nextLine();
                 }
             } catch (InputMismatchException ex) {
                 System.out.println("Invalid input. Try Again.");
                 in.nextLine();
             }
         }
+        this.showDashboard();
     }
 
     public String getUsername() {
@@ -238,17 +262,14 @@ public abstract class User {
                 UserName = in.nextLine().trim();
                 continue;
             }
-            for (int i = 0; i < Database.users.size(); i++)
-            {
-                if (UserName.equals(Database.users.get(i).getUsername()))
-                {
+            for (int i = 0; i < Database.users.size(); i++) {
+                if (UserName.equals(Database.users.get(i).getUsername())) {
                     System.out.println("Username already exists. Try again.");
                     same = true;
                     break;
                 }
             }
-            if (same)
-            {
+            if (same) {
                 same = false;
                 UserName = in.nextLine();
                 continue;
@@ -271,14 +292,14 @@ public abstract class User {
         System.out.println("Enter Date of birth: ");
         System.out.println("Year: ");
         int year = in.nextInt();
-         while (year > 2015 || year < 1900)
-         {
-             if(year > 2015){
-             System.out.println("You are so young. please enter valid year: ");
-             year = in.nextInt();}
-             else if(year < 1900){
-            System.out.println("You are so old . please enter valid year: ");
-            year = in.nextInt();}
+        while (year > 2015 || year < 1900) {
+            if (year > 2015) {
+                System.out.println("You are so young. please enter valid year: ");
+                year = in.nextInt();
+            } else if (year < 1900) {
+                System.out.println("You are so old . please enter valid year: ");
+                year = in.nextInt();
+            }
         }
         System.out.println("Month: ");
         int month = in.nextInt();
@@ -307,8 +328,7 @@ public abstract class User {
             System.out.println("Enter Gender: (M or F)");
             in.nextLine();
             String gen = in.nextLine();
-            while(!gen.equalsIgnoreCase("M") && !gen.equalsIgnoreCase("F"))
-            {
+            while (!gen.equalsIgnoreCase("M") && !gen.equalsIgnoreCase("F")) {
                 System.out.println("Invalid input,must be M or F.");
                 gen = in.nextLine();
             }
