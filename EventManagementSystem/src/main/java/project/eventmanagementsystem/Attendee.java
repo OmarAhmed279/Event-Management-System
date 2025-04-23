@@ -7,7 +7,7 @@ public class Attendee extends User {
 
     private Gender gender;
     private Wallet wallet;
-    private ArrayList<String> interests;
+    private ArrayList<Category> interests;
     private ArrayList<Event> registeredEvents;
     private String address;
     public enum Gender {MALE, FEMALE}
@@ -33,7 +33,7 @@ public class Attendee extends User {
     }
 
     public Attendee(String username, String password, Date dateOfBirth,
-                    String gender, String address, String interest) {
+                    String gender, String address, Category interest) {
         super(username, password, dateOfBirth);
         if (gender.equals("M")) {
             this.gender = Gender.MALE;
@@ -49,7 +49,7 @@ public class Attendee extends User {
     }
 
     public Attendee(String username, String password, Date dateOfBirth,
-                    Gender gender, String address, ArrayList<String> interest) {
+                    Gender gender, String address, ArrayList<Category> interest) {
         super(username, password, dateOfBirth);
         this.gender = gender;
         this.wallet = new Wallet(0);
@@ -73,7 +73,7 @@ public class Attendee extends User {
         return wallet;
     }
 
-    public ArrayList<String> getInterests() {
+    public ArrayList<Category> getInterests() {
         return interests;
     }
 
@@ -225,9 +225,9 @@ public class Attendee extends User {
         for (Event event : Database.events)
         {
             boolean found = false;
-            for(String interest : interests)
+            for(Category interest : interests)
             {
-                if(event.getCategory().getName().equalsIgnoreCase(interest))
+                if(event.getCategory().getName().equalsIgnoreCase(interest.getName()))
                 {
                     int index = Database.events.indexOf(event)+1;
                     System.out.println( "[" + index + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory().getName() + " - " + event.getDescription());

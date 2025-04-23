@@ -332,12 +332,33 @@ public abstract class User {
                 System.out.println("Invalid input,must be M or F.");
                 gen = in.nextLine();
             }
-            System.out.println("Enter one Interest: ");
-            String interest = in.nextLine();// DONT FORGET TO ADD VALIDATION YA OMAAAAARRRRRRRRR YA AHMEDDDDD!!!!!!!
-            User newuser = new Attendee(UserName, Password, dateOfbirth, gen, Ad, interest);
-            //Database.users.add(newuser);
-            //Database.attendees.add((Attendee)newuser);
-            System.out.println("User created Succesfully.");
+            for (int i = 0; i < Database.categories.size(); i++) {
+                System.out.println("Interest [" + i + "]: ");
+                System.out.println("    Name: " + Database.categories.get(i).getName());
+                System.out.println("    Description: " + Database.categories.get(i).getDescription());
+            }
+            System.out.println("Enter Category ID: ");
+            int id = 0;
+            while (true)
+            {
+                while (true) {
+                    try {
+                        id = in.nextInt();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Try again.");
+                        in.next();
+                    }
+                }
+                if(id < 0 || id > Database.categories.size())
+                {
+                    System.out.println("Invalid input. Try again.");
+                    continue;
+                }
+                break;
+            } // DONT FORGET TO ADD VALIDATION YA OMAAAAARRRRRRRRR YA AHMEDDDDD!!!!!!! done - omar
+            User newuser = new Attendee(UserName, Password, dateOfbirth, gen, Ad, Database.categories.get(id));
+            System.out.println("User created Successfully.");
             Home();
         }
     }
