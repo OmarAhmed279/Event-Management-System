@@ -35,7 +35,7 @@ public final class Database {
 
         new Organizer("mrorg", "1234", new Date(2000, 1, 1));
 
-        new Attendee("baduser", "1234", new Date(2000, 1, 1), "M", "G", "notpaying");
+        new Attendee("baduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("notpaying","doesn't pay"));
 
         //admins.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 
