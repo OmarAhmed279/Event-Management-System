@@ -26,6 +26,8 @@ public abstract class User {
         this.setID();
     }
 
+    
+
     public User(String Username, String Password, Date dateOfbirth) {
         this.Username = Username;
         this.Password = Password;

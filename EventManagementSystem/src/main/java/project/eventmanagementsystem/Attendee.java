@@ -222,22 +222,22 @@ public class Attendee extends User {
 
     public void browseEvents() {
         ArrayList<Event> not_interesting_events = new ArrayList<>();
-        for (Event event : Database.events)
+        for (int i = 0; i < Database.events.size(); i++)
         {
             boolean found = false;
-            for(Category interest : interests)
+            for(int j = 0; j < Database.categories.size();)
             {
-                if(event.getCategory().getName().equalsIgnoreCase(interest.getName()))
+                if(Database.events.get(i).getCategory().getName().equalsIgnoreCase(Database.categories.get(j).getName()))
                 {
-                    int index = Database.events.indexOf(event)+1;
-                    System.out.println( "[" + index + "]"+ " " + event.getName() + " - " +event.getDate() + " - " + event.getPrice() + " - " + event.getOrganizer().getUsername() + " - " + event.getCategory().getName() + " - " + event.getDescription());
+                    int index = Database.events.indexOf(Database.events.get(i))+1;
+                    System.out.println( "[" + index + "]"+ " " + Database.events.get(i).getName() + " - " + Database.events.get(i).getDate() + " - " + Database.events.get(i).getPrice() + " - " + Database.events.get(i).getOrganizer().getUsername() + " - " + Database.events.get(i).getCategory().getName() + " - " + Database.events.get(i).getDescription());
                     found = true;
                     break;
                 }
             }
             if(!found)
             {
-                not_interesting_events.add(event);
+                not_interesting_events.add(Database.events.get(i));
             }
         }
         for (Event event : not_interesting_events)
