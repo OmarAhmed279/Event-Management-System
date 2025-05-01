@@ -321,8 +321,8 @@ public abstract class User {
         if (x == 1) {
             dateOfbirth = new Date(year, month, day);
             User newuser = new Organizer(UserName, Password, dateOfbirth);
-            //Database.users.add(newuser);
-            //Database.organizers.add((Organizer) newuser);
+            Database.users.add(newuser);
+            Database.organizers.add((Organizer) newuser);
             System.out.println("User created Succesfully.");
             Home();
         } else if (x == 2) {
