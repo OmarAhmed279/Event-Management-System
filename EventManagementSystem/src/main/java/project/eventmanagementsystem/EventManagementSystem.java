@@ -11,6 +11,8 @@ public class EventManagementSystem extends Application
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(UserGUI.showHome());
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("Event Management System");
         primaryStage.show();
     }
 }
