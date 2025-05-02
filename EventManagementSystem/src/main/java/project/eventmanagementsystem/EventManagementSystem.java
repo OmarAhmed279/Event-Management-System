@@ -76,32 +76,26 @@ public class EventManagementSystem extends Application
         }
 
         VBox HomeOptions = new VBox(20);
-        Button option1 = new Button("Sign Up as Organizer");
+        Button option1 = new Button("Sign Up as Organizer or Attendee");
         option1.setPrefSize(250, 50);
-        option1.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 16));
-        Button option2 = new Button("Sign Up as Attendee");
-        option2.setPrefSize(250, 50);
-        option2.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 16));
+        option1.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 13));
         Button option3 = new Button("Login");
         option3.setPrefSize(250, 50);
         option3.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 16));
         HomeOptions.setAlignment(Pos.CENTER);
         HomeOptions.setLayoutX(50);
         HomeOptions.setLayoutY(100);
-        HomeOptions.getChildren().addAll(option1, option2, option3);
+        HomeOptions.getChildren().addAll(option1, option3);
         home.getChildren().add(salutation);
         home.getChildren().add(HomeOptions);
         VBox NotesOptions = new VBox(60);
-        Label l1 = new Label(" create new account as an organizer");
+        Label l1 = new Label(" create new account as an organizer or attendee");
         l1.setTextFill(Color.BEIGE);
         l1.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
-        Label l2 = new Label(" create new account as an attendee");
-        l2.setTextFill(Color.BEIGE);
-        l2.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
         Label l3 = new Label("I already have account or I am an admin");
         l3.setTextFill(Color.BEIGE);
         l3.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
-        NotesOptions.getChildren().addAll(l1, l2, l3);
+        NotesOptions.getChildren().addAll(l1,  l3);
         home.getChildren().add(NotesOptions);
         NotesOptions.setLayoutX(320);
         NotesOptions.setLayoutY(105);
@@ -127,6 +121,7 @@ public class EventManagementSystem extends Application
             primaryStage.setScene(UserGUI.signupRegistration());
             primaryStage.show();
         });
+
         return Home;
     }
 

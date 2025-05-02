@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class UserGUI {
@@ -97,6 +98,28 @@ class UserGUI {
         createAccount.setAlignment(Pos.CENTER);
         createAccount.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 16));
 
+        Label accountTypeLabel = new Label("Account Type:");
+        accountTypeLabel.setTextFill(Color.WHITE);
+        accountTypeLabel.setLayoutX(50);
+        accountTypeLabel.setLayoutY(200); // Adjust position as needed
+
+        ToggleGroup accountTypeGroup = new ToggleGroup();
+
+        RadioButton organizerRadio = new RadioButton("Organizer");
+        organizerRadio.setTextFill(Color.WHITE);
+        organizerRadio.setToggleGroup(accountTypeGroup);
+        organizerRadio.setLayoutX(150);
+        organizerRadio.setLayoutY(200);
+        organizerRadio.setSelected(true); // Default selection
+
+        RadioButton attendeeRadio = new RadioButton("Attendee");
+        attendeeRadio.setTextFill(Color.WHITE);
+        attendeeRadio.setToggleGroup(accountTypeGroup);
+        attendeeRadio.setLayoutX(250);
+        attendeeRadio.setLayoutY(200);
+
+        // Add to your pane
+        Signup.getChildren().addAll(accountTypeLabel, organizerRadio, attendeeRadio);
         // validation for username
         usernameField.textProperty().addListener((obs, oldVal, newVal) -> {
             validateUsername(newVal, usernameMessage);
@@ -149,13 +172,41 @@ class UserGUI {
 
         createAccount.setOnAction(e -> {
             if (isFormValid(usernameField, passwordField, datePicker)) {
-                LocalDate dob = datePicker.getValue();
+                Date dop = new Date(String.valueOf(datePicker));
                 // Here you would typically create the user account
-                Alert success = new Alert(Alert.AlertType.INFORMATION);
-                success.setTitle("Success");
-                success.setHeaderText("Account Created");
-                success.setContentText("Your account has been successfully created!");
-                success.showAndWait();
+                boolean isOrganizer = organizerRadio.isSelected();
+
+                if (isOrganizer) {
+                    Organizer organizer = new Organizer(
+                            usernameField.getText(),
+                            passwordField.getText(),
+                            dop
+                    );
+                    Database.organizers.add(organizer);
+                    Database.users.add(organizer);
+
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Success");
+                    success.setHeaderText("Organizer Account Created");
+                    success.setContentText("Welcome, " + organizer.getUsername() + "!");
+                    success.showAndWait();
+                } else {
+
+                    Attendee attendee = new Attendee(
+                            usernameField.getText(),
+                            passwordField.getText(),
+                            dop
+                    );
+                    Database.attendees.add(attendee);
+                    Database.users.add(attendee);
+
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Success");
+                    success.setHeaderText("Attendee Account Created");
+                    success.setContentText("Welcome, " + attendee.getUsername() + "!");
+                    success.showAndWait();
+                }
+
             }
         });
 
