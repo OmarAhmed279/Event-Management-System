@@ -143,7 +143,7 @@ public class Attendee extends User {
                 logout = true;
                 break;
             } else {
-                System.out.println("Invalid input. Try again");
+                System.out.println("Invalid input. Try again.");
                 in.next();
                 choice = in.nextInt();
             }
