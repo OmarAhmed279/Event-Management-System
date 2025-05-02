@@ -1,3 +1,4 @@
+/**
 package project.eventmanagementsystem;
 
 import javafx.application.Application;
@@ -16,8 +17,8 @@ import javafx.stage.Stage;
 
 public class EventManagementSystem extends Application
 {
-//    public static void main(String[] args) {
-//        launch(args);
+ //   public static void main(String[] args) {
+ //       launch(args);
 //    }
     static Stage primaryStage = new Stage();
     @Override
@@ -127,3 +128,4 @@ public class EventManagementSystem extends Application
 
 }
 
+**/

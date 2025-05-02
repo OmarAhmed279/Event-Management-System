@@ -49,6 +49,21 @@ public class Attendee extends User {
     }
 
     public Attendee(String username, String password, Date dateOfBirth,
+                    String gender, String address, ArrayList<Category> interest) {
+        super(username, password, dateOfBirth);
+        if (gender.equals("M")) {
+            this.gender = Gender.MALE;
+        } else {
+            this.gender = Gender.FEMALE;
+        }
+        this.wallet = new Wallet(0);
+        this.interests = new ArrayList<>();
+        this.interests = interest;
+        this.registeredEvents = new ArrayList<>();
+        this.address = address;
+        Database.attendees.add(this);
+    }
+    public Attendee(String username, String password, Date dateOfBirth,
                     Gender gender, String address, ArrayList<Category> interest) {
         super(username, password, dateOfBirth);
         this.gender = gender;
@@ -59,7 +74,6 @@ public class Attendee extends User {
         this.address = address;
         Database.attendees.add(this);
     }
-
     // Getters and setters
     public Gender getGender() {
         return gender;
