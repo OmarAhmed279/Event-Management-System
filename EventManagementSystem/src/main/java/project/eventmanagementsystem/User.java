@@ -1,11 +1,8 @@
 package project.eventmanagementsystem;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
-import static project.eventmanagementsystem.Organizer.in; //whats this?
 
 
 /**
@@ -184,7 +181,7 @@ public abstract class User {
         this.Password = Password;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return DateOfBirth;
     }
 
