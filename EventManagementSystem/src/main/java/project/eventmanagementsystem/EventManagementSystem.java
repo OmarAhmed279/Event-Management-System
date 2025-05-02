@@ -22,8 +22,24 @@ public class EventManagementSystem extends Application
     static Stage primaryStage = new Stage();
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage = EventManagementSystem.primaryStage;
         primaryStage.setResizable(false);
         primaryStage.setTitle("Event Management System");
+
+
+// Make sure this is the ONLY statement for this button
+// Don't put any other code after setOnAction that would be unreachable
+        primaryStage.setScene(Home());
+        primaryStage.show();
+    }
+
+    public static Stage get_stage()
+    {
+        return primaryStage;
+    }
+
+    public static Scene Home()
+    {
         Pane home = new Pane();
         Label salutation = new Label("Welcome to Event Management System");
         salutation.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 35));
@@ -76,14 +92,14 @@ public class EventManagementSystem extends Application
         home.getChildren().add(salutation);
         home.getChildren().add(HomeOptions);
         VBox NotesOptions = new VBox(60);
-        Label l1 = new Label("I don't have account, create new account as an organizer");
-        l1.setTextFill(Color.IVORY);
+        Label l1 = new Label(" create new account as an organizer");
+        l1.setTextFill(Color.BEIGE);
         l1.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
-        Label l2 = new Label("I don't have account, create new account as an attendee");
-        l2.setTextFill(Color.SALMON);
+        Label l2 = new Label(" create new account as an attendee");
+        l2.setTextFill(Color.BEIGE);
         l2.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
         Label l3 = new Label("I already have account or I am an admin");
-        l3.setTextFill(Color.TURQUOISE);
+        l3.setTextFill(Color.BEIGE);
         l3.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
         NotesOptions.getChildren().addAll(l1, l2, l3);
         home.getChildren().add(NotesOptions);
@@ -105,22 +121,13 @@ public class EventManagementSystem extends Application
         rectangle.setY(350);
         home.getChildren().add(rectangle);
         Scene Home = new Scene(home, 800, 520);
-        primaryStage.setScene(Home);
         // Correct way to set button action
         option1.setOnAction(event -> {
 
             primaryStage.setScene(UserGUI.signupRegistration());
-
+            primaryStage.show();
         });
-
-// Make sure this is the ONLY statement for this button
-// Don't put any other code after setOnAction that would be unreachable
-        primaryStage.show();
-    }
-
-    public static Stage get_stage()
-    {
-        return primaryStage;
+        return Home;
     }
 
 }

@@ -1,171 +1,212 @@
 package project.eventmanagementsystem;
 
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class UserGUI {
     public static Scene signupRegistration() {
         Pane Signup = new Pane();
+        Scene SignupScene = new Scene(Signup, 800, 520);
+
+        // Title Label
         Label signupLabel = new Label("Create a new account");
-        signupLabel.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 35));
+        signupLabel.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 40));
         signupLabel.setAlignment(Pos.CENTER);
-        signupLabel.setTextFill(Color.WHITE);
-        signupLabel.setLayoutX(300);
+        signupLabel.setTextFill(Color.BLACK);
+        signupLabel.setLayoutX(250);
         signupLabel.setLayoutY(20);
-        Label username = new Label("Username");
-        username.setTextFill(Color.WHITE);
-        username.setLayoutX(50);
-        username.setLayoutY(80);
-        Label password = new Label("Password");
-        password.setTextFill(Color.WHITE);
-        password.setLayoutX(50);
-        password.setLayoutY(120);
+
+        // Username Field
+        Label usernameLabel = new Label("Username");
+        usernameLabel.setTextFill(Color.BLACK);
+        usernameLabel.setLayoutX(20);
+        usernameLabel.setLayoutY(90);
+        usernameLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
+
         TextField usernameField = new TextField();
         usernameField.setTooltip(new Tooltip("Enter Valid Username"));
-        usernameField.setEditable(Boolean.TRUE);
+        usernameField.setEditable(true);
         usernameField.setLayoutX(120);
-        usernameField.setLayoutY(80);
+        usernameField.setLayoutY(90);
         usernameField.setPrefSize(200, 20);
-        TextField passwordField = new TextField();
+
+        // Password Field
+        Label passwordLabel = new Label("Password");
+        passwordLabel.setTextFill(Color.BLACK);
+        passwordLabel.setLayoutX(20);
+        passwordLabel.setLayoutY(130);
+        passwordLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
+
+
+        PasswordField passwordField = new PasswordField(); // Changed to PasswordField for security
         passwordField.setTooltip(new Tooltip("Enter Password"));
-        passwordField.setEditable(Boolean.TRUE);
+        passwordField.setEditable(true);
         passwordField.setLayoutX(120);
-        passwordField.setLayoutY(120);
+        passwordField.setLayoutY(130);
         passwordField.setPrefSize(200, 20);
-        // Create DatePicker
+
+        // Date of Birth
+        Label dobLabel = new Label("Date of Birth");
+        dobLabel.setTextFill(Color.BLACK);
+        dobLabel.setLayoutX(20);
+        dobLabel.setLayoutY(170);
+        dobLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
+
         DatePicker datePicker = new DatePicker();
         datePicker.setPromptText("Select date of birth");
-        datePicker.setLayoutX(80);
-        datePicker.setLayoutY(160);
-// Get the selected date
-        datePicker.setOnAction(e -> {
-            LocalDate selectedDate = datePicker.getValue();
-            if (selectedDate != null) {
-                int day = selectedDate.getDayOfMonth();
-                int month = selectedDate.getMonthValue();
-                int year = selectedDate.getYear();
-                System.out.printf("Selected date: %d/%d/%d%n", day, month, year);
-            }
+        datePicker.setLayoutX(120);
+        datePicker.setLayoutY(170);
+        datePicker.setPrefSize(200, 20);
+
+        // Validation Messages
+        Label usernameMessage = new Label("Enter a username");
+        Label passwordMessage = new Label("Enter a password");
+        Label dobMessage = new Label("Select your date of birth");
+        usernameMessage.setTextFill(Color.BLUE);
+        passwordMessage.setTextFill(Color.BLUE);
+        dobMessage.setTextFill(Color.BLUE);
+
+        // Message styling
+        Font messageFont = Font.font("Times New Roman", FontWeight.BOLD, 16);
+        usernameMessage.setFont(messageFont);
+        passwordMessage.setFont(messageFont);
+        dobMessage.setFont(messageFont);
+
+        usernameMessage.setLayoutX(330);
+        usernameMessage.setLayoutY(93);
+        passwordMessage.setLayoutX(330);
+        passwordMessage.setLayoutY(133);
+        dobMessage.setLayoutX(330);
+        dobMessage.setLayoutY(172);
+
+        // Create Account Button
+        Button createAccount = new Button("Create Account");
+        createAccount.setStyle("-fx-background-color: lightgray;");
+        createAccount.setLayoutX(150);
+        createAccount.setLayoutY(220);
+        createAccount.setPrefSize(200, 30);
+        createAccount.setAlignment(Pos.CENTER);
+        createAccount.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 16));
+
+        // validation for username
+        usernameField.textProperty().addListener((obs, oldVal, newVal) -> {
+            validateUsername(newVal, usernameMessage);
+            updateCreateButtonState(createAccount, usernameField, passwordField, datePicker);
         });
 
-        Scene SignupScene = new Scene(Signup, 800 , 520);
+        // validation for password
+        passwordField.textProperty().addListener((obs, oldVal, newVal) -> {
+            validatePassword(newVal, passwordMessage);
+            updateCreateButtonState(createAccount, usernameField, passwordField, datePicker);
+        });
+
+        // DatePicker validation
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                dobMessage.setText("Valid date selected");
+                dobMessage.setTextFill(Color.GREEN);
+            } else {
+                dobMessage.setText("Please select date of birth");
+                dobMessage.setTextFill(Color.RED);
+            }
+            updateCreateButtonState(createAccount, usernameField, passwordField, datePicker);
+        });
+
+        // Background Image
         try {
-            // Load the image
-            Image image = new Image(UserGUI.class.getResource("/Background3.png").toExternalForm());
-            // Create background image that fills the entire pane
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
             BackgroundImage backgroundImage = new BackgroundImage(
                     image,
                     BackgroundRepeat.NO_REPEAT,
                     BackgroundRepeat.NO_REPEAT,
                     BackgroundPosition.CENTER,
-                    new BackgroundSize(
-                            100, 100,  // width/height percentages (100% for both)
-                            true,       // width as percentage
-                            true,       // height as percentage
-                            true,       // contain within bounds
-                            true        // cover entire area
-                    )
+                    new BackgroundSize(100, 100, true, true, true, true)
             );
-
-            // Set the background
             Signup.setBackground(new Background(backgroundImage));
         } catch (Exception e) {
             System.err.println("Error loading background image: " + e.getMessage());
-            // Fallback to solid color if image fails to load
             Signup.setStyle("-fx-background-color: lightgray;");
         }
-        Button createAccount = new Button("Create a new User");
-        createAccount.setStyle("-fx-background-color: lightgray;");
-        createAccount.setLayoutX(150);
-        createAccount.setLayoutY(180);
-        createAccount.setPrefSize(100, 30);
-        createAccount.setAlignment(Pos.CENTER);
-        createAccount.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 16));
-        Label message_name = new Label("Correct Name : ");
-        Label message_password = new Label("Correct Password : ");
-        Signup.getChildren().add(message_name);
-        Signup.getChildren().add(message_password);
-        message_name.setLayoutX(330);
-        message_name.setLayoutY(85);
-        message_name.setTextFill((Color.WHITE));
-        message_name.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 16));
-        message_password.setLayoutX(330);
-        message_password.setLayoutY(120);
-        message_password.setPrefSize(100, 30);
-        message_password.setTextFill((Color.WHITE));
+
+        // Add all components to the pane
+        Signup.getChildren().addAll(
+                signupLabel,
+                usernameLabel, usernameField, usernameMessage,
+                passwordLabel, passwordField, passwordMessage,
+                dobLabel, datePicker, dobMessage,
+                createAccount
+        );
+
+
         createAccount.setOnAction(e -> {
-            boolean correctName = true;
-            boolean correctPassword = true;
-
-
-
-            if (usernameField.getText().isEmpty()) {
-                correctName = false;
-                message_name.setText("Please enter your Username");
-
+            if (isFormValid(usernameField, passwordField, datePicker)) {
+                LocalDate dob = datePicker.getValue();
+                // Here you would typically create the user account
+                Alert success = new Alert(Alert.AlertType.INFORMATION);
+                success.setTitle("Success");
+                success.setHeaderText("Account Created");
+                success.setContentText("Your account has been successfully created!");
+                success.showAndWait();
             }
-            if (passwordField.getText().isEmpty()) {
-                correctPassword = false;
-                message_password.setText("The password must have value");
-
-            }
-            if  (!Character.isLetter(usernameField.getText().charAt(0))){
-                correctName = false;
-                message_name.setText("Username must start with a letter (A-Z, a-z). Try again.: ");
-
-            }
-
-            if (usernameField.getText().contains(" ")){
-                correctName = false;
-
-                message_name.setText("Username cannot contain spaces. Try again): ");
-
-            }
-            if (usernameField.getText().length() < 4 || usernameField.getText().length() > 20){
-                correctName = false;
-                message_name.setText("Username must be 4-20 characters long. Try again.): ");
-
-            }
-            if (passwordField.getText().length() < 4 || passwordField.getText().length() > 20){
-             correctPassword = false;
-                message_password.setText("password must be 4-20 characters long. Try again.): ");
-
-
-            }
-            for (int i = 0; i < Database.users.size(); i++) {
-                if (usernameField.getText().equals(Database.users.get(i).getUsername())) {
-                correctName = false;}
-                message_name.setText("Username already exists. Try again.): ");
-
-            }
-//            if (correctName && correctPassword) {
-//                selectedDate = new Date(year, month, day);
-//                User newuser = new Organizer(usernameField.getText(), passwordField.getText().length(), dateOfbirth);
-//                Database.users.add(newuser);
-//                Database.organizers.add((Organizer) newuser);
-//            }
         });
-
-
-
-
-        Signup.getChildren().addAll(signupLabel, username, password, datePicker, usernameField, passwordField , createAccount );
 
         return SignupScene;
     }
+
+    // Validation methods
+    private static void validateUsername(String username, Label message) {
+        if (username.isEmpty()) {
+            message.setText("Please enter username");
+            message.setTextFill(Color.WHITE);
+        } else if (!Character.isLetter(username.charAt(0))) {
+            message.setText("Must start with a letter");
+            message.setTextFill(Color.DARKRED);
+        } else if (username.contains(" ")) {
+            message.setText("No spaces allowed");
+            message.setTextFill(Color.DARKRED);
+        } else if (username.length() < 4 || username.length() > 20) {
+            message.setText("4-20 characters required");
+            message.setTextFill(Color.DARKRED);
+        } else {
+            message.setText("Valid username");
+            message.setTextFill(Color.GREEN);
+        }
+    }
+
+    private static void validatePassword(String password, Label message) {
+        if (password.isEmpty()) {
+            message.setText("Please enter password");
+            message.setTextFill(Color.WHITE);
+        } else if (password.length() < 4 || password.length() > 20) {
+            message.setText("4-20 characters required");
+            message.setTextFill(Color.DARKRED);
+        } else {
+            message.setText("Valid password");
+            message.setTextFill(Color.GREEN);
+        }
+    }
+
+    private static boolean isFormValid(TextField username, PasswordField password, DatePicker dob) {
+        return !username.getText().isEmpty() &&
+                !password.getText().isEmpty() &&
+                dob.getValue() != null;
+    }
+
+    private static void updateCreateButtonState(Button button, TextField username,
+                                                PasswordField password, DatePicker dob) {
+        button.setDisable(!isFormValid(username, password, dob));
+    }
 }
+
 
 
 
