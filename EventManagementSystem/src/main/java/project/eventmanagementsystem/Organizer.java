@@ -15,7 +15,7 @@ import static project.eventmanagementsystem.User.login;
 import static project.eventmanagementsystem.User.signUp;
 
 /**
- * Made by Seif Shehta, Yousef Shehta and Omar Ahmed
+ * Made by Seif Shehta, Yousef Shehta and Omar Ahmed and Youssef Wafaey
  */
 public class Organizer extends User {
     Wallet wallet;
