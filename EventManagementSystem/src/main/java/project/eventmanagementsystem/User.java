@@ -181,7 +181,7 @@ public abstract class User {
         this.Password = Password;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return DateOfBirth;
     }
 
