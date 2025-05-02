@@ -245,7 +245,7 @@ class UserGUI {
             message.setTextFill(Color.GREEN);
         }
     }
-
+  // hi people
     private static boolean isFormValid(TextField username, PasswordField password, DatePicker dob) {
         return !username.getText().isEmpty() &&
                 !password.getText().isEmpty() &&
