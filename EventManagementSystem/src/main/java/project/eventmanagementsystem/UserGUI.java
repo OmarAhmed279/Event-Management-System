@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -334,6 +335,53 @@ class UserGUI {
     private static void updateCreateButtonState(Button button, TextField username,
                                                 PasswordField password, DatePicker dob) {
         button.setDisable(!isFormValid(username, password, dob));
+    }
+    public static Scene LoginScene() {
+        GridPane login = new GridPane();
+        login.setAlignment(Pos.CENTER);
+        login.setHgap(10);
+        login.setVgap(10);
+        Label loginLabel = new Label("Login");
+        login.getChildren().add(loginLabel);
+        loginLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
+        login.add(loginLabel, 0, 0);
+        Label username = new Label("Username");
+        username.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        login.add(username, 0, 1);
+        Label password = new Label("Password");
+        password.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        login.add(password, 0, 2);
+        TextField usernameField = new TextField();
+        login.add(usernameField, 1, 1);
+        TextField passwordField = new TextField();
+        login.add(passwordField, 1, 2);
+        Button loginButton = new Button("Login");
+        login.add(loginButton, 1, 3);
+        Scene loginScene = new Scene(login, 800, 600);
+        loginButton.setOnAction(e -> {
+            for (int i=0 ; i<Database.users.size(); i++){
+                if (usernameField.getText().equals(Database.users.get(i).getUsername()) && passwordField.getText().equals(Database.users.get(i).getPassword())){
+                   if (Database.users.get(i) instanceof Organizer) {
+                       Main.get_stage().setScene(Main.Home());
+                   }
+                   else if(Database.users.get(i) instanceof Attendee){
+                       Main.get_stage().setScene(Main.Home());
+                   }
+                   else {
+                       Main.get_stage().setScene(AdminGUI.dashboardScene((Admin)Database.users.get(i)));
+                   }
+                }
+                else {
+                    Label message = new Label("Username or Password incorrect");
+                    message.setTextFill(Color.DARKRED);
+                    message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+                    login.add(message, 3, 2);
+                }
+
+            }
+
+        });
+        return loginScene;
     }
 }
 

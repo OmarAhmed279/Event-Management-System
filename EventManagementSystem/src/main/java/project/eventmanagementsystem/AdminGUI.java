@@ -39,30 +39,30 @@ public class AdminGUI
         AdminOptions.getChildren().addAll(profileBtn, manageUsersBtn, manageEventsBtn, manageRoomsBtn, manageCategoriesBtn, logoutBtn );
 
         // Set button actions
-        profileBtn.setOnAction(e -> {
-            Main.get_stage().setScene(AdminProfileScene());
-        });
+//        profileBtn.setOnAction(e -> {
+//            Main.get_stage().setScene(AdminProfileScene());
+//        });
+//
+//        manageUsersBtn.setOnAction(e -> {
+//            Main.get_stage().setScene(manageUsersScene());
+//        });
+//
+//        manageEventsBtn.setOnAction(e -> {
+//            Main.get_stage().setScene(manageEventsScene());
+//        });
+//
+//        manageRoomsBtn.setOnAction(e -> {
+//            Main.get_stage().setScene(manageRoomsScene());
+//        });
+//
+//        manageCategoriesBtn.setOnAction(e -> {
+//            Main.get_stage().setScene(manageCategoriesScene());
+//        });
 
-        manageUsersBtn.setOnAction(e -> {
-            Main.get_stage().setScene(manageUsersScene());
-        });
-
-        manageEventsBtn.setOnAction(e -> {
-            Main.get_stage().setScene(manageEventsScene());
-        });
-
-        manageRoomsBtn.setOnAction(e -> {
-            Main.get_stage().setScene(manageRoomsScene());
-        });
-
-        manageCategoriesBtn.setOnAction(e -> {
-            Main.get_stage().setScene(manageCategoriesScene());
-        });
-
-        logoutBtn.setOnAction(e -> {
-            User.logOut();
-            Main.get_stage().setScene(EventManagementSystem.Home());
-        });
+//        logoutBtn.setOnAction(e -> {
+//            User.logOut();
+//            Main.get_stage().setScene(EventManagementSystem.Home());
+//        });
 
         dashboardPane.getChildren().addAll(
                 welcomeLabel, AdminOptions

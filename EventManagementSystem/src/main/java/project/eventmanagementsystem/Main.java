@@ -78,13 +78,13 @@ public class Main extends Application {
         Button option1 = new Button("Sign Up as Organizer or Attendee");
         option1.setPrefSize(250, 50);
         option1.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 13));
-        Button option3 = new Button("Login");
-        option3.setPrefSize(250, 50);
-        option3.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 16));
+        Button option2 = new Button("Login");
+        option2.setPrefSize(250, 50);
+        option2.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 16));
         HomeOptions.setAlignment(Pos.CENTER);
         HomeOptions.setLayoutX(50);
         HomeOptions.setLayoutY(100);
-        HomeOptions.getChildren().addAll(option1, option3);
+        HomeOptions.getChildren().addAll(option1, option2);
         home.getChildren().add(salutation);
         home.getChildren().add(HomeOptions);
         VBox NotesOptions = new VBox(60);
@@ -116,11 +116,13 @@ public class Main extends Application {
         Scene Home = new Scene(home, 800, 520);
         // Correct way to set button action
         option1.setOnAction(event -> {
-
             primaryStage.setScene(UserGUI.signupRegistration());
             primaryStage.show();
         });
-
+        option2.setOnAction(event -> {
+            primaryStage.setScene(UserGUI.LoginScene());
+            primaryStage.show();
+        });
         return Home;
     }
 
