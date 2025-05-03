@@ -22,6 +22,9 @@ public class Admin extends User {
         Database.admins.add(this);
     }
 
+    public String getRole() {
+        return role;
+    }
 
     public void Addroom() {
         System.out.println("Enter Price of room: ");
