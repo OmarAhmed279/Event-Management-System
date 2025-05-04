@@ -342,7 +342,6 @@ class UserGUI {
         login.setHgap(10);
         login.setVgap(10);
         Label loginLabel = new Label("Login");
-        login.getChildren().add(loginLabel);
         loginLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
         login.add(loginLabel, 0, 0);
         Label username = new Label("Username");
