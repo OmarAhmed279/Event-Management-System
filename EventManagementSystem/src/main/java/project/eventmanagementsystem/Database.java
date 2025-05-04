@@ -25,17 +25,21 @@ public final class Database {
     // app creators wallet replica
     public static double appOwnerBalance;
 
+    public static User owner;
+
+    public static User baduser;
+
     static {
         new Room(10);
         new Room(100);
         new Room(1000);
 
-        User owner = new Admin("mradmin", "0000", new Date(2000, 1, 1), "owner");
+        owner = new Admin("mradmin", "0000", new Date(2000, 1, 1), "owner");
         //users.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 
         new Organizer("mrorg", "1234", new Date(2000, 1, 1));
 
-        new Attendee("baduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("notpaying","doesn't pay"));
+        baduser = new Attendee("baduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("notpaying","doesn't pay"));
 
         //admins.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 
