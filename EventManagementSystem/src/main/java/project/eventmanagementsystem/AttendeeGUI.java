@@ -174,17 +174,20 @@ public class AttendeeGUI {
 
         Details.getChildren().addAll(LUsername, tfUsername, statusUsername, LPassword, tfPassword, statuspassword, LDate, LBalance,/*tfBalance,statusbalance,*/ Btnupdate);
 
-
+        ScrollPane scrollPane=new ScrollPane();
+        VBox vscroll = new VBox();
         for (int i = 0; i < attendee.getRegisteredEvents().size(); i++) {
+            VBox vbox = new VBox();
+            vscroll.getChildren().add(vbox);
             Label eventLabel = new Label("Event [" + i + "]:");
             Label organizerLabel = new Label("Event organizer: " + attendee.getRegisteredEvents().get(i).getOrganizer().getUsername());
             Label nameLabel = new Label("Event name: " + attendee.getRegisteredEvents().get(i).getName());
             Label dateLabel = new Label("Event date: " + attendee.getRegisteredEvents().get(i).getDate());
 
-            Details.getChildren().addAll(eventLabel, organizerLabel, nameLabel, dateLabel);
+            vbox.getChildren().addAll(eventLabel, organizerLabel, nameLabel, dateLabel);
 
         }
-
+        scrollPane.setContent(vscroll);
         Button BtnBack = new Button("Go back");
 
         BtnBack.setPrefWidth(200);
@@ -192,7 +195,7 @@ public class AttendeeGUI {
             Main.primaryStage.setScene(AttendeeDashboard(attendee));
         });
 
-        Details.getChildren().addAll(BtnBack);
+        Details.getChildren().addAll(scrollPane,BtnBack);
         // profile.getChildren().addAll(Lprofile,Details);
         profile.setTop(Lprofile);
         BorderPane.setAlignment(Lprofile, Pos.CENTER);
@@ -255,25 +258,46 @@ Pwallet.setCenter(Details);
         VBox vscroll =  new VBox();
         ScrollPane scrollPane=new ScrollPane();
 
-        for (int i = 0 ; i <Database.events.size();i++){
-            for (int j = 0 ; j< attendee.getRegisteredEvents().size();j++){
-                if(!(Database.events.get(i)==attendee.getRegisteredEvents().get(j))){
-                    HBox temphbox = new HBox();
-                    Label text = new Label("Name:"+Database.events.get(i).getName()+"Description:"+Database.events.get(i).getDescription()+"Category:"+Database.events.get(i).getCategory()+"Price:"+Database.events.get(i).getPrice()+"Room:"+Database.events.get(i).getRoom()+"Organizer"+Database.events.get(i).getOrganizer()+"Date:"+Database.events.get(i).getDate());
-                    Button BtnAdd=new Button("Add");
-                    BtnAdd.setPrefWidth(50);
 
-                    temphbox.getChildren().addAll(text,BtnAdd);
-                    vscroll.getChildren().add(temphbox);
-                    Event tempevent=Database.events.get(i);
-                    BtnAdd.setOnAction(e->{
-                    attendee.getRegisteredEvents().add(tempevent);
-                    Main.primaryStage.setScene(BrowseEvents(attendee));
 
-                    });
+
+                    for (int i = 0 ; i <Database.events.size();i++){
+                        boolean isAdded = false;
+                        for (int j = 0 ; j< attendee.getRegisteredEvents().size() ;j++){
+                            if(Database.events.get(i).getName().equals(attendee.getRegisteredEvents().get(j).getName() )){
+                                isAdded=true;
+                            }
+                        }
+                        if(!isAdded) {
+                            HBox temphbox = new HBox();
+                            Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().toString() + "  ,Price:" + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom() + "  ,Organizer:" + Database.events.get(i).getOrganizer() + "\n" + "Date:" + Database.events.get(i).getDate());
+                            Label error = new Label("");
+                            Button BtnAdd = new Button("Add");
+                            BtnAdd.setPrefWidth(50);
+
+                            temphbox.getChildren().addAll(text, BtnAdd,error);
+                            vscroll.getChildren().add(temphbox);
+
+                            int tempindex = i;
+                            BtnAdd.setOnAction(e -> {
+                                if (attendee.getWallet().getBalance()<Database.events.get(tempindex).getPrice()) {
+                                    error.setText("Not enough money");
+                                    error.setStyle("-fx-text-fill:red;");
+                                    return;
+                                }
+                                    Database.events.get(tempindex).addAttendee(attendee);
+                                    attendee.getWallet().setBalance(attendee.getWallet().getBalance() - Database.events.get(tempindex).getPrice());
+                                    attendee.getRegisteredEvents().add(Database.events.get(tempindex));
+                                    temphbox.getChildren().clear();
+                                    vscroll.getChildren().clear();
+                                    Main.primaryStage.setScene(BrowseEvents(attendee));
+
+
+                            });
+                        }
+
                 }
-            }
-        }
+
         scrollPane.setContent(vscroll);
 
         Button BtnBack = new Button("Go back");
@@ -282,7 +306,8 @@ Pwallet.setCenter(Details);
         BtnBack.setOnAction(e->{
             Main.primaryStage.setScene(AttendeeDashboard(attendee));
         });
-        vbox.getChildren().addAll(scrollPane,BtnBack);
+        vbox.getChildren().addAll(scrollPane);
+        borderPane.setBottom(BtnBack);
        return new Scene(borderPane,800,580);
     }
 

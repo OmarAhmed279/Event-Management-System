@@ -44,7 +44,7 @@ public final class Database {
         //admins.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 
         Event bigevent = new Event("big", "", new Category("cool0", ""), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
-
+        Event smallevent = new Event("small", "", new Category("cool0", ""), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
         users.get(2).setIsSuspended(true); // baduser is suspended
         events.get(0).addAttendee((Attendee) users.get(2));
         ((Attendee) users.get(2)).getRegisteredEvents().add(bigevent);
