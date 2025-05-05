@@ -7,9 +7,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import javax.swing.*;
-
-
 public class AttendeeGUI {
 
    public static Scene AttendeeDashboard(Attendee attendee){
