@@ -7,7 +7,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-
+import javax.swing.*;
 
 
 public class AttendeeGUI {
@@ -17,7 +17,7 @@ public class AttendeeGUI {
        VBox BtnPane = new VBox();
        Label LDashBorad = new Label ("Dashboard");
 
-       LDashBorad.setLayoutX(320);
+
        LDashBorad.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
 
        Button BtnShowProfile = new Button("Show Profile");//not finished
@@ -35,18 +35,21 @@ public class AttendeeGUI {
        Button BtnBrowseEvents = new Button("Browse Events");//not finished
        BtnBrowseEvents.setPrefWidth(200);
               BtnBrowseEvents.setOnAction(e->{
+                  Main.primaryStage.setScene(BrowseEvents(attendee));
 
        });
 
-       Button BtnSeeRegisteredEvents = new Button("See Registered Events");//not finished
+       /*Button BtnSeeRegisteredEvents = new Button("See Registered Events");//not finished
        BtnSeeRegisteredEvents.setPrefWidth(200);
               BtnSeeRegisteredEvents.setOnAction(e->{
 
-       });
+       });*/
 
        Button BtnManagewallet = new Button("Manage wallet");//not finished
        BtnManagewallet.setPrefWidth(200);
               BtnManagewallet.setOnAction(e->{
+                  Main.primaryStage.setScene(ManageWallet(attendee));
+
 
        });
 
@@ -55,21 +58,22 @@ public class AttendeeGUI {
               BtnLogout.setOnAction(e->{
           Main.primaryStage.setScene(Main.Home());
        });
-       BtnPane.getChildren().addAll(BtnLogout,BtnShowProfile/*,BtnUpdateProfile*/,BtnSeeRegisteredEvents,BtnBrowseEvents,BtnSeeRegisteredEvents,BtnManagewallet);
+       BtnPane.getChildren().addAll(BtnShowProfile/*,BtnUpdateProfile*/,BtnBrowseEvents/*,BtnSeeRegisteredEvents*/,BtnManagewallet,BtnLogout);
        BtnPane.setSpacing(10);
        BtnPane.setAlignment(Pos.CENTER);
-       dashboard.getChildren().addAll(LDashBorad,BtnPane);
+    //   dashboard.getChildren().addAll(LDashBorad,BtnPane);
        dashboard.setCenter(BtnPane);
        dashboard.setTop(LDashBorad);
+       BorderPane.setAlignment(LDashBorad,Pos.CENTER);
        return new Scene(dashboard,800,520);
     }
 
 
-    public static Scene ShowProfile(Attendee attendee){
-       BorderPane profile = new BorderPane();
+    public static Scene ShowProfile(Attendee attendee) {
+        BorderPane profile = new BorderPane();
 
-        Label Lprofile = new Label ("Profile");
-        Lprofile.setLayoutX(320);
+        Label Lprofile = new Label("Profile");
+
         Lprofile.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
 
 
@@ -78,57 +82,65 @@ public class AttendeeGUI {
         Details.setAlignment(Pos.CENTER);
 
 
-        Label LUsername=new Label("Username: "+attendee.getUsername() );
+        Label LUsername = new Label("Username: " + attendee.getUsername());
         TextField tfUsername = new TextField();
+        tfUsername.setPrefSize(200, 20);
+       // VBox.setVgrow(tfUsername, Priority.NEVER);
+        tfUsername.setMaxWidth(Region.USE_PREF_SIZE);
 
-        Label LPassword=new Label("Password: " +attendee.getPassword() );
+
+
+        Label LPassword = new Label("Password: " + attendee.getPassword());
         TextField tfPassword = new TextField();
-
-        Label LDate=new Label("Date of Birth: "+ attendee.getDateOfBirth() );
-
-
-        Label LBalance=new Label("Wallet Balance: "+attendee.getWallet().getBalance() );
-        TextField tfBalance = new TextField();
-
-        Label statusUsername=new Label();
-        Label statuspassword=new Label();
-        Label statusbalance=new Label();
+        tfPassword.setPrefSize(200, 20);
+       // VBox.setVgrow(tfPassword, Priority.NEVER);
+        tfPassword.setMaxWidth(Region.USE_PREF_SIZE);
 
 
-
-        Button Btnupdate= new Button("Update");
-        Btnupdate.setOnAction(e->{
-             //username
-                if(!tfUsername.getText().isEmpty()){
-                    if (!Character.isLetter(tfUsername.getText().charAt(0))) {
-                        System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
-                        statusUsername.setText("Username must start with a letter (A-Z, a-z). Try again.");
-                        statusUsername.setStyle("-fx-text-fill: red;");
-                        return;
+        Label LDate = new Label("Date of Birth: " + attendee.getDateOfBirth());
 
 
-                    }
-                    if (tfUsername.getText().contains(" ")) {
-                        System.out.println("Username cannot contain spaces. Try again.");
-                        statusUsername.setText("Username cannot contain spaces. Try again.");
-                        statusUsername.setStyle("-fx-text-fill: red;");
-                        return;
+        Label LBalance = new Label("Wallet Balance: " + attendee.getWallet().getBalance());
 
 
-                    }
-                    if (tfUsername.getText().length() < 4 || tfUsername.getText().length() > 20) {
-                        System.out.println("Username must be 4-20 characters long. Try again.");
-                        statusUsername.setText("Username must be 4-20 characters long. Try again.");
-                        statusUsername.setStyle("-fx-text-fill: red;");
-                        return;
+        Label statusUsername = new Label();
+        Label statuspassword = new Label();
 
-                    }
-                    attendee.setUsername(tfUsername.getText());
-                    System.out.println("Username changed successfully.");
-                    statusUsername.setText("Updated");
-                    statusUsername.setStyle("-fx-text-fill: green;");
+
+        Button Btnupdate = new Button("Update");
+        Btnupdate.setPrefWidth(200);
+        Btnupdate.setOnAction(e -> {
+            //username
+            if (!tfUsername.getText().isEmpty()) {
+                if (!Character.isLetter(tfUsername.getText().charAt(0))) {
+                    System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
+                    statusUsername.setText("Username must start with a letter (A-Z, a-z). Try again.");
+                    statusUsername.setStyle("-fx-text-fill: red;");
+                    return;
+
 
                 }
+                if (tfUsername.getText().contains(" ")) {
+                    System.out.println("Username cannot contain spaces. Try again.");
+                    statusUsername.setText("Username cannot contain spaces. Try again.");
+                    statusUsername.setStyle("-fx-text-fill: red;");
+                    return;
+
+
+                }
+                if (tfUsername.getText().length() < 4 || tfUsername.getText().length() > 20) {
+                    System.out.println("Username must be 4-20 characters long. Try again.");
+                    statusUsername.setText("Username must be 4-20 characters long. Try again.");
+                    statusUsername.setStyle("-fx-text-fill: red;");
+                    return;
+
+                }
+                attendee.setUsername(tfUsername.getText());
+                System.out.println("Username changed successfully.");
+                statusUsername.setText("Updated");
+                statusUsername.setStyle("-fx-text-fill: green;");
+
+            }
 
             if (!tfPassword.getText().isEmpty()) {//password
 
@@ -143,7 +155,7 @@ public class AttendeeGUI {
                 statuspassword.setText("Updated");
                 statuspassword.setStyle("-fx-text-fill: green;");
             }
-            try {//balance
+           /* try {//balance
                 double newBalance = Double.parseDouble(tfBalance.getText());
                 if (newBalance>0) {
                 attendee.getWallet().setBalance(newBalance);
@@ -154,13 +166,13 @@ public class AttendeeGUI {
                 statusbalance.setText("Error: Please enter a valid number");
                 statusbalance.setStyle("-fx-text-fill: red;");
                 return;
-            }
+            }*/
 
-
+            Main.primaryStage.setScene(ShowProfile(attendee));
         });
 
 
-        Details.getChildren().addAll(LUsername,tfUsername,LPassword,tfPassword,LDate,LBalance,tfBalance);
+        Details.getChildren().addAll(LUsername, tfUsername, statusUsername, LPassword, tfPassword, statuspassword, LDate, LBalance,/*tfBalance,statusbalance,*/ Btnupdate);
 
 
         for (int i = 0; i < attendee.getRegisteredEvents().size(); i++) {
@@ -174,19 +186,105 @@ public class AttendeeGUI {
         }
 
         Button BtnBack = new Button("Go back");
-        BtnBack.setLayoutX(50);
+
         BtnBack.setPrefWidth(200);
-        BtnBack.setOnAction(e->{
+        BtnBack.setOnAction(e -> {
             Main.primaryStage.setScene(AttendeeDashboard(attendee));
         });
 
         Details.getChildren().addAll(BtnBack);
-        profile.getChildren().addAll(Lprofile,Details);
+        // profile.getChildren().addAll(Lprofile,Details);
         profile.setTop(Lprofile);
-        profile.setCenter(Details);
+        BorderPane.setAlignment(Lprofile, Pos.CENTER);
+
+        //for tf not streched
+
+      profile.setCenter(Details);
+
        return new Scene(profile,800,520);
     }
+    public static Scene ManageWallet(Attendee attendee){
+       BorderPane Pwallet= new BorderPane();
+       Label Lwallet=new Label("Manage Wallet");
+        Lwallet.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
+        Pwallet.setTop(Lwallet);
+        BorderPane.setAlignment(Lwallet,Pos.CENTER);
+VBox Details = new VBox();
+Details.setSpacing(10.0);
+Details.setAlignment(Pos.CENTER);
+Pwallet.setCenter(Details);
 
+        TextField tfBalance = new TextField();
+        tfBalance.setPrefSize(200, 20);;
+        tfBalance.setMaxWidth(Region.USE_PREF_SIZE);
+        Label statusbalance=new Label();
+        Label LBalance=new Label("Wallet Balance: "+attendee.getWallet().getBalance() );
+        Button Btnupdate= new Button("Update");
+        Btnupdate.setPrefWidth(200);
+        Btnupdate.setOnAction(e->{
+                       try {//balance
+                double newBalance = Double.parseDouble(tfBalance.getText());
+                if (newBalance>0) {
+                attendee.getWallet().setBalance(newBalance);
+                }
+
+            }
+            catch (NumberFormatException ex) {
+                statusbalance.setText("Error: Please enter a valid number");
+                statusbalance.setStyle("-fx-text-fill: red;");
+                return;
+            }
+            Main.primaryStage.setScene(ManageWallet(attendee));
+
+        }); Button BtnBack = new Button("Go back");
+
+        BtnBack.setPrefWidth(200);
+        BtnBack.setOnAction(e->{
+            Main.primaryStage.setScene(AttendeeDashboard(attendee));
+        });
+        Details.getChildren().addAll(LBalance,tfBalance,statusbalance,Btnupdate,BtnBack);
+        return new Scene(Pwallet,800,580);
+    }
+    public static Scene BrowseEvents (Attendee attendee){
+       BorderPane borderPane = new BorderPane();
+       VBox vbox = new VBox();
+        Label LBrowse=new Label("Browse Events");
+        LBrowse.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
+        borderPane.setTop(LBrowse);
+        borderPane.setCenter(vbox);
+        VBox vscroll =  new VBox();
+        ScrollPane scrollPane=new ScrollPane();
+
+        for (int i = 0 ; i <Database.events.size();i++){
+            for (int j = 0 ; j< attendee.getRegisteredEvents().size();j++){
+                if(!(Database.events.get(i)==attendee.getRegisteredEvents().get(j))){
+                    HBox temphbox = new HBox();
+                    Label text = new Label("Name:"+Database.events.get(i).getName()+"Description:"+Database.events.get(i).getDescription()+"Category:"+Database.events.get(i).getCategory()+"Price:"+Database.events.get(i).getPrice()+"Room:"+Database.events.get(i).getRoom()+"Organizer"+Database.events.get(i).getOrganizer()+"Date:"+Database.events.get(i).getDate());
+                    Button BtnAdd=new Button("Add");
+                    BtnAdd.setPrefWidth(50);
+
+                    temphbox.getChildren().addAll(text,BtnAdd);
+                    vscroll.getChildren().add(temphbox);
+                    Event tempevent=Database.events.get(i);
+                    BtnAdd.setOnAction(e->{
+                    attendee.getRegisteredEvents().add(tempevent);
+                    Main.primaryStage.setScene(BrowseEvents(attendee));
+
+                    });
+                }
+            }
+        }
+        scrollPane.setContent(vscroll);
+
+        Button BtnBack = new Button("Go back");
+
+        BtnBack.setPrefWidth(200);
+        BtnBack.setOnAction(e->{
+            Main.primaryStage.setScene(AttendeeDashboard(attendee));
+        });
+        vbox.getChildren().addAll(scrollPane,BtnBack);
+       return new Scene(borderPane,800,580);
+    }
 
 
 }

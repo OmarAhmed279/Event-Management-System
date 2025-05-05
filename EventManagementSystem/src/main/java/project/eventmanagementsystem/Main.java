@@ -14,6 +14,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.util.Date;
+
+import static project.eventmanagementsystem.AttendeeGUI.AttendeeDashboard;
+
 public class Main extends Application {
     //   public static void main(String[] args) {
     //       launch(args);

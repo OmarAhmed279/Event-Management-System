@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * @author omar
  */
-public class Admin extends User {
+public class Admin extends project.eventmanagementsystem.User {
     public static final Scanner in = new Scanner(System.in);
     private String role;
 
