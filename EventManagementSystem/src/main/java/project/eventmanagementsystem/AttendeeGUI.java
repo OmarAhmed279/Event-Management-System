@@ -270,12 +270,14 @@ Pwallet.setCenter(Details);
                         }
                         if(!isAdded) {
                             HBox temphbox = new HBox();
-                            Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().toString() + "  ,Price:" + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom() + "  ,Organizer:" + Database.events.get(i).getOrganizer() + "\n" + "Date:" + Database.events.get(i).getDate());
+
+
+                            Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate());
                             Label error = new Label("");
                             Button BtnAdd = new Button("Add");
                             BtnAdd.setPrefWidth(50);
 
-                            temphbox.getChildren().addAll(text, BtnAdd,error);
+                            temphbox.getChildren().addAll(text,error,BtnAdd);
                             vscroll.getChildren().add(temphbox);
 
                             int tempindex = i;
