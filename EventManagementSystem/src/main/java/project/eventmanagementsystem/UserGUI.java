@@ -361,10 +361,10 @@ class UserGUI {
             for (int i=0 ; i<Database.users.size(); i++){
                 if (usernameField.getText().equals(Database.users.get(i).getUsername()) && passwordField.getText().equals(Database.users.get(i).getPassword())){
                    if (Database.users.get(i) instanceof Organizer) {
-                       Main.get_stage().setScene(Main.Home());
+                       Main.get_stage().setScene(OrganizerGUI.dashboard((Organizer)Database.users.get(i)));
                    }
                    else if(Database.users.get(i) instanceof Attendee){
-                       Main.get_stage().setScene(Main.Home());
+                       Main.get_stage().setScene(AttendeeGUI.AttendeeDashboard((Attendee) Database.users.get(i)));
                    }
                    else {
                        Main.get_stage().setScene(AdminGUI.dashboardScene((Admin)Database.users.get(i)));
