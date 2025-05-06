@@ -18,9 +18,9 @@ import static project.eventmanagementsystem.User.signUp;
  * Made by Seif Shehta, Yousef Shehta and Omar Ahmed and Youssef Wafaey
  */
 public class Organizer extends User {
-    Wallet wallet;
-    ArrayList<Event> events;
-    ArrayList<Room> ReservedRooms;
+    private Wallet wallet;
+    private ArrayList<Event> events;
+    private ArrayList<Room> ReservedRooms;
     static Scanner in = new Scanner(System.in);
 
     public Organizer(String name, String password, Date dateOfBirth) {
@@ -38,6 +38,11 @@ public class Organizer extends User {
         this.ReservedRooms.add(Database.events.get(Database.events.indexOf(e)).getRoom());
         Database.organizers.add(this);
         this.setID();
+    }
+
+    public ArrayList<Room> getRooms()
+    {
+        return this.ReservedRooms;
     }
 
     @Override

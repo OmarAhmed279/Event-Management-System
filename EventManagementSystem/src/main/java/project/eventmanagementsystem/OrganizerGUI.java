@@ -51,7 +51,7 @@ public class OrganizerGUI {
             try {
                 int amount = Integer.parseInt(balanceField.getText().trim());
                 if (amount > 0) {
-                    org.wallet.setBalance(org.wallet.getBalance() + amount);
+                    org.getWallet().setBalance(org.getWallet().getBalance() + amount);
                     balanceField.setText(String.valueOf(org.getWallet().getBalance()));
                     errorLabel.setText("");
                 } else {
@@ -94,7 +94,6 @@ public class OrganizerGUI {
         scrollPane.setContent(eventsContainer);
         // Main layout
         vbox.getChildren().addAll(errorLabel, addEvent, scrollPane);
-
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: grey;");
         Button back = new Button("Back");
@@ -108,7 +107,7 @@ public class OrganizerGUI {
     {
             eventsContainer.getChildren().clear();
 
-            for (Event evt : org.events) {
+            for (Event evt : org.getEvents()) {
                 // Create event details labels
                 Label name = new Label("Name: " + evt.getName());
                 Label description = new Label("Description: " + evt.getDescription());
@@ -124,7 +123,7 @@ public class OrganizerGUI {
                         evt.getRoom().removeEvent(evt);
 
                         // Remove from organizer
-                        org.events.remove(evt);
+                        org.getEvents().remove(evt);
 
                         // Remove from database
                         Database.events.remove(evt);
@@ -308,13 +307,13 @@ public class OrganizerGUI {
                 }
 
                 // Check wallet balance
-                if (org.wallet.getBalance() < Database.rooms.get(roomNo).getPrice()) {
+                if (org.getWallet().getBalance() < Database.rooms.get(roomNo).getPrice()) {
                     statusLabel.setText("Insufficient funds!");
                     return;
                 }
 
                 // Deduct from wallet
-                org.wallet.setBalance(org.wallet.getBalance() - Database.rooms.get(roomNo).getPrice());
+                org.getWallet().setBalance(org.getWallet().getBalance() - Database.rooms.get(roomNo).getPrice());
                 Database.appOwnerBalance += Database.rooms.get(roomNo).getPrice();
 
                 // Create event
@@ -328,9 +327,9 @@ public class OrganizerGUI {
                         org
                 );
 
-                org.events.add(newEvent);
-                if (!org.ReservedRooms.contains(Database.rooms.get(roomNo))) {
-                    org.ReservedRooms.add(Database.rooms.get(roomNo));
+                org.getEvents().add(newEvent);
+                if (!org.getRooms().contains(Database.rooms.get(roomNo))) {
+                    org.getRooms().add(Database.rooms.get(roomNo));
                 }
 
                 statusLabel.setStyle("-fx-text-fill: green;");
@@ -489,17 +488,17 @@ public class OrganizerGUI {
         });
         VBox vbox = new VBox(username, statusUsername, password, statuspassword, dateOfBirthLabel, walletBalanceLabel,  updateInfo, eventLabel);
         vbox.setAlignment(Pos.CENTER);
-        for (int i = 0; i < org.events.size(); i++) {
-            Label name = new Label("Name: " + org.events.get(i).getName());
-            Label description = new Label("Description: " + org.events.get(i).getDescription());
-            Label category = new Label("Category: " + org.events.get(i).getCategory().getName());
-            Label price = new Label("Price: " + org.events.get(i).getPrice());
-            Label room = new Label("Room: " + org.events.get(i).getRoom().getID());
+        for (int i = 0; i < org.getEvents().size(); i++) {
+            Label name = new Label("Name: " + org.getEvents().get(i).getName());
+            Label description = new Label("Description: " + org.getEvents().get(i).getDescription());
+            Label category = new Label("Category: " + org.getEvents().get(i).getCategory().getName());
+            Label price = new Label("Price: " + org.getEvents().get(i).getPrice());
+            Label room = new Label("Room: " + org.getEvents().get(i).getRoom().getID());
             HBox event = new HBox(name, description, category, price, room);
-            for (int j = 0; j < org.events.get(i).getAttendees().size(); j++) {
-                event.getChildren().add(new Label("    Name: " + org.events.get(i).getAttendees().get(j).getUsername()));
+            for (int j = 0; j < org.getEvents().get(i).getAttendees().size(); j++) {
+                event.getChildren().add(new Label("    Name: " + org.getEvents().get(i).getAttendees().get(j).getUsername()));
             }
-            event.getChildren().add(new Label("Date of Event: " + org.events.get(i).getDate()));
+            event.getChildren().add(new Label("Date of Event: " + org.getEvents().get(i).getDate()));
             vbox.getChildren().add(event);
         }
         BorderPane root = new BorderPane();

@@ -53,7 +53,8 @@ public final class Database {
         for (int i = 0; i < 50; i++)
         {
             String name = "cool" + (i+1);
-            Database.categories.add(new Category(name, ""));
+            Category cat = new Category(name, "");
+            Database.categories.add(cat);
         }
     }
 }
