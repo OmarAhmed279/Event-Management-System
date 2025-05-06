@@ -358,23 +358,36 @@ class UserGUI {
         login.add(loginButton, 1, 3);
         Scene loginScene = new Scene(login, 800, 600);
         loginButton.setOnAction(e -> {
+            boolean isfound = false;
             for (int i=0 ; i<Database.users.size(); i++){
-                if (usernameField.getText().equals(Database.users.get(i).getUsername()) && passwordField.getText().equals(Database.users.get(i).getPassword())){
-                   if (Database.users.get(i) instanceof Organizer) {
-                       Main.get_stage().setScene(OrganizerGUI.dashboard((Organizer)Database.users.get(i)));
-                   }
-                   else if(Database.users.get(i) instanceof Attendee){
-                       Main.get_stage().setScene(AttendeeGUI.AttendeeDashboard((Attendee) Database.users.get(i)));
-                   }
-                   else {
-                       Main.get_stage().setScene(AdminGUI.dashboardScene((Admin)Database.users.get(i)));
-                   }
-                }
-                else {
-                    Label message = new Label("Username or Password incorrect");
-                    message.setTextFill(Color.DARKRED);
-                    message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
-                    login.add(message, 3, 2);
+                if (!isfound) {
+                    if (usernameField.getText().equals(Database.users.get(i).getUsername()) && passwordField.getText().equals(Database.users.get(i).getPassword())){
+                        if (!Database.users.get(i).getIsSuspended()) {
+                            if (Database.users.get(i) instanceof Organizer) {
+                                Main.get_stage().setScene(OrganizerGUI.dashboard((Organizer)Database.users.get(i)));
+                            }
+                            else if(Database.users.get(i) instanceof Attendee){
+                                Main.get_stage().setScene(AttendeeGUI.AttendeeDashboard((Attendee) Database.users.get(i)));
+                            }
+                            else {
+                                Main.get_stage().setScene(AdminGUI.dashboardScene((Admin)Database.users.get(i)));
+                            }
+                        } else {
+                            isfound = true;
+                            Label message = new Label("User is suspended");
+                            message.setTextFill(Color.DARKRED);
+                            message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+                            login.add(message, 3, 2);
+                        }
+                    }
+                    else {
+                        Label message = new Label("Username or Password incorrect");
+                        message.setTextFill(Color.DARKRED);
+                        message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+                        login.add(message, 3, 2);
+                    }
+                } else {
+                    break;
                 }
 
             }
