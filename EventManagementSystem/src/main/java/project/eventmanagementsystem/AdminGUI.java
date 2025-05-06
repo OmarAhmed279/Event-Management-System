@@ -584,11 +584,6 @@ public class AdminGUI
                 suspendButton.setVisible(showActions);
                 unsuspendButton.setVisible(showActions);
                 deleteButton.setVisible(showActions);
-
-                // Clear status when showing actions
-                if (showActions) {
-                    statusLabel.setText("");
-                }
             });
 
             userEntry.getChildren().addAll(userButton, suspendButton, unsuspendButton, deleteButton, statusLabel);
@@ -599,7 +594,5 @@ public class AdminGUI
         Scene usersuspensionsScene = new Scene(usersuspensions, 800, 520);
         return usersuspensionsScene;
     }
-
-
 
 }
