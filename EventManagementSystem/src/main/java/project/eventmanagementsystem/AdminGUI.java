@@ -5,6 +5,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -49,9 +55,9 @@ public class AdminGUI
             Main.get_stage().setScene(manageUsersScene(admin));
         });
 //
-//        manageEventsBtn.setOnAction(e -> {
-//            Main.get_stage().setScene(manageEventsScene());
-//        });
+        manageEventsBtn.setOnAction(e -> {
+            Main.get_stage().setScene(manageEventsScene(admin));
+        });
 //
 //        manageRoomsBtn.setOnAction(e -> {
 //            Main.get_stage().setScene(manageRoomsScene());
@@ -61,10 +67,10 @@ public class AdminGUI
 //            Main.get_stage().setScene(manageCategoriesScene());
 //        });
 //
-//        logoutBtn.setOnAction(e -> {
-//            User.logOut();
-//            Main.get_stage().setScene(EventManagementSystem.Home());
-//        });
+        logoutBtn.setOnAction(e -> {
+            User.logOut();
+            Main.get_stage().setScene(Main.Home());
+        });
 
         dashboardPane.getChildren().addAll(
                 welcomeLabel, AdminOptions
@@ -72,7 +78,35 @@ public class AdminGUI
        Scene AdminDashboard = new Scene(dashboardPane, 800, 520);
        return AdminDashboard;
     }
-   public static Scene AdminProfileScene(Admin admin)
+
+    public static Scene manageEventsScene(Admin admin) {
+        // Main container
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(15));
+
+        // Error label
+        Label errorLabel = new Label("");
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        // Create a scroll pane to hold all events
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setFitToWidth(true);
+        VBox eventsContainer = new VBox(10);
+        eventsContainer = refreshManageEventsPane(eventsContainer,admin,errorLabel);
+        scrollPane.setContent(eventsContainer);
+        // Main layout
+        vbox.getChildren().addAll(errorLabel, scrollPane);
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: grey;");
+        Button back = new Button("Back");
+        back.setOnAction(e -> Main.get_stage().setScene(dashboardScene(admin)));
+        root.setBottom(back);
+        root.setCenter(vbox);
+
+        return new Scene(root, 800, 600);
+    }
+
+    public static Scene AdminProfileScene(Admin admin)
    {
        Pane ShowAdminProfile = new Pane();
 
@@ -596,3 +630,65 @@ public class AdminGUI
     }
 
 }
+
+
+    public static VBox refreshManageEventsPane(VBox vbox, Admin admin, Label error) {
+        vbox.getChildren().clear();
+
+        for (Event evt : Database.events) {
+            // Create event details labels
+            Label name = new Label("Name: " + evt.getName());
+            Label description = new Label("Description: " + evt.getDescription());
+            Label category = new Label("Category: " + evt.getCategory().getName());
+            Label price = new Label("Price: " + evt.getPrice());
+            Label room = new Label("Room: " + evt.getRoom().getID());
+
+            // Delete button
+            Button delete = new Button("Delete");
+            delete.setOnAction(e -> {
+                try {
+                    // Remove from room
+                    evt.getRoom().removeEvent(evt);
+
+                    // Remove from organizer
+                    evt.getOrganizer().getEvents().remove(evt);
+
+                    // Remove from database
+                    Database.events.remove(evt);
+
+                    // Update IDs - this might need reconsideration
+                    for (int j = 0; j < Database.events.size(); j++) {
+                        Database.events.get(j).setID();
+                    }
+
+                    // Refresh the UI
+                    error.setText("");
+                } catch (Exception ex) {
+                    error.setText("Error deleting event: " + ex.getMessage());
+                }
+                refreshManageEventsPane(vbox,admin,error);
+            });
+
+            // Create event box
+            HBox eventBox = new HBox(10, name, description, category, price, room, delete);
+            eventBox.setPadding(new Insets(10));
+            eventBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 5;");
+
+            // Add attendees if any
+            if (!evt.getAttendees().isEmpty()) {
+                VBox attendeesBox = new VBox(5);
+                attendeesBox.getChildren().add(new Label("Attendees:"));
+                for (User attendee : evt.getAttendees()) {
+                    attendeesBox.getChildren().add(new Label("  • " + attendee.getUsername()));
+                }
+                eventBox.getChildren().add(attendeesBox);
+            }
+
+            // Add date
+            eventBox.getChildren().add(new Label("Date: " + evt.getDate()));
+
+            vbox.getChildren().add(eventBox);
+        }
+        return  vbox;
+        }
+    }
