@@ -591,23 +591,9 @@ public class AdminGUI
 
                 statusLabel.setText("Deleted: " + currentUser.getUsername());
                 statusLabel.setTextFill(Color.RED);
-
-                if (currentUser instanceof Organizer) {
-                    for (User user : Database.users) {
-                        if (user instanceof Organizer && user.getID() > deletedId) {
-                            user.setID((user.getID() - 1));
-                        }
-                    }
+                for (User user : Database.users) {
+                    user.setID();
                 }
-                // If the deleted user was an Attendee, update other Attendees' IDs
-                else if (currentUser instanceof Attendee) {
-                    for (User user : Database.users) {
-                        if (user instanceof Attendee && user.getID() > deletedId) {
-                            user.setID(user.getID() - 1);
-                        }
-                    }
-                }
-                // Hide action buttons after operation
                 suspendButton.setVisible(false);
                 unsuspendButton.setVisible(false);
                 deleteButton.setVisible(false);
@@ -629,7 +615,7 @@ public class AdminGUI
         return usersuspensionsScene;
     }
 
-}
+
 
 
     public static VBox refreshManageEventsPane(VBox vbox, Admin admin, Label error) {
@@ -692,3 +678,4 @@ public class AdminGUI
         return  vbox;
         }
     }
+
