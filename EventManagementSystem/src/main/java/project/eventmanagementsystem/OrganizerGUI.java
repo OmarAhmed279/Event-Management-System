@@ -296,9 +296,12 @@ public class OrganizerGUI {
                     statusLabel.setText("Please enter valid numbers for date fields!");
                     return;
                 }
-
                 Date eventDate = new Date(year, month - 1, day, hour, 0);
-
+                if(eventDate.before(new Date(LocalDateTime.now().getYear(),LocalDateTime.now().getMonthValue() - 1, LocalDateTime.now().getDayOfMonth(),LocalDateTime.now().getHour(),0)))
+                {
+                    statusLabel.setText("date can't be in the past!");
+                    return;
+                }
                 // Show room selection dialog
                 int roomNo = rentRoom(eventDate);
                 if (roomNo == -1) {
