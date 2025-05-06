@@ -126,6 +126,7 @@ public class Main extends Application {
         option2.setOnAction(event -> {
             primaryStage.setScene(UserGUI.LoginScene());
             primaryStage.show();
+
         });
         return Home;
     }
