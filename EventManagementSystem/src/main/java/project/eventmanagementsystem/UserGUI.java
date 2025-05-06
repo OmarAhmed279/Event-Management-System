@@ -357,6 +357,11 @@ class UserGUI {
         Button loginButton = new Button("Login");
         login.add(loginButton, 1, 3);
         Scene loginScene = new Scene(login, 800, 600);
+        Label message = new Label("Username or Password incorrect");
+        message.setTextFill(Color.DARKRED);
+        message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        message.setText("");
+        login.add(message, 3, 2);
         loginButton.setOnAction(e -> {
             boolean isfound = false;
             for (int i=0 ; i<Database.users.size(); i++){
@@ -374,17 +379,11 @@ class UserGUI {
                             }
                         } else {
                             isfound = true;
-                            Label message = new Label("User is suspended");
-                            message.setTextFill(Color.DARKRED);
-                            message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
-                            login.add(message, 3, 2);
+                            message.setText("User is suspended.");
                         }
                     }
                     else {
-                        Label message = new Label("Username or Password incorrect");
-                        message.setTextFill(Color.DARKRED);
-                        message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
-                        login.add(message, 3, 2);
+                        message.setText("Incorrect Username or Password.");
                     }
                 } else {
                     break;
