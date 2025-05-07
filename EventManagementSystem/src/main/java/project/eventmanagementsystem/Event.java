@@ -36,6 +36,10 @@ public class Event {
         this.ID = Database.events.indexOf(this);
         this.organizer = u;
     }
+    public String toString() {
+        return this.name; // Assuming Category has a 'name' field
+        // Or return whatever field best represents the category
+    }
 
     public Event(Event event) {
         this.name = event.name;

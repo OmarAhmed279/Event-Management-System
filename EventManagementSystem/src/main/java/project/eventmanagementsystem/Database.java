@@ -28,6 +28,7 @@ public final class Database {
     public static User owner;
 
     public static User baduser;
+    public static User seif;
 
     static {
         new Room(10);
@@ -40,6 +41,8 @@ public final class Database {
         new Organizer("mrorg", "1234", new Date(2000, 1, 1));
 
         baduser = new Attendee("baduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("notpaying","doesn't pay"));
+
+        seif = new Attendee("seif", "1010", new Date(2007, 1, 10), "M", "ss",new Category("notpaying","doesn't pay"));
 
         //admins.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 

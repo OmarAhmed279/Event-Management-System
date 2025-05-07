@@ -24,6 +24,10 @@ public class Category {
         setID();
     }
 
+    public String toString() {
+        return this.name; // Assuming Category has a 'name' field
+        // Or return whatever field best represents the category
+    }
     public String getName() {
         return name;
     }

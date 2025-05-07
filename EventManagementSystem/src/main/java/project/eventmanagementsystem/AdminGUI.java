@@ -4,15 +4,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -68,6 +65,7 @@ public class AdminGUI
 //        });
 //
         logoutBtn.setOnAction(e -> {
+            User.logOut();
             Main.get_stage().setScene(Main.Home());
         });
 
@@ -401,21 +399,12 @@ public class AdminGUI
        Title.setLayoutX(320);
        Title.setLayoutY(20);
 
-//       System.out.println("--------------------Manage Users--------------------");
-//       System.out.println("[1] Suspend User");
-//       System.out.println("[2] Unsuspend User");
-//       System.out.println("[3] Delete User");
-//       System.out.println("[4] Show all Users");
-//       System.out.println("[5] Return to Dashboard");
-
        VBox MangeuserVBox = new VBox(20);
        MangeuserVBox.setAlignment(Pos.CENTER);
        Button ManageSuspension = new Button("Manage User suspensions ");
        ManageSuspension.setPrefSize(300, 40);
        Button returnbtn = new Button("Return to Dashboard");
        returnbtn.setPrefSize(300, 40);
-       Button logoutBtn = new Button("Logout");
-       logoutBtn.setPrefSize(300, 40);
        Button ShowUsersbtn = new Button("Show Users");
        ShowUsersbtn.setPrefSize(300, 40);
 
@@ -440,7 +429,7 @@ public class AdminGUI
        logout.setOnAction(ex -> {
            Main.get_stage().setScene(Main.Home());
        });
-       MangeuserVBox.getChildren().addAll(ManageSuspension, ShowUsersbtn, returnbtn, logoutBtn);
+       MangeuserVBox.getChildren().addAll(ManageSuspension, ShowUsersbtn, returnbtn);
 
        Mangeuser.getChildren().addAll(MangeuserVBox, Title, logout, Back);
 
@@ -448,6 +437,12 @@ public class AdminGUI
        ManageSuspension.setOnAction(e -> {
            Main.get_stage().setScene(ManageUserSuspension(admin));
        });
+
+       returnbtn.setOnAction(e -> {
+           Main.get_stage().setScene(dashboardScene(admin));
+       });
+
+
 
        ShowUsersbtn.setOnAction(e -> {
            Pane showUsers = new Pane();
@@ -480,6 +475,14 @@ public class AdminGUI
            ShowOrganizersBtn.setLayoutY(260);
            ShowOrganizersBtn.setTextFill(Color.BLACK);
 
+           showAttendeesBtn.setOnAction(ex -> {
+               Main.get_stage().setScene(showAttendees(admin));
+                   });
+
+           ShowOrganizersBtn.setOnAction(ex -> {
+               Main.get_stage().setScene(showOrganizers(admin));
+           });
+
            showUsers.getChildren().addAll(showAttendeesBtn, ShowOrganizersBtn, showUsersLabel, logout, retuenbtn, Back);
            Main.get_stage().setScene(new Scene(showUsers, 800, 520));
        });
@@ -488,6 +491,223 @@ public class AdminGUI
        return ManageUsersScene;
 
    }
+
+    public static Scene showAttendees(Admin admin) {
+        Pane showAttendeesPane = new Pane();
+
+        Label Title = new Label("Attendees");
+        Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+        Title.setLayoutX(300);
+        Title.setLayoutY(20);
+
+        // Create a VBox to hold all attendee information
+        VBox attendeesContainer = new VBox(10);
+        attendeesContainer.setPadding(new Insets(60, 10, 10, 10));
+
+        for (Attendee attendee : Database.attendees) {
+            // Create a pane for each attendee
+            Pane attendeePane = new Pane();
+            attendeePane.setStyle("-fx-border-color: #cccccc; -fx-border-width: 1; -fx-padding: 10;");
+            attendeePane.setPrefSize(600, 300); // Increased height to accommodate more information
+            attendeePane.setLayoutX(90);
+            attendeePane.setLayoutY(80);
+
+            // Create labels for each field
+            Label usernameLabel = new Label("Username: " + attendee.getUsername());
+            usernameLabel.setLayoutX(10);
+            usernameLabel.setLayoutY(10);
+
+            Label dobLabel = new Label("Date of Birth: " + attendee.getDateOfBirth().getDate() + " / " +
+                    attendee.getDateOfBirth().getMonth() + " / " +
+                    attendee.getDateOfBirth().getYear());
+            dobLabel.setLayoutX(10);
+            dobLabel.setLayoutY(40);
+
+            Label genderLabel = new Label("Gender: " + attendee.getGender().toString());
+            genderLabel.setLayoutX(10);
+            genderLabel.setLayoutY(70);
+
+            Label addressLabel = new Label("Address: " + attendee.getAddress());
+            addressLabel.setLayoutX(10);
+            addressLabel.setLayoutY(100);
+
+            // Interests label and display
+            Label interestsTitleLabel = new Label("Interests:");
+            interestsTitleLabel.setLayoutX(10);
+            interestsTitleLabel.setLayoutY(130);
+
+            // Create a horizontal flow pane for interests
+            FlowPane interestsPane = new FlowPane();
+            interestsPane.setLayoutX(80);
+            interestsPane.setLayoutY(130);
+            interestsPane.setHgap(5);
+
+// Remove these lines from your code:
+// l1.setLayoutX(30);
+// l1.setLayoutY(160);
+
+// Replace your interests display code with this:
+            if (attendee.getInterests().isEmpty()) {
+                Label noInterestsLabel = new Label("No interests");
+                noInterestsLabel.setLayoutX(30);
+                noInterestsLabel.setLayoutY(160);
+                interestsPane.getChildren().add(noInterestsLabel);
+            } else {
+                HBox interestsBox = new HBox(5); // 5px spacing between elements
+                interestsBox.setLayoutX(30);
+                interestsBox.setLayoutY(160);
+
+                for (int i = 0; i < attendee.getInterests().size(); i++) {
+                    interestsBox.getChildren().add(new Label(attendee.getInterests().get(i).toString()));
+                    if (i < attendee.getInterests().size() - 1) {
+                        interestsBox.getChildren().add(new Label(" - "));
+                    }
+                }
+                interestsPane.getChildren().add(interestsBox);
+            }
+
+            // Registered Events label and display
+            Label eventsTitleLabel = new Label("Registered Events:");
+            eventsTitleLabel.setLayoutX(10);
+            eventsTitleLabel.setLayoutY(160);
+
+            // Create a vertical box for events
+            VBox eventsBox = new VBox(5);
+            eventsBox.setLayoutX(120);
+            eventsBox.setLayoutY(160);
+
+            if (attendee.getRegisteredEvents().isEmpty()) {
+                eventsBox.getChildren().add(new Label("None"));
+            } else {
+                for (Event event : attendee.getRegisteredEvents()) {
+                    eventsBox.getChildren().add(new Label("- " + event.toString())); // Assuming Event has a good toString()
+                }
+            }
+
+            attendeePane.getChildren().addAll(
+                    usernameLabel, dobLabel, genderLabel,
+                    addressLabel, interestsTitleLabel, interestsPane,
+                    eventsTitleLabel, eventsBox
+            );
+
+            // Add the attendee pane to the container
+            attendeesContainer.getChildren().add(attendeePane);
+        }
+
+        // Create a scroll pane and set the attendees container as its content
+        ScrollPane scrollPane = new ScrollPane(attendeesContainer);
+        scrollPane.setLayoutX(90);
+        scrollPane.setLayoutY(80);
+        scrollPane.setPrefSize(620, 450); // Slightly larger to accommodate more content
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Only vertical scrolling
+
+        // Add all components to the main pane
+        showAttendeesPane.getChildren().addAll(Title, scrollPane);
+
+        // Return the scene
+        return new Scene(showAttendeesPane, 800, 600);
+    }
+
+    public static Scene showOrganizers(Admin admin) {
+        Pane showOrganizersPane = new Pane();
+
+        Label Title = new Label("Organizers");
+        Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+        Title.setLayoutX(300);
+        Title.setLayoutY(20);
+
+        // Create a VBox to hold all attendee information
+        VBox organizersContainer = new VBox(10);
+        organizersContainer.setPadding(new Insets(60, 10, 10, 10));
+
+        for (Organizer organizer : Database.organizers) {
+            // Create a pane for each attendee
+            Pane organizerPane = new Pane();
+            organizerPane.setStyle("-fx-border-color: #cccccc; -fx-border-width: 1; -fx-padding: 10;");
+            organizerPane.setPrefSize(600, 300); // Increased height to accommodate more information
+            organizerPane.setLayoutX(90);
+            organizerPane.setLayoutY(80);
+
+            // Create labels for each field
+            Label usernameLabel = new Label("Username: " + organizer.getUsername());
+            usernameLabel.setLayoutX(10);
+            usernameLabel.setLayoutY(10);
+
+            Label dobLabel = new Label("Date of Birth: " + organizer.getDateOfBirth().getDate() + " / " +
+                    organizer.getDateOfBirth().getMonth() + " / " +
+                    organizer.getDateOfBirth().getYear());
+            dobLabel.setLayoutX(10);
+            dobLabel.setLayoutY(40);
+
+            // Interests label and display
+            Label EventsLabel = new Label("Events Made:  ");
+            EventsLabel.setLayoutX(10);
+            EventsLabel.setLayoutY(70);
+
+            // Create a horizontal flow pane for interests
+            FlowPane EventsPane = new FlowPane();
+            EventsPane.setLayoutX(90);
+            EventsPane.setLayoutY(70);
+            EventsPane.setHgap(5);
+
+            if (organizer.getEvents().isEmpty()) {
+                Label noEventsLabel = new Label("No events made yet");
+                noEventsLabel.setLayoutX(30);
+                noEventsLabel.setLayoutY(100);
+                EventsPane.getChildren().add(noEventsLabel);
+            } else {
+                HBox EventsBox = new HBox(5);
+                EventsBox.setLayoutX(30);
+                EventsBox.setLayoutY(100);
+
+                for (int i = 0; i < organizer.getEvents().size(); i++) {
+                    EventsBox.getChildren().add(new Label(organizer.getEvents().get(i).toString()));
+                    if (i < organizer.getEvents().size() - 1) {
+                        EventsBox.getChildren().add(new Label(" - "));
+                    }
+                }
+                EventsPane.getChildren().add(EventsBox);
+            }
+
+            Label ReservedRoomsTitleLabel = new Label("Reserved Rooms:");
+            ReservedRoomsTitleLabel.setLayoutX(10);
+            ReservedRoomsTitleLabel.setLayoutY(130);
+
+            // Create a vertical box for Rooms
+            VBox RoomsBox = new VBox(5);
+            RoomsBox.setLayoutX(110);
+            RoomsBox.setLayoutY(130);
+
+            if (organizer.getRooms().isEmpty()) {
+                RoomsBox.getChildren().add(new Label("None"));
+            } else {
+                for (Room room : organizer.getRooms()) {
+                    RoomsBox.getChildren().add(new Label("- " + room.toString()));
+                }
+            }
+
+            organizerPane.getChildren().addAll(
+                    usernameLabel, dobLabel,
+                    EventsLabel, EventsPane,
+                    ReservedRoomsTitleLabel, RoomsBox
+            );
+
+            organizersContainer.getChildren().add(organizerPane);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(organizersContainer);
+        scrollPane.setLayoutX(90);
+        scrollPane.setLayoutY(80);
+        scrollPane.setPrefSize(620, 450); // Slightly larger to accommodate more content
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Only vertical scrolling
+
+        // Add all components to the main pane
+        showOrganizersPane.getChildren().addAll(Title, scrollPane);
+
+        // Return the scene
+        return new Scene(showOrganizersPane, 800, 600);
+    }
+
     public static Scene ManageUserSuspension(Admin admin) {
         Pane usersuspensions = new Pane();
         Label usersSuspension = new Label("Users suspensions");
@@ -593,6 +813,7 @@ public class AdminGUI
                 for (User user : Database.users) {
                     user.setID();
                 }
+                // Hide action buttons after operation
                 suspendButton.setVisible(false);
                 unsuspendButton.setVisible(false);
                 deleteButton.setVisible(false);
@@ -675,6 +896,9 @@ public class AdminGUI
             vbox.getChildren().add(eventBox);
         }
         return  vbox;
-        }
     }
+}
+
+
+
 
