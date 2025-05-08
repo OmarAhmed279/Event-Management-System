@@ -60,7 +60,8 @@ public final class Database {
             Category cat = new Category(name, "");
             Database.categories.add(cat);
         }
-        Attendee gooduser = new Attendee("gooduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("cool0","doesn't pay"));
+        Database.categories.add(new Category("a","a"));
+        Attendee gooduser = new Attendee("gooduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("a","a"));
 
     }
 }

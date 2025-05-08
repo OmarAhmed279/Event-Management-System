@@ -345,34 +345,26 @@ Pwallet.setCenter(Details);
         vscroll.setSpacing(10);
         ScrollPane scrollPane=new ScrollPane();
 
-
-
-
         for (int i = 0 ; i <Database.events.size();i++){
             boolean isAdded = false;
             boolean interested = false;
             for (int j = 0 ; j< attendee.getRegisteredEvents().size() ;j++){
                 if(Database.events.get(i).getID()==attendee.getRegisteredEvents().get(j).getID()  ){ //  if by name then use->       if(Database.events.get(i).getName().equals(attendee.getRegisteredEvents().get(j).getName() )){
-
-
                     isAdded=true;
                 }
 
-                if (isFiletered) {
-                    for (Category interests : attendee.getInterests()){
-                        if((interests.getName().equals(Database.events.get(i).getCategory().getName()))){
-                            interested=true;
-                        }
+
+            }
+            if (isFiletered) {
+                for (Category interests : attendee.getInterests()){
+                    if((interests.getName().equals(Database.events.get(i).getCategory().getName()))){
+                        interested=true;
                     }
                 }
             }
 
-
-
             if((isFiletered ? (!isAdded && interested) : !isAdded)) {
                 HBox temphbox = new HBox();
-
-
                 Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate()+ "\n") ;
                 Label error = new Label("");
                 Button BtnAdd = new Button("Add");
