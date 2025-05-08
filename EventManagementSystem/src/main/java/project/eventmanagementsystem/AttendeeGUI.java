@@ -171,8 +171,23 @@ public class AttendeeGUI {
 
         Details.getChildren().addAll(LUsername, tfUsername, statusUsername, LPassword, tfPassword, statuspassword, LDate, LBalance,/*tfBalance,statusbalance,*/ Btnupdate);
 
+        ScrollPane scrollPaneinterests=new ScrollPane();
+        VBox vscrollInterests = new VBox();
+        vscrollInterests.setSpacing(10);
+        for (int i = 0; i < attendee.getInterests().size(); i++) {
+            VBox vbox = new VBox();
+            vscrollInterests.getChildren().add(vbox);
+            Label interestLabel = new Label("interest [" + i + "]:"+attendee.getInterests().get(i));
+
+            vbox.getChildren().addAll(interestLabel);
+
+        }
+        scrollPaneinterests.setContent(vscrollInterests);
+
+
         ScrollPane scrollPane=new ScrollPane();
         VBox vscroll = new VBox();
+        vscroll.setSpacing(10);
         for (int i = 0; i < attendee.getRegisteredEvents().size(); i++) {
             VBox vbox = new VBox();
             vscroll.getChildren().add(vbox);
@@ -192,7 +207,7 @@ public class AttendeeGUI {
             Main.primaryStage.setScene(AttendeeDashboard(attendee));
         });
 
-        Details.getChildren().addAll(scrollPane,BtnBack);
+        Details.getChildren().addAll(scrollPaneinterests,scrollPane,BtnBack);
         // profile.getChildren().addAll(Lprofile,Details);
         profile.setTop(Lprofile);
         BorderPane.setAlignment(Lprofile, Pos.CENTER);
@@ -245,25 +260,33 @@ Pwallet.setCenter(Details);
         Details.getChildren().addAll(LBalance,tfBalance,statusbalance,Btnupdate,BtnBack);
         return new Scene(Pwallet,800,580);
     }
-    public static Scene BrowseEvents (Attendee attendee){
+   /* public static Scene BrowseEvents (Attendee attendee){
        BorderPane borderPane = new BorderPane();
        VBox vbox = new VBox();
-       Label LBrowse=new Label("Browse Events");
-       LBrowse.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
-       borderPane.setTop(LBrowse);
-       borderPane.setCenter(vbox);
-       VBox vscroll =  new VBox();
-       ScrollPane scrollPane=new ScrollPane();
+        Label LBrowse=new Label("Browse Events");
+        LBrowse.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
+        borderPane.setTop(LBrowse);
+        borderPane.setCenter(vbox);
+        VBox vscroll =  new VBox();
+        ScrollPane scrollPane=new ScrollPane();
+
+
+
+
+
                     for (int i = 0 ; i <Database.events.size();i++){
                         boolean isAdded = false;
                         for (int j = 0 ; j< attendee.getRegisteredEvents().size() ;j++){
-                            if(Database.events.get(i).getName().equals(attendee.getRegisteredEvents().get(j).getName() )){
+                            if(Database.events.get(i).getID()==attendee.getRegisteredEvents().get(j).getID() ){ //  if by name then use->       if(Database.events.get(i).getName().equals(attendee.getRegisteredEvents().get(j).getName() )){
+
                                 isAdded=true;
                             }
                         }
                         if(!isAdded) {
                             HBox temphbox = new HBox();
-                            Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate());
+
+
+                            Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate()+ "\n") ;
                             Label error = new Label("");
                             Button BtnAdd = new Button("Add");
                             BtnAdd.setPrefWidth(50);
@@ -299,10 +322,99 @@ Pwallet.setCenter(Details);
         BtnBack.setOnAction(e->{
             Main.primaryStage.setScene(AttendeeDashboard(attendee));
         });
+        Button BtnFilter = new Button("Filter");
+        BtnFilter.setOnAction(e->{
+            Main.primaryStage.setScene(BrowseEventsFiltered(attendee));
+        });
+
         vbox.getChildren().addAll(scrollPane);
-        borderPane.setBottom(BtnBack);
+        HBox btndown=new HBox();
+        btndown.getChildren().addAll(BtnBack,BtnFilter);
+        borderPane.setBottom(btndown);
        return new Scene(borderPane,800,580);
+    }*/
+    static boolean isFiletered=false;
+    public static Scene BrowseEvents(Attendee attendee){
+        BorderPane borderPane = new BorderPane();
+        VBox vbox = new VBox();
+        Label LBrowse=new Label("Browse Events");
+        LBrowse.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
+        borderPane.setTop(LBrowse);
+        borderPane.setCenter(vbox);
+        VBox vscroll =  new VBox();
+        vscroll.setSpacing(10);
+        ScrollPane scrollPane=new ScrollPane();
+
+        for (int i = 0 ; i <Database.events.size();i++){
+            boolean isAdded = false;
+            boolean interested = false;
+            for (int j = 0 ; j< attendee.getRegisteredEvents().size() ;j++){
+                if(Database.events.get(i).getID()==attendee.getRegisteredEvents().get(j).getID()  ){ //  if by name then use->       if(Database.events.get(i).getName().equals(attendee.getRegisteredEvents().get(j).getName() )){
+                    isAdded=true;
+                }
+
+
+            }
+            if (isFiletered) {
+                for (Category interests : attendee.getInterests()){
+                    if((interests.getName().equals(Database.events.get(i).getCategory().getName()))){
+                        interested=true;
+                    }
+                }
+            }
+
+            if((isFiletered ? (!isAdded && interested) : !isAdded)) {
+                HBox temphbox = new HBox();
+                Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate()+ "\n") ;
+                Label error = new Label("");
+                Button BtnAdd = new Button("Add");
+                BtnAdd.setPrefWidth(50);
+
+                temphbox.getChildren().addAll(text,error,BtnAdd);
+                vscroll.getChildren().add(temphbox);
+
+                int tempindex = i;
+                BtnAdd.setOnAction(e -> {
+                    if (attendee.getWallet().getBalance()<Database.events.get(tempindex).getPrice()) {
+                        error.setText("Not enough money");
+                        error.setStyle("-fx-text-fill:red;");
+                        return;
+                    }
+                    Database.events.get(tempindex).addAttendee(attendee);
+                    attendee.getWallet().setBalance(attendee.getWallet().getBalance() - Database.events.get(tempindex).getPrice());
+                    attendee.getRegisteredEvents().add(Database.events.get(tempindex));
+                    temphbox.getChildren().clear();
+                    vscroll.getChildren().clear();
+                    Main.primaryStage.setScene(BrowseEvents(attendee));
+
+
+                });
+            }
+
+        }
+
+        scrollPane.setContent(vscroll);
+
+        Button BtnBack = new Button("Go back");
+
+        BtnBack.setPrefWidth(200);
+        BtnBack.setOnAction(e->{
+            Main.primaryStage.setScene(AttendeeDashboard(attendee));
+        });
+        Button BtnFilter = new Button("Filter");
+        BtnFilter.setOnAction(e->{
+            isFiletered = !isFiletered;
+            Main.primaryStage.setScene(BrowseEvents(attendee));
+        });
+
+        vbox.getChildren().addAll(scrollPane);
+        HBox btndown=new HBox();
+        btndown.getChildren().addAll(BtnBack,BtnFilter);
+        borderPane.setBottom(btndown);
+        return new Scene(borderPane,800,580);
     }
+
+
 }
 
 
