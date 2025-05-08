@@ -19,7 +19,9 @@ import javafx.util.StringConverter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.InputMismatchException;
+import java.util.Set;
 
 public class OrganizerGUI {
     public static Scene dashboard(Organizer org) {
@@ -41,7 +43,6 @@ public class OrganizerGUI {
     }
 
     static Scene manageWallet(Organizer org) {
-
             BorderPane Pwallet= new BorderPane();
             Label Lwallet=new Label("Manage Wallet");
             Lwallet.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
@@ -60,12 +61,11 @@ public class OrganizerGUI {
             Button Btnupdate= new Button("Update");
             Btnupdate.setPrefWidth(200);
             Btnupdate.setOnAction(e->{
-                try {//balance
+                try {
                     double newBalance = Double.parseDouble(tfBalance.getText());
                     if (newBalance>0) {
                         org.getWallet().setBalance(newBalance);
                     }
-
                 }
                 catch (NumberFormatException ex) {
                     statusbalance.setText("Error: Please enter a valid number");
@@ -85,47 +85,35 @@ public class OrganizerGUI {
         }
 
     static Scene manageEvents(Organizer org) {
-        // Main container
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(15));
-
-        // Error label
         Label errorLabel = new Label("");
         errorLabel.setStyle("-fx-text-fill: red;");
-
-        // Add Event button
         Button addEvent = new Button("Add Event");
         addEvent.setOnAction(e -> Main.get_stage().setScene(addEvent(org)));
-
-        // Create a scroll pane to hold all events
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
         VBox eventsContainer = new VBox(10);
         eventsContainer = refreshEvents(eventsContainer,org,errorLabel);
         scrollPane.setContent(eventsContainer);
-        // Main layout
         vbox.getChildren().addAll(errorLabel, addEvent, scrollPane);
         BorderPane root = new BorderPane();
         Button back = new Button("Back");
         back.setOnAction(e -> Main.get_stage().setScene(dashboard(org)));
         root.setBottom(back);
         root.setCenter(vbox);
-
-        return new Scene(root, 800, 600); // Added reasonable dimensions
+        return new Scene(root, 800, 600);
     }
     private static VBox refreshEvents(VBox eventsContainer, Organizer org, Label errorLabel)
     {
             eventsContainer.getChildren().clear();
 
             for (Event evt : org.getEvents()) {
-                // Create event details labels
                 Label name = new Label("Name: " + evt.getName());
                 Label description = new Label("Description: " + evt.getDescription());
                 Label category = new Label("Category: " + evt.getCategory().getName());
                 Label price = new Label("Price: " + evt.getPrice());
                 Label room = new Label("Room: " + evt.getRoom().getID());
-
-                // Delete button
                 Button delete = new Button("Delete");
                 delete.setOnAction(e -> {
                     try {
@@ -170,20 +158,21 @@ public class OrganizerGUI {
         VBox mainLayout = new VBox(10);
         mainLayout.setPadding(new Insets(15));
         mainLayout.setAlignment(Pos.CENTER);
-
-        // Event Name
         Label nameLabel = new Label("Event Name:");
         TextField nameField = new TextField();
-
-        // Category Selection
         Label categoryLabel = new Label("Category:");
         ComboBox<String> categoryCombo = new ComboBox<>();
+        Set<String> addedCategories = new HashSet<>();
+        int cnt = 1;
         for (int i = 0; i < Database.categories.size(); i++) {
-            categoryCombo.getItems().add(Database.categories.get(i).getName() + " [" + (i + 1) + "]");
+            String name = Database.categories.get(i).getName();
+            if (!addedCategories.contains(name)) {
+                addedCategories.add(name);
+                categoryCombo.getItems().add(name + " [" + cnt + "]");
+                cnt++;
+            }
         }
-        categoryCombo.setPromptText("Select a category");
-
-        // Description
+        categoryCombo.setPromptText("choose category");
         Label descLabel = new Label("Description:");
         TextArea descArea = new TextArea();
         descArea.setPrefRowCount(3);
@@ -406,7 +395,6 @@ public class OrganizerGUI {
 
     private static void showAvailableRooms(Date eventDate, GridPane grid) {
         grid.getChildren().clear(); // Clear previous room listings
-
         int row = 0;
         for (int i = 0; i < Database.rooms.size(); i++) {
             if (Database.rooms.get(i).IsAvailable(eventDate)) {
@@ -416,11 +404,14 @@ public class OrganizerGUI {
                 row++;
             }
         }
-
         if (row == 0) {
             grid.add(new Label("No rooms available for the selected time."), 0, 0);
         }
     }
+
+    private static Label statusUsername = new Label();
+    private static Label statuspassword = new Label();
+
     static Scene showProfile(Organizer org) {
         Label usernameLabel = new Label("Username:");
         TextField usernameField = new TextField(org.getUsername());
@@ -440,53 +431,40 @@ public class OrganizerGUI {
         walletBalanceLabel.setAlignment(Pos.CENTER);
         Label eventLabel = new Label("Events:");
         eventLabel.setAlignment(Pos.CENTER);
-        Label statusUsername = new Label();
-        Label statuspassword = new Label();
         Button updateInfo = new Button("Update Information");
         updateInfo.setOnAction(e->{
+            statuspassword.setText("");
+            statusUsername.setText("");
             if (!usernameField.getText().isEmpty()) {
             if (!Character.isLetter(usernameField.getText().charAt(0))) {
-                System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
                 statusUsername.setText("Username must start with a letter (A-Z, a-z). Try again.");
                 statusUsername.setStyle("-fx-text-fill: red;");
-                return;
-
-
             }
-            if (usernameField.getText().contains(" ")) {
-                System.out.println("Username cannot contain spaces. Try again.");
+            else if (usernameField.getText().contains(" ")) {
                 statusUsername.setText("Username cannot contain spaces. Try again.");
                 statusUsername.setStyle("-fx-text-fill: red;");
-                return;
-
-
             }
-            if (usernameField.getText().length() < 4 || usernameField.getText().length() > 20) {
-                System.out.println("Username must be 4-20 characters long. Try again.");
+            else if (usernameField.getText().length() < 4 || usernameField.getText().length() > 20) {
                 statusUsername.setText("Username must be 4-20 characters long. Try again.");
                 statusUsername.setStyle("-fx-text-fill: red;");
-                return;
-
             }
-            org.setUsername(usernameField.getText());
-            System.out.println("Username changed successfully.");
-            statusUsername.setText("Updated");
-            statusUsername.setStyle("-fx-text-fill: green;");
-
+            else if(!org.getUsername().equals(usernameField.getText())) {
+                org.setUsername(usernameField.getText());
+                statusUsername.setText("Updated");
+                statusUsername.setStyle("-fx-text-fill: green;");
+            }
         }
 
-            if (!passwordField.getText().isEmpty()) {//password
-
-
+            if (!passwordField.getText().isEmpty()) {
                 if (passwordField.getText().length() < 4 || passwordField.getText().length() > 20) {
-                    System.out.println("Password must be 4-20 characters long. Try again.");
                     statuspassword.setText("Password must be 4-20 characters long. Try again.");
                     statuspassword.setStyle("-fx-text-fill: red;");
-                    return;
                 }
-                org.setPassword(passwordField.getText());
-                statuspassword.setText("Updated");
-                statuspassword.setStyle("-fx-text-fill: green;");
+                else if(!org.getPassword().equals(passwordField.getText())) {
+                        org.setPassword(passwordField.getText());
+                        statuspassword.setText("Updated");
+                        statuspassword.setStyle("-fx-text-fill: green;");
+                }
             }
             Main.primaryStage.setScene(showProfile(org));
         });
@@ -510,7 +488,10 @@ public class OrganizerGUI {
         vbox.setSpacing(10);
         BorderPane root = new BorderPane();
         Button Back = new Button("Back");
-        Back.setOnAction(e -> Main.get_stage().setScene(dashboard(org)));
+        Back.setOnAction(e -> {
+            statusUsername.setText("");
+            statuspassword.setText("");
+            Main.get_stage().setScene(dashboard(org));});
         root.setBottom(Back);
         root.setCenter(vbox);
         return new Scene(root,800,520);

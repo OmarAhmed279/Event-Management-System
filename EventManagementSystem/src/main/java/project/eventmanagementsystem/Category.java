@@ -14,18 +14,26 @@ public class Category {
     private int ID;
 
     Category(String name, String description) {
-     /*  if (Database.categories.size()!=0 && Database.categories.contains(name)) {
-           System.out.println(name+"already exsits!!");
-       }
-       else{*/
         this.name = name;
         this.description = description;
-        Database.categories.add(this);
-        setID();
+        boolean found = false;
+        for(int i = 0; i < Database.categories.size(); i++)
+        {
+            if(name.equalsIgnoreCase(Database.categories.get(i).getName()))
+            {
+                found = true;
+                break;
+            }
+        }
+        if(!found)
+        {
+            Database.categories.add(this);
+            setID();
+        }
     }
 
     public String toString() {
-        return this.name; // Assuming Category has a 'name' field
+        return this.name + this.description; // Assuming Category has a 'name' field
         // Or return whatever field best represents the category
     }
     public String getName() {
