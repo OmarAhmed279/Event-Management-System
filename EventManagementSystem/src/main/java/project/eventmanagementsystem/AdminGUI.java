@@ -410,12 +410,11 @@ public class AdminGUI
        MangeuserVBox.setLayoutX(300);
        MangeuserVBox.setLayoutY(150);
 
-       Button Back = new Button("Back");
-       Back.setPrefSize(100, 30);
-       Back.setLayoutX(20);
-       Back.setLayoutY(480);
-       Back.setTextFill(Color.BLACK);
-       Back.setOnAction(ex -> {
+       returnbtn.setPrefSize(100, 30);
+       returnbtn.setLayoutX(20);
+       returnbtn.setLayoutY(480);
+       returnbtn.setTextFill(Color.BLACK);
+       returnbtn.setOnAction(ex -> {
            Main.get_stage().setScene(manageUsersScene(admin));
        });
 
@@ -430,7 +429,7 @@ public class AdminGUI
        });
        MangeuserVBox.getChildren().addAll(ManageSuspension, ShowUsersbtn, returnbtn);
 
-       Mangeuser.getChildren().addAll(MangeuserVBox, Title, logout, Back);
+       Mangeuser.getChildren().addAll(MangeuserVBox, Title, logout, returnbtn);
 
 
        ManageSuspension.setOnAction(e -> {
@@ -482,7 +481,7 @@ public class AdminGUI
                Main.get_stage().setScene(showOrganizers(admin));
            });
 
-           showUsers.getChildren().addAll(showAttendeesBtn, ShowOrganizersBtn, showUsersLabel, logout, retuenbtn, Back);
+           showUsers.getChildren().addAll(showAttendeesBtn, ShowOrganizersBtn, showUsersLabel, logout, retuenbtn, returnbtn);
            Main.get_stage().setScene(new Scene(showUsers, 800, 520));
        });
 
