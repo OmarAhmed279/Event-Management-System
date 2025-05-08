@@ -50,10 +50,10 @@ public final class Database {
         for (int i = 0; i < 50; i++)
         {
             String name = "cool" + (i+1);
+            System.out.println("Before addition -> size of Database: " + Database.categories.size());
             Category cat = new Category(name, "");
-            Database.categories.add(cat);
+            System.out.println("After addition -> size of Database: " + Database.categories.size());
         }
-
         Event bigevent = new Event("big", "", Database.categories.get(1), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
         Event smallevent = new Event("small", "", Database.categories.get(2), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
         users.get(baduser.getID()).setIsSuspended(true); // baduser is suspended
