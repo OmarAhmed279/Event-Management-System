@@ -47,19 +47,19 @@ public final class Database {
 
         //admins.add(new Admin("mradmin","0000",new Date(1,1,1), "owner"));
 
-        Event bigevent = new Event("big", "", new Category("cool0", ""), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
-        Event smallevent = new Event("small", "", new Category("cool0", ""), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
-        users.get(baduser.getID()).setIsSuspended(true); // baduser is suspended
-        events.get(0).addAttendee((Attendee) users.get(2));
-        ((Attendee) users.get(2)).getRegisteredEvents().add(bigevent);
-        organizers.get(0).getEvents().add(bigevent);
-
         for (int i = 0; i < 50; i++)
         {
             String name = "cool" + (i+1);
             Category cat = new Category(name, "");
             Database.categories.add(cat);
         }
+
+        Event bigevent = new Event("big", "", Database.categories.get(1), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
+        Event smallevent = new Event("small", "", Database.categories.get(2), 4, Database.rooms.get(0), new Date(2025, 1, 1), Database.organizers.get(0));
+        users.get(baduser.getID()).setIsSuspended(true); // baduser is suspended
+        events.get(0).addAttendee((Attendee) users.get(2));
+        ((Attendee) users.get(2)).getRegisteredEvents().add(bigevent);
+        organizers.get(0).getEvents().add(bigevent);
         Database.categories.add(new Category("a","a"));
         Attendee gooduser = new Attendee("gooduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("a","a"));
 

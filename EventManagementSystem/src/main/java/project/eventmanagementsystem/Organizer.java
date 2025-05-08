@@ -35,6 +35,7 @@ public class Organizer extends User {
     public Organizer(String user, String pass, Date d, Event e) {
         this(user, pass, d);
         this.events.add(e);
+        ReservedRooms = new ArrayList<Room>();
         this.ReservedRooms.add(Database.events.get(Database.events.indexOf(e)).getRoom());
         Database.organizers.add(this);
         this.setID();
