@@ -24,7 +24,6 @@ import java.util.InputMismatchException;
 public class OrganizerGUI {
     public static Scene dashboard(Organizer org) {
         BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: grey;");
         Button Logout = new Button("Logout");
         Logout.setOnAction(e -> Main.get_stage().setScene(Main.Home()));
         root.setBottom(Logout);
@@ -37,41 +36,53 @@ public class OrganizerGUI {
         HBox buttonsPane = new HBox(profile, manageEvents, manageWallet);
         buttonsPane.setSpacing(10.0);
         buttonsPane.setAlignment(Pos.CENTER);
-        buttonsPane.setStyle("-fx-background-color: transparent;");
         root.setCenter(buttonsPane);
         return new Scene(root, 800, 520);
     }
 
     static Scene manageWallet(Organizer org) {
-        TextField balanceField = new TextField(String.valueOf(org.getWallet().getBalance()));
-        Label errorLabel = new Label("");
-        errorLabel.setStyle("-fx-text-fill: red;");
-        Button addMoney = new Button("Add Money");
-        addMoney.setOnAction(e -> {
-            try {
-                int amount = Integer.parseInt(balanceField.getText().trim());
-                if (amount > 0) {
-                    org.getWallet().setBalance(org.getWallet().getBalance() + amount);
-                    balanceField.setText(String.valueOf(org.getWallet().getBalance()));
-                    errorLabel.setText("");
-                } else {
-                    errorLabel.setText("Invalid amount!");
+
+            BorderPane Pwallet= new BorderPane();
+            Label Lwallet=new Label("Manage Wallet");
+            Lwallet.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
+            Pwallet.setTop(Lwallet);
+            BorderPane.setAlignment(Lwallet,Pos.CENTER);
+            VBox Details = new VBox();
+            Details.setSpacing(10.0);
+            Details.setAlignment(Pos.CENTER);
+            Pwallet.setCenter(Details);
+
+            TextField tfBalance = new TextField();
+            tfBalance.setPrefSize(200, 20);;
+            tfBalance.setMaxWidth(Region.USE_PREF_SIZE);
+            Label statusbalance=new Label();
+            Label LBalance=new Label("Wallet Balance: "+org.getWallet().getBalance() );
+            Button Btnupdate= new Button("Update");
+            Btnupdate.setPrefWidth(200);
+            Btnupdate.setOnAction(e->{
+                try {//balance
+                    double newBalance = Double.parseDouble(tfBalance.getText());
+                    if (newBalance>0) {
+                        org.getWallet().setBalance(newBalance);
+                    }
+
                 }
-            } catch (InputMismatchException ex) {
-                errorLabel.setText("Invalid input!");
-            }
-        });
-        VBox vbox = new VBox(errorLabel,balanceField, addMoney);
-        vbox.setSpacing(10);
-        vbox.setAlignment(Pos.CENTER);
-        BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: grey;");
-        Button Back = new Button("Back");
-        Back.setOnAction(e -> Main.get_stage().setScene(dashboard(org)));
-        root.setBottom(Back);
-        root.setCenter(vbox);
-        return new Scene(root,800,520);
-    }
+                catch (NumberFormatException ex) {
+                    statusbalance.setText("Error: Please enter a valid number");
+                    statusbalance.setStyle("-fx-text-fill: red;");
+                    return;
+                }
+                Main.primaryStage.setScene(manageWallet(org));
+
+            }); Button BtnBack = new Button("Go back");
+
+            BtnBack.setPrefWidth(200);
+            BtnBack.setOnAction(e->{
+                Main.primaryStage.setScene(dashboard(org));
+            });
+            Details.getChildren().addAll(LBalance,tfBalance,statusbalance,Btnupdate,BtnBack);
+            return new Scene(Pwallet,800,580);
+        }
 
     static Scene manageEvents(Organizer org) {
         // Main container
@@ -95,7 +106,6 @@ public class OrganizerGUI {
         // Main layout
         vbox.getChildren().addAll(errorLabel, addEvent, scrollPane);
         BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: grey;");
         Button back = new Button("Back");
         back.setOnAction(e -> Main.get_stage().setScene(dashboard(org)));
         root.setBottom(back);
@@ -140,13 +150,9 @@ public class OrganizerGUI {
                     }
                     refreshEvents(eventsContainer,org,errorLabel);
                 });
-
-                // Create event box
                 HBox eventBox = new HBox(10, name, description, category, price, room, delete);
                 eventBox.setPadding(new Insets(10));
                 eventBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 5;");
-
-                // Add attendees if any
                 if (!evt.getAttendees().isEmpty()) {
                     VBox attendeesBox = new VBox(5);
                     attendeesBox.getChildren().add(new Label("Attendees:"));
@@ -155,10 +161,7 @@ public class OrganizerGUI {
                     }
                     eventBox.getChildren().add(attendeesBox);
                 }
-
-                // Add date
-                eventBox.getChildren().add(new Label("Date: " + evt.getDate()));
-
+                eventBox.getChildren().add(new Label("Date: " + evt.getDate().getDay() + " / " + evt.getDate().getMonth() + " / " + evt.getDate().getYear()));
                 eventsContainer.getChildren().add(eventBox);
             }
             return  eventsContainer;
@@ -344,7 +347,6 @@ public class OrganizerGUI {
             }
         });
         BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: grey;");
         Button Back = new Button("Back");
         Back.setOnAction(e -> Main.get_stage().setScene(manageEvents(org)));
         root.setBottom(Back);
@@ -426,15 +428,13 @@ public class OrganizerGUI {
         usernameLabel.setLabelFor(usernameField);
         HBox username = new HBox(usernameLabel, usernameField);
         username.setAlignment(Pos.CENTER);
-        username.setSpacing(5);
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField(org.getPassword());
         passwordField.setStyle("-fx-font-size: 14px; -fx-padding: 8px;");
         passwordLabel.setLabelFor(passwordField);
         HBox password = new HBox(passwordLabel, passwordField);
         password.setAlignment(Pos.CENTER);
-        password.setSpacing(5);
-        Label dateOfBirthLabel = new Label("Date of Birth: " + org.getDateOfBirth().toString());
+        Label dateOfBirthLabel = new Label("Date of Birth: " + org.getDateOfBirth().getDay() + " / " + org.getDateOfBirth().getMonth() + " / " + org.getDateOfBirth().getYear());
         dateOfBirthLabel.setAlignment(Pos.CENTER);
         Label walletBalanceLabel = new Label("Balance: " + String.valueOf(org.getWallet().getBalance()));
         walletBalanceLabel.setAlignment(Pos.CENTER);
@@ -491,6 +491,7 @@ public class OrganizerGUI {
         });
         VBox vbox = new VBox(username, statusUsername, password, statuspassword, dateOfBirthLabel, walletBalanceLabel,  updateInfo, eventLabel);
         vbox.setAlignment(Pos.CENTER);
+        ScrollPane scrollPane = new ScrollPane();
         for (int i = 0; i < org.getEvents().size(); i++) {
             Label name = new Label("Name: " + org.getEvents().get(i).getName());
             Label description = new Label("Description: " + org.getEvents().get(i).getDescription());
@@ -501,11 +502,12 @@ public class OrganizerGUI {
             for (int j = 0; j < org.getEvents().get(i).getAttendees().size(); j++) {
                 event.getChildren().add(new Label("    Name: " + org.getEvents().get(i).getAttendees().get(j).getUsername()));
             }
-            event.getChildren().add(new Label("Date of Event: " + org.getEvents().get(i).getDate()));
-            vbox.getChildren().add(event);
+            event.getChildren().add(new Label("Date of Event: " + org.getEvents().get(i).getDate().getDay() + " / " + org.getEvents().get(i).getDate().getMonth() + " / " + org.getEvents().get(i).getDate().getYear()));
+            scrollPane.setContent(event);
         }
+        vbox.getChildren().add(scrollPane);
+        vbox.setSpacing(10);
         BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: grey;");
         Button Back = new Button("Back");
         Back.setOnAction(e -> Main.get_stage().setScene(dashboard(org)));
         root.setBottom(Back);

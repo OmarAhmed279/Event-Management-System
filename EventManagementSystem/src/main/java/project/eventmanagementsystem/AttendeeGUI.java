@@ -248,16 +248,12 @@ Pwallet.setCenter(Details);
     public static Scene BrowseEvents (Attendee attendee){
        BorderPane borderPane = new BorderPane();
        VBox vbox = new VBox();
-        Label LBrowse=new Label("Browse Events");
-        LBrowse.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
-        borderPane.setTop(LBrowse);
-        borderPane.setCenter(vbox);
-        VBox vscroll =  new VBox();
-        ScrollPane scrollPane=new ScrollPane();
-
-
-
-
+       Label LBrowse=new Label("Browse Events");
+       LBrowse.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
+       borderPane.setTop(LBrowse);
+       borderPane.setCenter(vbox);
+       VBox vscroll =  new VBox();
+       ScrollPane scrollPane=new ScrollPane();
                     for (int i = 0 ; i <Database.events.size();i++){
                         boolean isAdded = false;
                         for (int j = 0 ; j< attendee.getRegisteredEvents().size() ;j++){
@@ -267,8 +263,6 @@ Pwallet.setCenter(Details);
                         }
                         if(!isAdded) {
                             HBox temphbox = new HBox();
-
-
                             Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate());
                             Label error = new Label("");
                             Button BtnAdd = new Button("Add");
@@ -309,8 +303,6 @@ Pwallet.setCenter(Details);
         borderPane.setBottom(BtnBack);
        return new Scene(borderPane,800,580);
     }
-
-
 }
 
 
