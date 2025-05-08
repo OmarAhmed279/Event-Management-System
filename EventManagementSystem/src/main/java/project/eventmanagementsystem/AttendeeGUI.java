@@ -65,8 +65,8 @@ public class AttendeeGUI {
        return new Scene(dashboard,800,520);
     }
 
-    static Label statusUsername = new Label();
-    static Label statuspassword = new Label();
+   private static Label statusUsername = new Label();
+    private static Label statuspassword = new Label();
     public static Scene ShowProfile(Attendee attendee) {
         BorderPane profile = new BorderPane();
 
