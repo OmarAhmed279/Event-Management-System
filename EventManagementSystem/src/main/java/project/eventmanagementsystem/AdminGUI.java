@@ -65,7 +65,6 @@ public class AdminGUI
 //        });
 //
         logoutBtn.setOnAction(e -> {
-            User.logOut();
             Main.get_stage().setScene(Main.Home());
         });
 
