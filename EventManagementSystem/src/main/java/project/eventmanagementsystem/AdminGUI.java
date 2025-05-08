@@ -414,9 +414,6 @@ public class AdminGUI
        returnbtn.setLayoutX(20);
        returnbtn.setLayoutY(480);
        returnbtn.setTextFill(Color.BLACK);
-       returnbtn.setOnAction(ex -> {
-           Main.get_stage().setScene(manageUsersScene(admin));
-       });
 
 
        Button logout = new Button("Logout");
@@ -498,6 +495,15 @@ public class AdminGUI
         Title.setLayoutX(300);
         Title.setLayoutY(20);
 
+        Button retuenbtn = new Button("Return to Dashboard");
+        retuenbtn.setPrefSize(150, 30);
+        retuenbtn.setLayoutX(20);
+        retuenbtn.setLayoutY(30);
+        retuenbtn.setTextFill(Color.BLACK);
+        retuenbtn.setOnAction(ex -> {
+            Main.get_stage().setScene(dashboardScene(admin));
+        });
+
         // Create a VBox to hold all attendee information
         VBox attendeesContainer = new VBox(10);
         attendeesContainer.setPadding(new Insets(60, 10, 10, 10));
@@ -540,11 +546,7 @@ public class AdminGUI
             interestsPane.setLayoutY(130);
             interestsPane.setHgap(5);
 
-// Remove these lines from your code:
-// l1.setLayoutX(30);
-// l1.setLayoutY(160);
 
-// Replace your interests display code with this:
             if (attendee.getInterests().isEmpty()) {
                 Label noInterestsLabel = new Label("No interests");
                 noInterestsLabel.setLayoutX(30);
@@ -600,7 +602,7 @@ public class AdminGUI
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Only vertical scrolling
 
         // Add all components to the main pane
-        showAttendeesPane.getChildren().addAll(Title, scrollPane);
+        showAttendeesPane.getChildren().addAll(Title, scrollPane, retuenbtn);
 
         // Return the scene
         return new Scene(showAttendeesPane, 800, 600);
@@ -613,6 +615,15 @@ public class AdminGUI
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
         Title.setLayoutY(20);
+
+        Button retuenbtn = new Button("Return to Dashboard");
+        retuenbtn.setPrefSize(150, 30);
+        retuenbtn.setLayoutX(20);
+        retuenbtn.setLayoutY(30);
+        retuenbtn.setTextFill(Color.BLACK);
+        retuenbtn.setOnAction(ex -> {
+            Main.get_stage().setScene(dashboardScene(admin));
+        });
 
         // Create a VBox to hold all attendee information
         VBox organizersContainer = new VBox(10);
@@ -700,7 +711,7 @@ public class AdminGUI
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Only vertical scrolling
 
         // Add all components to the main pane
-        showOrganizersPane.getChildren().addAll(Title, scrollPane);
+        showOrganizersPane.getChildren().addAll(Title, scrollPane, retuenbtn);
 
         // Return the scene
         return new Scene(showOrganizersPane, 800, 600);
@@ -729,26 +740,16 @@ public class AdminGUI
             Main.get_stage().setScene(manageUsersScene(admin));
         });
 
-        Button retuenbtn = new Button("Return to Dashboard");
-        retuenbtn.setPrefSize(150, 30);
-        retuenbtn.setLayoutX(20);
-        retuenbtn.setLayoutY(30);
-        retuenbtn.setTextFill(Color.BLACK);
-        retuenbtn.setOnAction(e -> {
+        Button returnbtn = new Button("Return to Dashboard");
+        returnbtn.setPrefSize(150, 30);
+        returnbtn.setLayoutX(20);
+        returnbtn.setLayoutY(30);
+        returnbtn.setTextFill(Color.BLACK);
+        returnbtn.setOnAction(e -> {
             Main.get_stage().setScene(dashboardScene(admin));
         });
 
-
-        Button logout = new Button("Logout");
-        logout.setPrefSize(100, 30);
-        logout.setLayoutX(140);
-        logout.setLayoutY(480);
-        logout.setTextFill(Color.BLACK);
-        logout.setOnAction(e -> {
-            Main.get_stage().setScene(Main.Home());
-        });
-
-        usersuspensions.getChildren().addAll(usersSuspension, usersuspensionsScrollPane, Back, logout, retuenbtn);
+        usersuspensions.getChildren().addAll(usersSuspension, usersuspensionsScrollPane, Back, returnbtn);
 
         VBox Vscroll = new VBox(10);
         Vscroll.setPadding(new Insets(10));
