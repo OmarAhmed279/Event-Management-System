@@ -94,7 +94,7 @@ public class AttendeeGUI {
         tfPassword.setMaxWidth(Region.USE_PREF_SIZE);
 
 
-        Label LDate = new Label("Date of Birth: " + attendee.getDateOfBirth());
+        Label LDate = new Label("Date of Birth: " +attendee.getDateOfBirth().getDay()+"/"+attendee.getDateOfBirth().getMonth()+"/"+attendee.getDateOfBirth().getYear());
 
 
         Label LBalance = new Label("Wallet Balance: " + attendee.getWallet().getBalance());
@@ -108,6 +108,8 @@ public class AttendeeGUI {
         Btnupdate.setPrefWidth(200);
         Btnupdate.setOnAction(e -> {
             //username
+
+
             if (!tfUsername.getText().isEmpty()) {
                 if (!Character.isLetter(tfUsername.getText().charAt(0))) {
                     System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
@@ -194,7 +196,7 @@ public class AttendeeGUI {
             Label eventLabel = new Label("Event [" + i + "]:");
             Label organizerLabel = new Label("Event organizer: " + attendee.getRegisteredEvents().get(i).getOrganizer().getUsername());
             Label nameLabel = new Label("Event name: " + attendee.getRegisteredEvents().get(i).getName());
-            Label dateLabel = new Label("Event date: " + attendee.getRegisteredEvents().get(i).getDate());
+            Label dateLabel = new Label("Event date: " + attendee.getDateOfBirth().getDay()+"/"+attendee.getDateOfBirth().getMonth()+"/"+attendee.getDateOfBirth().getYear());
 
             vbox.getChildren().addAll(eventLabel, organizerLabel, nameLabel, dateLabel);
 
@@ -365,7 +367,7 @@ Pwallet.setCenter(Details);
 
             if((isFiletered ? (!isAdded && interested) : !isAdded)) {
                 HBox temphbox = new HBox();
-                Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate()+ "\n") ;
+                Label text = new Label("Name:" + Database.events.get(i).getName() + "  ,Description:" + Database.events.get(i).getDescription() + "\n" + "Category:" + Database.events.get(i).getCategory().getName() + "  ,Price:  " + Database.events.get(i).getPrice() + "\n" + "Room:" + Database.events.get(i).getRoom().getID() + "  ,Organizer:" + Database.events.get(i).getOrganizer().getUsername() + "\n" + "Date:" + Database.events.get(i).getDate().getDay()+"/"+Database.events.get(i).getDate().getMonth()+"/"+Database.events.get(i).getDate().getYear()+ "\n") ;
                 Label error = new Label("");
                 Button BtnAdd = new Button("Add");
                 BtnAdd.setPrefWidth(50);

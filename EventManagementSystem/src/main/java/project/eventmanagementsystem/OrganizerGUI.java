@@ -443,7 +443,8 @@ public class OrganizerGUI {
         Label statusUsername = new Label();
         Label statuspassword = new Label();
         Button updateInfo = new Button("Update Information");
-        updateInfo.setOnAction(e->{if (!usernameField.getText().isEmpty()) {
+        updateInfo.setOnAction(e->{
+            if (!usernameField.getText().isEmpty()) {
             if (!Character.isLetter(usernameField.getText().charAt(0))) {
                 System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
                 statusUsername.setText("Username must start with a letter (A-Z, a-z). Try again.");
