@@ -121,6 +121,7 @@ public class Main extends Application {
         // Correct way to set button action
         option1.setOnAction(event -> {
             primaryStage.setScene(UserGUI.signupRegistration());
+            primaryStage.setResizable(false);
             primaryStage.show();
         });
         option2.setOnAction(event -> {

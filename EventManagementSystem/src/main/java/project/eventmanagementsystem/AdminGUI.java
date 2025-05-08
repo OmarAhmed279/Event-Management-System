@@ -55,15 +55,15 @@ public class AdminGUI
         manageEventsBtn.setOnAction(e -> {
             Main.get_stage().setScene(manageEventsScene(admin));
         });
-//
+
 //        manageRoomsBtn.setOnAction(e -> {
 //            Main.get_stage().setScene(manageRoomsScene());
 //        });
 //
-//        manageCategoriesBtn.setOnAction(e -> {
-//            Main.get_stage().setScene(manageCategoriesScene());
-//        });
-//
+        manageCategoriesBtn.setOnAction(e -> {
+            Main.get_stage().setScene(manageCategoriesScene(admin));
+        });
+
         logoutBtn.setOnAction(e -> {
             Main.get_stage().setScene(Main.Home());
         });
@@ -603,8 +603,6 @@ public class AdminGUI
 
         // Add all components to the main pane
         showAttendeesPane.getChildren().addAll(Title, scrollPane, retuenbtn);
-
-        // Return the scene
         return new Scene(showAttendeesPane, 800, 600);
     }
 
@@ -834,8 +832,191 @@ public class AdminGUI
         return usersuspensionsScene;
     }
 
+    public static Scene manageCategoriesScene(Admin admin) {
+        Pane manageCategoriesPane = new Pane();
+        Label Title = new Label("Manage Categories");
+        Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+        Title.setLayoutX(300);
+        Title.setLayoutY(20);
+
+        Button Back = new Button("Back");
+        Back.setPrefSize(100, 30);
+        Back.setLayoutX(20);
+        Back.setLayoutY(480);
+        Back.setTextFill(Color.BLACK);
+        Back.setOnAction(e -> {
+            Main.get_stage().setScene(dashboardScene(admin));
+        });
+
+        Button logout = new Button("Logout");
+        logout.setPrefSize(100, 30);
+        logout.setLayoutX(140);
+        logout.setLayoutY(480);
+        logout.setTextFill(Color.BLACK);
+        logout.setOnAction(ex -> {
+            Main.get_stage().setScene(Main.Home());
+        });
+
+        Button AddCategoriesBtn = new Button("Add Categories");
+        AddCategoriesBtn.setPrefSize(300, 40);
+        AddCategoriesBtn.setLayoutX(280);
+        AddCategoriesBtn.setLayoutY(180);
+        AddCategoriesBtn.setTextFill(Color.BLACK);
+
+        Button ShowCategoriesBtn = new Button("Show Categories");
+        ShowCategoriesBtn.setPrefSize(300, 40);
+        ShowCategoriesBtn.setLayoutX(280);
+        ShowCategoriesBtn.setLayoutY(260);
+        ShowCategoriesBtn.setTextFill(Color.BLACK);
+
+        AddCategoriesBtn.setOnAction(ex -> {
+            Main.get_stage().setScene(AddCategoriesScene(admin));
+        });
+
+        ShowCategoriesBtn.setOnAction(ex -> {
+            Main.get_stage().setScene(ShowCategoriesScene(admin));
+        });
+        manageCategoriesPane.getChildren().addAll(Title, Back, logout, AddCategoriesBtn, ShowCategoriesBtn);
+        Scene manageCategoriesScene = new Scene(manageCategoriesPane, 800, 520);
+        return manageCategoriesScene;
+    }
+
+    public static Scene AddCategoriesScene(Admin admin) {
+        Pane AddCategoriesPane = new Pane();
+        Label Title = new Label("Add Categories");
+        Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+        Title.setLayoutX(300);
+        Title.setLayoutY(20);
+
+        Label nameLabel = new Label("Category Name:");
+        nameLabel.setLayoutX(200);
+        nameLabel.setLayoutY(120);
+
+        TextField nameField = new TextField();
+        nameField.setPromptText("Enter category name (letters only)");
+        nameField.setLayoutX(300);
+        nameField.setLayoutY(120);
+        nameField.setPrefWidth(300);
 
 
+        Label descLabel = new Label("Description:");
+        descLabel.setLayoutX(200);
+        descLabel.setLayoutY(160);
+
+        TextArea descArea = new TextArea();
+        descArea.setPromptText("Enter category description");
+        descArea.setLayoutX(300);
+        descArea.setLayoutY(160);
+        descArea.setPrefWidth(300);
+        descArea.setPrefHeight(100);
+        descArea.setWrapText(true);
+
+        Button submitButton = new Button("Add Category");
+        submitButton.setPrefSize(140, 35);
+        submitButton.setLayoutX(350);
+        submitButton.setLayoutY(300);
+
+        // Status message
+        Label statusLabel = new Label();
+        statusLabel.setLayoutX(300);
+        statusLabel.setLayoutY(350);
+
+
+        Button backButton = new Button("Back");
+        backButton.setPrefSize(100, 30);
+        backButton.setLayoutX(20);
+        backButton.setLayoutY(480);
+        backButton.setTextFill(Color.BLACK);
+        backButton.setOnAction(e -> {
+            Main.get_stage().setScene(manageCategoriesScene(admin));
+        });
+
+        Button returnbtn = new Button("Return to Dashboard");
+        returnbtn.setPrefSize(150, 30);
+        returnbtn.setLayoutX(20);
+        returnbtn.setLayoutY(30);
+        returnbtn.setTextFill(Color.BLACK);
+        returnbtn.setOnAction(e -> {
+            Main.get_stage().setScene(dashboardScene(admin));
+        });
+
+
+        Button logout = new Button("Logout");
+        logout.setPrefSize(100, 30);
+        logout.setLayoutX(140);
+        logout.setLayoutY(480);
+        logout.setTextFill(Color.BLACK);
+        logout.setOnAction(ex -> {
+            Main.get_stage().setScene(Main.Home());
+        });
+
+        // Validation patterns
+        String namePattern = "^[a-zA-Z\\s]+$"; // Only letters and spaces
+        String descPattern = "^[a-zA-Z0-9\\s.,!?-]+$"; // Letters, numbers, and basic punctuation
+
+        submitButton.setOnAction(e -> {
+            String name = nameField.getText().trim();
+            String description = descArea.getText().trim();
+
+            statusLabel.setTextFill(Color.DARKRED);
+
+            // Validate name
+            if (name.isEmpty()) {
+                statusLabel.setText("Category name cannot be empty!");
+                return;
+            }
+
+            if (!name.matches(namePattern)) {
+                statusLabel.setText("Name can only contain letters and spaces!");
+                return;
+            }
+
+            if (name.length() < 3) {
+                statusLabel.setText("Name must be at least 3 characters!");
+                return;
+            }
+
+            // Validate description
+            if (description.isEmpty()) {
+                statusLabel.setText("Description cannot be empty!");
+                return;
+            }
+
+            if (!description.matches(descPattern)) {
+                statusLabel.setText("Description contains invalid characters!");
+                return;
+            }
+
+            if (description.length() < 10) {
+                statusLabel.setText("Description must be at least 10 characters!");
+                return;
+            }
+
+            // Check if category exists
+            for (Category category : Database.categories) {
+                if (category.getName().equals(name)) {
+                    statusLabel.setText("Category already exists!");
+                    return;
+                }
+            }
+
+            new Category(name, description);
+            statusLabel.setText("Category added successfully!");
+            statusLabel.setStyle("-fx-text-fill: #00aa00;");
+            nameField.clear();
+            descArea.clear();
+        });
+
+
+
+        AddCategoriesPane.getChildren().addAll(Title, nameLabel, nameField, descLabel, descArea, submitButton, statusLabel, backButton, returnbtn, logout);
+
+        return new Scene(AddCategoriesPane, 800, 520);
+    }
+    public static Scene ShowCategoriesScene(Admin admin) {
+        Pane ShowCategoriespane = new Pane();
+        return new Scene(ShowCategoriespane, 800, 520);
+    }
 
     public static VBox refreshManageEventsPane(VBox vbox, Admin admin, Label error) {
         vbox.getChildren().clear();
