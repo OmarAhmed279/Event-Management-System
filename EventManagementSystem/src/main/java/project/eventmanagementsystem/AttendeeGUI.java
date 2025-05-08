@@ -65,7 +65,8 @@ public class AttendeeGUI {
        return new Scene(dashboard,800,520);
     }
 
-
+    static Label statusUsername = new Label();
+    static Label statuspassword = new Label();
     public static Scene ShowProfile(Attendee attendee) {
         BorderPane profile = new BorderPane();
 
@@ -100,8 +101,7 @@ public class AttendeeGUI {
         Label LBalance = new Label("Wallet Balance: " + attendee.getWallet().getBalance());
 
 
-        Label statusUsername = new Label();
-        Label statuspassword = new Label();
+
 
 
         Button Btnupdate = new Button("Update");
@@ -110,12 +110,13 @@ public class AttendeeGUI {
             //username
 
 
+            boolean validuser = true;
             if (!tfUsername.getText().isEmpty()) {
                 if (!Character.isLetter(tfUsername.getText().charAt(0))) {
                     System.out.println("Username must start with a letter (A-Z, a-z). Try again.");
                     statusUsername.setText("Username must start with a letter (A-Z, a-z). Try again.");
                     statusUsername.setStyle("-fx-text-fill: red;");
-                    return;
+                    validuser = false;
 
 
                 }
@@ -123,7 +124,7 @@ public class AttendeeGUI {
                     System.out.println("Username cannot contain spaces. Try again.");
                     statusUsername.setText("Username cannot contain spaces. Try again.");
                     statusUsername.setStyle("-fx-text-fill: red;");
-                    return;
+                    validuser = false;
 
 
                 }
@@ -131,15 +132,18 @@ public class AttendeeGUI {
                     System.out.println("Username must be 4-20 characters long. Try again.");
                     statusUsername.setText("Username must be 4-20 characters long. Try again.");
                     statusUsername.setStyle("-fx-text-fill: red;");
-                    return;
+                    validuser = false;
 
                 }
-                attendee.setUsername(tfUsername.getText());
-                System.out.println("Username changed successfully.");
-                statusUsername.setText("Updated");
-                statusUsername.setStyle("-fx-text-fill: green;");
+                if (validuser) {
+                    attendee.setUsername(tfUsername.getText());
+                    System.out.println("Username changed successfully.");
+                    statusUsername.setText("Updated");
+                    statusUsername.setStyle("-fx-text-fill: green;");
+                }
 
-            }
+            }else{statusUsername.setText("");}
+            boolean validpass = true;
 
             if (!tfPassword.getText().isEmpty()) {//password
 
@@ -148,12 +152,15 @@ public class AttendeeGUI {
                     System.out.println("Password must be 4-20 characters long. Try again.");
                     statuspassword.setText("Password must be 4-20 characters long. Try again.");
                     statuspassword.setStyle("-fx-text-fill: red;");
-                    return;
+                    validpass = false;
                 }
-                attendee.setPassword(tfPassword.getText());
-                statuspassword.setText("Updated");
-                statuspassword.setStyle("-fx-text-fill: green;");
-            }
+
+                if (validpass) {
+                    attendee.setPassword(tfPassword.getText());
+                    statuspassword.setText("Updated");
+                    statuspassword.setStyle("-fx-text-fill: green;");
+                }
+            }else{statuspassword.setText("");}
            /* try {//balance
                 double newBalance = Double.parseDouble(tfBalance.getText());
                 if (newBalance>0) {
@@ -169,7 +176,6 @@ public class AttendeeGUI {
 
             Main.primaryStage.setScene(ShowProfile(attendee));
         });
-
 
         Details.getChildren().addAll(LUsername, tfUsername, statusUsername, LPassword, tfPassword, statuspassword, LDate, LBalance,/*tfBalance,statusbalance,*/ Btnupdate);
 
@@ -206,6 +212,8 @@ public class AttendeeGUI {
 
         BtnBack.setPrefWidth(200);
         BtnBack.setOnAction(e -> {
+            statusUsername.setText("");
+            statuspassword.setText("");
             Main.primaryStage.setScene(AttendeeDashboard(attendee));
         });
 
