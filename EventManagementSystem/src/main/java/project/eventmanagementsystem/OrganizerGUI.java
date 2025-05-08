@@ -149,7 +149,7 @@ public class OrganizerGUI {
                     }
                     eventBox.getChildren().add(attendeesBox);
                 }
-                eventBox.getChildren().add(new Label("Date: " + evt.getDate().getDay() + " / " + evt.getDate().getMonth() + " / " + evt.getDate().getYear()));
+                eventBox.getChildren().add(new Label("Date: " + evt.getDate().getDate() + " / " + evt.getDate().getMonth() + " / " + evt.getDate().getYear()));
                 eventsContainer.getChildren().add(eventBox);
             }
             return  eventsContainer;
@@ -392,23 +392,6 @@ public class OrganizerGUI {
 
         return roomDialog.showAndWait().orElse(-1);
     }
-
-    private static void showAvailableRooms(Date eventDate, GridPane grid) {
-        grid.getChildren().clear(); // Clear previous room listings
-        int row = 0;
-        for (int i = 0; i < Database.rooms.size(); i++) {
-            if (Database.rooms.get(i).IsAvailable(eventDate)) {
-                Label roomLabel = new Label("Room " + Database.rooms.get(i).getID() +
-                        " - Price: $" + Database.rooms.get(i).getPrice());
-                grid.add(roomLabel, 0, row);
-                row++;
-            }
-        }
-        if (row == 0) {
-            grid.add(new Label("No rooms available for the selected time."), 0, 0);
-        }
-    }
-
     private static Label statusUsername = new Label();
     private static Label statuspassword = new Label();
 
@@ -425,7 +408,7 @@ public class OrganizerGUI {
         passwordLabel.setLabelFor(passwordField);
         HBox password = new HBox(passwordLabel, passwordField);
         password.setAlignment(Pos.CENTER);
-        Label dateOfBirthLabel = new Label("Date of Birth: " + org.getDateOfBirth().getDay() + " / " + org.getDateOfBirth().getMonth() + " / " + org.getDateOfBirth().getYear());
+        Label dateOfBirthLabel = new Label("Date of Birth: " + org.getDateOfBirth().getDate() + " / " + org.getDateOfBirth().getMonth() + " / " + org.getDateOfBirth().getYear());
         dateOfBirthLabel.setAlignment(Pos.CENTER);
         Label walletBalanceLabel = new Label("Balance: " + String.valueOf(org.getWallet().getBalance()));
         walletBalanceLabel.setAlignment(Pos.CENTER);
@@ -481,7 +464,7 @@ public class OrganizerGUI {
             for (int j = 0; j < org.getEvents().get(i).getAttendees().size(); j++) {
                 event.getChildren().add(new Label("    Name: " + org.getEvents().get(i).getAttendees().get(j).getUsername()));
             }
-            event.getChildren().add(new Label("Date of Event: " + org.getEvents().get(i).getDate().getDay() + " / " + org.getEvents().get(i).getDate().getMonth() + " / " + org.getEvents().get(i).getDate().getYear()));
+            event.getChildren().add(new Label("Date of Event: " + org.getEvents().get(i).getDate().getDate() + " / " + org.getEvents().get(i).getDate().getMonth() + " / " + org.getEvents().get(i).getDate().getYear()));
             scrollPane.setContent(event);
         }
         vbox.getChildren().add(scrollPane);
