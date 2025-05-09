@@ -28,6 +28,7 @@ public class Main extends Application {
         primaryStage = Main.primaryStage;
         //primaryStage.setResizable(false);
         primaryStage.setTitle("Event Management System");
+        primaryStage.setResizable(false);
 
 
 // Make sure this is the ONLY statement for this button
@@ -44,11 +45,12 @@ public class Main extends Application {
     public static Scene Home()
     {
         Pane home = new Pane();
+        home.setPrefSize(800, 520);
         Label salutation = new Label("Welcome to Event Management System");
         salutation.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 35));
         salutation.setAlignment(Pos.CENTER);
         salutation.setTextFill(Color.WHITE);
-        salutation.setLayoutX(150);
+        salutation.setLayoutX(90);
         salutation.setLayoutY(20);
 
         try {

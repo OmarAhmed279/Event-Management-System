@@ -3,7 +3,6 @@ package project.eventmanagementsystem;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -148,6 +147,11 @@ public class AdminGUI
        AtomicReference<Boolean> DayOk = new AtomicReference<>(true);
        AtomicReference<Boolean> MonthOk = new AtomicReference<>(true);
        AtomicReference<Boolean> YearOk = new AtomicReference<>(true);
+       AtomicReference<Boolean> NameOkChanged = new AtomicReference<>(false);
+       AtomicReference<Boolean> PasswordOkChanged = new AtomicReference<>(false);
+       AtomicReference<Boolean> DayOkChanged = new AtomicReference<>(false);
+       AtomicReference<Boolean> MonthOkChanged = new AtomicReference<>(false);
+       AtomicReference<Boolean> YearOkChanged = new AtomicReference<>(false);
 
        // Admin username data
        Label AdminUserName = new Label("Username: ");
@@ -167,6 +171,7 @@ public class AdminGUI
        EditNameBtn.setLayoutY(50);
        EditNameBtn.setTextFill(Color.WHITE);
        EditNameBtn.setOnAction(e -> {
+           NameOkChanged.set(true);
            AdminUserNameField.setEditable(Boolean.TRUE);
            AdminUserNameField.textProperty().addListener((obs, oldVal, newVal) -> {
                if (newVal.isEmpty()) {
@@ -186,6 +191,7 @@ public class AdminGUI
                    nameError.setText("4-20 characters required");
                    nameError.setVisible(true);
                } else {
+                   NameOk.set(true);
                    nameError.setVisible(false);
                }
            });
@@ -209,6 +215,7 @@ public class AdminGUI
        EditPasswordBtn.setLayoutY(80);
        EditPasswordBtn.setTextFill(Color.WHITE);
        EditPasswordBtn.setOnAction(e -> {
+           PasswordOkChanged.set(true);
            AdminPasswordField.setEditable(Boolean.TRUE);
            AdminPasswordField.textProperty().addListener((obs, oldVal, newVal) -> {
                if (newVal.isEmpty()) {
@@ -220,6 +227,7 @@ public class AdminGUI
                    passwordError.setText("4-20 characters required");
                    passwordError.setVisible(true);
                } else {
+                   PasswordOk.set(true);
                    passwordError.setVisible(false);
                }
            });
@@ -252,6 +260,7 @@ public class AdminGUI
        EditDayOfBirthBtn.setLayoutY(130);
        EditDayOfBirthBtn.setTextFill(Color.WHITE);
        EditDayOfBirthBtn.setOnAction(e -> {
+           DayOkChanged.set(true);
            AdminDayOfBirthField.setEditable(Boolean.TRUE);
            AdminDayOfBirthField.textProperty().addListener((obs, oldVal, newVal) -> {
                try {
@@ -261,6 +270,7 @@ public class AdminGUI
                        errorMsgDay.setText("Invalid day (1-31)");
                        errorMsgDay.setVisible(true);
                    } else {
+                       DayOk.set(true);
                        errorMsgDay.setVisible(false);
                    }
                } catch (NumberFormatException ex) {
@@ -289,6 +299,7 @@ public class AdminGUI
        EditMonthOfBirthBtn.setLayoutY(150);
        EditMonthOfBirthBtn.setTextFill(Color.WHITE);
        EditMonthOfBirthBtn.setOnAction(e -> {
+           MonthOkChanged.set(true);
            AdminMonthOfBirthField.setEditable(Boolean.TRUE);
            AdminMonthOfBirthField.textProperty().addListener((obs, oldVal, newVal) -> {
                try {
@@ -298,6 +309,7 @@ public class AdminGUI
                        errorMsgMonth.setText("Invalid month (1-12)");
                        errorMsgMonth.setVisible(true);
                    } else {
+                       MonthOk.set(true);
                        errorMsgMonth.setVisible(false);
                    }
                } catch (NumberFormatException ex) {
@@ -326,6 +338,7 @@ public class AdminGUI
        EditYearOfBirthBtn.setLayoutY(170);
        EditYearOfBirthBtn.setTextFill(Color.WHITE);
        EditYearOfBirthBtn.setOnAction(e -> {
+           YearOkChanged.set(true);
            AdminYearOfBirthField.setEditable(Boolean.TRUE);
            AdminYearOfBirthField.textProperty().addListener((obs, oldVal, newVal) -> {
                try {
@@ -335,6 +348,7 @@ public class AdminGUI
                        errorMsgYear.setText("Invalid year (1900-2015)");
                        errorMsgYear.setVisible(true);
                    } else {
+                       YearOk.set(true);
                        errorMsgYear.setVisible(false);
                    }
                } catch (NumberFormatException ex) {
@@ -373,8 +387,10 @@ public class AdminGUI
        saveBtn.setLayoutY(260);
        saveBtn.setTextFill(Color.WHITE);
        saveBtn.setOnAction(e -> {
-           if(NameOk.get() && PasswordOk.get() && DayOk.get() && MonthOk.get() && YearOk.get())
+           System.out.println("HEY BUT OUTSIDE IF");
+           if((NameOk.get() || !NameOkChanged.get()) && (PasswordOk.get() || !PasswordOkChanged.get()) && (DayOk.get() || !DayOkChanged.get()) && (MonthOk.get() || !MonthOkChanged.get()) && (YearOk.get() || !YearOkChanged.get()))
            {
+             System.out.println("HEY");
              admin.setUsername(AdminUserNameField.getText());
              admin.setPassword(AdminPasswordField.getText());
              admin.setDateOfBirth(new Date(Integer.valueOf(AdminYearOfBirthField.getText()), Integer.valueOf(AdminMonthOfBirthField.getText()) , Integer.valueOf(AdminDayOfBirthField.getText())));
