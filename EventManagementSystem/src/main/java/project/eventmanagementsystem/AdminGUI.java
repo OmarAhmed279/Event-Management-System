@@ -1014,10 +1014,161 @@ public class AdminGUI
         return new Scene(AddCategoriesPane, 800, 520);
     }
     public static Scene ShowCategoriesScene(Admin admin) {
-        Pane ShowCategoriespane = new Pane();
-        return new Scene(ShowCategoriespane, 800, 520);
+        Pane showCategoriesPane = new Pane();
+
+        // Title
+        Label titleLabel = new Label("Categories");
+        titleLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+        titleLabel.setLayoutX(300);  // Centered
+        titleLabel.setLayoutY(20);
+
+        // Scroll pane for categories list
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setLayoutX(100);
+        scrollPane.setLayoutY(100);
+        scrollPane.setPrefSize(600, 300);
+        scrollPane.setFitToWidth(true);
+
+        // Back button (bottom left)
+        Button backButton = new Button("Back");
+        backButton.setPrefSize(100, 30);
+        backButton.setLayoutX(20);
+        backButton.setLayoutY(530);
+        backButton.setTextFill(Color.BLACK);
+        backButton.setOnAction(e -> Main.get_stage().setScene(manageCategoriesScene(admin)));
+
+        // Return to dashboard button (top left)
+        Button returnBtn = new Button("Return to Dashboard");
+        returnBtn.setPrefSize(150, 30);
+        returnBtn.setLayoutX(20);
+        returnBtn.setLayoutY(30);
+        returnBtn.setTextFill(Color.BLACK);
+        returnBtn.setOnAction(e -> Main.get_stage().setScene(dashboardScene(admin)));
+
+        // Save Changes button (bottom right)
+        Button saveButton = new Button("Save Changes");
+        saveButton.setPrefSize(120, 30);
+        saveButton.setLayoutX(650);  // Right-aligned (800px width - 120px button - 30px margin)
+        saveButton.setLayoutY(530);  // Same Y as Back button
+        saveButton.setVisible(false); // Initially hidden
+
+        // Container for categories
+        VBox categoriesContainer = new VBox(5);
+        categoriesContainer.setPadding(new Insets(5));
+
+        // Edit panel (centered)
+        VBox editPanel = new VBox(10);
+        editPanel.setLayoutX(250);
+        editPanel.setLayoutY(400);
+        editPanel.setVisible(false);
+
+        TextField editNameField = new TextField();
+        editNameField.setPromptText("Category Name");
+        editNameField.setPrefWidth(300);
+
+        TextArea editDescArea = new TextArea();
+        editDescArea.setPromptText("Category Description");
+        editDescArea.setPrefWidth(300);
+        editDescArea.setPrefHeight(100);
+        editDescArea.setWrapText(true);
+
+        editPanel.getChildren().addAll(
+                new Label("Edit Category:"),
+                editNameField,
+                editDescArea
+        );
+
+        // Status message
+        Label statusLabel = new Label();
+        statusLabel.setLayoutX(300);
+        statusLabel.setLayoutY(380);
+
+        // Load categories
+        loadCategories(categoriesContainer, editPanel, editNameField, editDescArea, saveButton, statusLabel);
+
+        // Save button action
+        saveButton.setOnAction(e -> {
+            String newName = editNameField.getText().trim();
+            String newDesc = editDescArea.getText().trim();
+
+            if (newName.isEmpty()) {
+                statusLabel.setText("Category name cannot be empty!");
+                statusLabel.setTextFill(Color.RED);
+                return;
+            }
+
+            Category categoryToEdit = (Category) saveButton.getUserData();
+            boolean nameExists = Database.categories.stream()
+                    .anyMatch(c -> c != categoryToEdit && c.getName().equalsIgnoreCase(newName));
+
+            if (nameExists) {
+                statusLabel.setText("Category name already exists!");
+                statusLabel.setTextFill(Color.RED);
+                return;
+            }
+
+            // Update and refresh
+            categoryToEdit.setName(newName);
+            categoryToEdit.setDescription(newDesc);
+            statusLabel.setText("Category updated successfully!");
+            statusLabel.setTextFill(Color.GREEN);
+            loadCategories(categoriesContainer, editPanel, editNameField, editDescArea, saveButton, statusLabel);
+            editPanel.setVisible(false);
+            saveButton.setVisible(false); // Hide after saving
+        });
+
+        scrollPane.setContent(categoriesContainer);
+        showCategoriesPane.getChildren().addAll(
+                titleLabel, scrollPane, backButton, returnBtn, editPanel, statusLabel, saveButton
+        );
+
+        return new Scene(showCategoriesPane, 800, 600);
     }
 
+    private static void loadCategories(VBox container, VBox editPanel,
+                                       TextField editNameField, TextArea editDescArea,
+                                       Button saveButton, Label statusLabel) {
+        container.getChildren().clear();
+
+        for (Category category : Database.categories) {
+            HBox categoryBox = new HBox(20);
+            categoryBox.setAlignment(Pos.CENTER_LEFT);
+            categoryBox.setPrefWidth(550);
+
+            Label nameLabel = new Label(category.getName());
+            nameLabel.setPrefWidth(300);
+            nameLabel.setStyle("-fx-font-size: 14px;");
+
+            Button editButton = new Button("Edit");
+            editButton.setPrefSize(80, 30);
+            editButton.setStyle("-fx-font-size: 12px;");
+
+            Button deleteButton = new Button("Delete");
+            deleteButton.setPrefSize(80, 30);
+            deleteButton.setStyle("-fx-font-size: 12px;");
+
+            editButton.setOnAction(e -> {
+                editNameField.setText(category.getName());
+                editDescArea.setText(category.getDescription());
+                saveButton.setUserData(category);
+                editPanel.setVisible(true);
+                saveButton.setVisible(true); // Show when editing
+                statusLabel.setText("");
+            });
+
+            deleteButton.setOnAction(e -> {
+                Database.categories.remove(category);
+                statusLabel.setText("Deleted: " + category.getName());
+                statusLabel.setTextFill(Color.RED);
+                loadCategories(container, editPanel, editNameField, editDescArea, saveButton, statusLabel);
+                editPanel.setVisible(false);
+                saveButton.setVisible(false); // Hide after deletion
+            });
+
+            categoryBox.getChildren().addAll(nameLabel, editButton, deleteButton);
+            container.getChildren().add(categoryBox);
+        }
+    }
     public static VBox refreshManageEventsPane(VBox vbox, Admin admin, Label error) {
         vbox.getChildren().clear();
 
