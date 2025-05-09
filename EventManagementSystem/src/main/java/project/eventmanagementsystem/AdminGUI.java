@@ -73,7 +73,7 @@ public class AdminGUI
         dashboardPane.getChildren().addAll(
                 welcomeLabel, AdminOptions
         );
-       Scene AdminDashboard = new Scene(dashboardPane, 800, 520);
+        Scene AdminDashboard = new Scene(dashboardPane, 800, 600);
        return AdminDashboard;
     }
 
@@ -469,7 +469,7 @@ public class AdminGUI
                AdminDayOfBirth, AdminUserName,AdminUserNameField, EditNameBtn, AdminPassword, AdminPasswordField,
                EditPasswordBtn, DateOfBirth, EditDayOfBirthBtn, EditMonthOfBirthBtn, EditYearOfBirthBtn , AdminDayOfBirthField, AdminMonthOfBirthField, AdminYearOfBirthField );
 
-       Scene AdminDashboardScene = new Scene(ShowAdminProfile, 800, 520);
+       Scene AdminDashboardScene = new Scene(ShowAdminProfile, 800, 600);
        return AdminDashboardScene;
    }
 
@@ -494,16 +494,16 @@ public class AdminGUI
        MangeuserVBox.setLayoutX(300);
        MangeuserVBox.setLayoutY(150);
 
-       returnbtn.setPrefSize(100, 30);
-       returnbtn.setLayoutX(20);
-       returnbtn.setLayoutY(480);
+       returnbtn.setPrefSize(130, 30);
+       returnbtn.setLayoutX(10);
+       returnbtn.setLayoutY(550);
        returnbtn.setTextFill(Color.BLACK);
 
 
        Button logout = new Button("Logout");
        logout.setPrefSize(100, 30);
-       logout.setLayoutX(140);
-       logout.setLayoutY(480);
+       logout.setLayoutX(160);
+       logout.setLayoutY(550);
        logout.setTextFill(Color.BLACK);
        logout.setOnAction(ex -> {
            Main.get_stage().setScene(Main.Home());
@@ -530,18 +530,6 @@ public class AdminGUI
            showUsersLabel.setLayoutX(320);
            showUsersLabel.setLayoutY(20);
 
-
-           Button retuenbtn = new Button("Return to Dashboard");
-           retuenbtn.setPrefSize(150, 30);
-           retuenbtn.setLayoutX(20);
-           retuenbtn.setLayoutY(30);
-           retuenbtn.setTextFill(Color.BLACK);
-           retuenbtn.setOnAction(ex -> {
-               Main.get_stage().setScene(dashboardScene(admin));
-           });
-
-
-
            Button showAttendeesBtn = new Button("Show Attendees");
            showAttendeesBtn.setPrefSize(300, 40);
            showAttendeesBtn.setLayoutX(280);
@@ -562,11 +550,11 @@ public class AdminGUI
                Main.get_stage().setScene(showOrganizers(admin));
            });
 
-           showUsers.getChildren().addAll(showAttendeesBtn, ShowOrganizersBtn, showUsersLabel, logout, retuenbtn, returnbtn);
-           Main.get_stage().setScene(new Scene(showUsers, 800, 520));
+           showUsers.getChildren().addAll(showAttendeesBtn, ShowOrganizersBtn, showUsersLabel, logout, returnbtn);
+           Main.get_stage().setScene(new Scene(showUsers, 800, 600));
        });
 
-       Scene ManageUsersScene = new Scene(Mangeuser, 800, 520);
+       Scene ManageUsersScene = new Scene(Mangeuser, 800, 600);
        return ManageUsersScene;
 
    }
@@ -816,7 +804,7 @@ public class AdminGUI
         Button Back = new Button("Back");
         Back.setPrefSize(100, 30);
         Back.setLayoutX(20);
-        Back.setLayoutY(480);
+        Back.setLayoutY(550);
         Back.setTextFill(Color.BLACK);
         Back.setOnAction(e -> {
             Main.get_stage().setScene(manageUsersScene(admin));
@@ -912,7 +900,7 @@ public class AdminGUI
         }
 
         usersuspensionsScrollPane.setContent(Vscroll);
-        Scene usersuspensionsScene = new Scene(usersuspensions, 800, 520);
+        Scene usersuspensionsScene = new Scene(usersuspensions, 800, 600);
         return usersuspensionsScene;
     }
 
@@ -926,7 +914,7 @@ public class AdminGUI
         Button Back = new Button("Back");
         Back.setPrefSize(100, 30);
         Back.setLayoutX(20);
-        Back.setLayoutY(480);
+        Back.setLayoutY(550);
         Back.setTextFill(Color.BLACK);
         Back.setOnAction(e -> {
             Main.get_stage().setScene(dashboardScene(admin));
@@ -961,7 +949,7 @@ public class AdminGUI
             Main.get_stage().setScene(ShowCategoriesScene(admin));
         });
         manageCategoriesPane.getChildren().addAll(Title, Back, logout, AddCategoriesBtn, ShowCategoriesBtn);
-        Scene manageCategoriesScene = new Scene(manageCategoriesPane, 800, 520);
+        Scene manageCategoriesScene = new Scene(manageCategoriesPane, 800, 600);
         return manageCategoriesScene;
     }
 
@@ -1009,7 +997,7 @@ public class AdminGUI
         Button backButton = new Button("Back");
         backButton.setPrefSize(100, 30);
         backButton.setLayoutX(20);
-        backButton.setLayoutY(480);
+        backButton.setLayoutY(550);
         backButton.setTextFill(Color.BLACK);
         backButton.setOnAction(e -> {
             Main.get_stage().setScene(manageCategoriesScene(admin));
@@ -1028,7 +1016,7 @@ public class AdminGUI
         Button logout = new Button("Logout");
         logout.setPrefSize(100, 30);
         logout.setLayoutX(140);
-        logout.setLayoutY(480);
+        logout.setLayoutY(550);
         logout.setTextFill(Color.BLACK);
         logout.setOnAction(ex -> {
             Main.get_stage().setScene(Main.Home());
@@ -1095,7 +1083,7 @@ public class AdminGUI
 
         AddCategoriesPane.getChildren().addAll(Title, nameLabel, nameField, descLabel, descArea, submitButton, statusLabel, backButton, returnbtn, logout);
 
-        return new Scene(AddCategoriesPane, 800, 520);
+        return new Scene(AddCategoriesPane, 800, 600);
     }
     public static Scene ShowCategoriesScene(Admin admin) {
         Pane showCategoriesPane = new Pane();
@@ -1117,7 +1105,7 @@ public class AdminGUI
         Button backButton = new Button("Back");
         backButton.setPrefSize(100, 30);
         backButton.setLayoutX(20);
-        backButton.setLayoutY(530);
+        backButton.setLayoutY(550);
         backButton.setTextFill(Color.BLACK);
         backButton.setOnAction(e -> Main.get_stage().setScene(manageCategoriesScene(admin)));
 
