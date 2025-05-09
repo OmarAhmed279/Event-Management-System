@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.image.Image;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
@@ -18,17 +19,39 @@ public class AdminGUI
     public static Scene dashboardScene(Admin admin)
     {
         Pane dashboardPane = new Pane();
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            dashboardPane.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            dashboardPane.setStyle("-fx-background-color: lightgray;");
+        }
         VBox AdminOptions = new VBox(20);
         AdminOptions.setAlignment(Pos.CENTER);
 
-        VBox DashboardVBox = new VBox(20);
-        DashboardVBox.setLayoutY(80);
-        DashboardVBox.setLayoutX(250);
-        DashboardVBox.setPrefSize(800,520);
-        DashboardVBox.setAlignment(Pos.CENTER);
-
-        Label welcomeLabel = new Label("Welcome, " + admin.getUsername());
+        Label welcomeLabel = new Label("Welcome, Admin " + admin.getUsername());
         welcomeLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 25));
+        welcomeLabel.setLayoutX(250);
+        welcomeLabel.setLayoutY(20);
         Button profileBtn = new Button("Manage Profile");
         profileBtn.setPrefSize(300, 30);
         Button manageUsersBtn = new Button("Manage Users");
@@ -42,8 +65,7 @@ public class AdminGUI
         Button logoutBtn = new Button("Logout");
         logoutBtn.setPrefSize(300, 30);
 
-        DashboardVBox.getChildren().addAll(profileBtn, manageUsersBtn, manageEventsBtn, manageRoomsBtn, manageCategoriesBtn, logoutBtn);
-        AdminOptions.getChildren().addAll(welcomeLabel, DashboardVBox);
+        AdminOptions.getChildren().addAll(profileBtn, manageUsersBtn, manageEventsBtn, manageRoomsBtn, manageCategoriesBtn, logoutBtn );
 
         // Set button actions
         profileBtn.setOnAction(e -> {
@@ -147,6 +169,32 @@ public class AdminGUI
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(15));
 
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            vbox.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            vbox.setStyle("-fx-background-color: lightgray;");
+        }
         // Error label
         Label errorLabel = new Label("");
         errorLabel.setStyle("-fx-text-fill: red;");
@@ -172,6 +220,33 @@ public class AdminGUI
     public static Scene AdminProfileScene(Admin admin)
    {
        Pane ShowAdminProfile = new Pane();
+
+       try {
+           // Load the image
+           Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+           // Create background image that fills the entire pane
+           BackgroundImage backgroundImage = new BackgroundImage(
+                   image,
+                   BackgroundRepeat.NO_REPEAT,
+                   BackgroundRepeat.NO_REPEAT,
+                   BackgroundPosition.CENTER,
+                   new BackgroundSize(
+                           100, 100,  // width/height percentages (100% for both)
+                           true,       // width as percentage
+                           true,       // height as percentage
+                           true,       // contain within bounds
+                           true        // cover entire area
+                   )
+           );
+
+           // Set the background
+           ShowAdminProfile.setBackground(new Background(backgroundImage));
+       } catch (Exception e) {
+           System.err.println("Error loading background image: " + e.getMessage());
+           // Fallback to solid color if image fails to load
+           ShowAdminProfile.setStyle("-fx-background-color: lightgray;");
+       }
 
        // Titel for Admin profile scene
        Label Title = new Label("Admin " + admin.getUsername() + " Profile");
@@ -476,6 +551,34 @@ public class AdminGUI
    public static Scene manageUsersScene(Admin admin)
    {
        Pane Mangeuser = new Pane();
+
+       try {
+           // Load the image
+           Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+           // Create background image that fills the entire pane
+           BackgroundImage backgroundImage = new BackgroundImage(
+                   image,
+                   BackgroundRepeat.NO_REPEAT,
+                   BackgroundRepeat.NO_REPEAT,
+                   BackgroundPosition.CENTER,
+                   new BackgroundSize(
+                           100, 100,  // width/height percentages (100% for both)
+                           true,       // width as percentage
+                           true,       // height as percentage
+                           true,       // contain within bounds
+                           true        // cover entire area
+                   )
+           );
+
+           // Set the background
+           Mangeuser.setBackground(new Background(backgroundImage));
+       } catch (Exception e) {
+           System.err.println("Error loading background image: " + e.getMessage());
+           // Fallback to solid color if image fails to load
+           Mangeuser.setStyle("-fx-background-color: lightgray;");
+       }
+
        // Titel for Admin profile scene
        Label Title = new Label("Manage Users");
        Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
@@ -525,6 +628,34 @@ public class AdminGUI
 
        ShowUsersbtn.setOnAction(e -> {
            Pane showUsers = new Pane();
+
+           try {
+               // Load the image
+               Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+               // Create background image that fills the entire pane
+               BackgroundImage backgroundImage = new BackgroundImage(
+                       image,
+                       BackgroundRepeat.NO_REPEAT,
+                       BackgroundRepeat.NO_REPEAT,
+                       BackgroundPosition.CENTER,
+                       new BackgroundSize(
+                               100, 100,  // width/height percentages (100% for both)
+                               true,       // width as percentage
+                               true,       // height as percentage
+                               true,       // contain within bounds
+                               true        // cover entire area
+                       )
+               );
+
+               // Set the background
+               showUsers.setBackground(new Background(backgroundImage));
+           } catch (Exception ex) {
+               System.err.println("Error loading background image: " + e.getClass());
+               // Fallback to solid color if image fails to load
+               showUsers.setStyle("-fx-background-color: lightgray;");
+           }
+
            Label showUsersLabel = new Label("Show users");
            showUsersLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
            showUsersLabel.setLayoutX(320);
@@ -561,6 +692,35 @@ public class AdminGUI
 
     public static Scene showAttendees(Admin admin) {
         Pane showAttendeesPane = new Pane();
+
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            showAttendeesPane.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            showAttendeesPane.setStyle("-fx-background-color: lightgray;");
+        }
+
+
 
         Label Title = new Label("Attendees");
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
@@ -681,6 +841,35 @@ public class AdminGUI
     public static Scene showOrganizers(Admin admin) {
         Pane showOrganizersPane = new Pane();
 
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            showOrganizersPane.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            showOrganizersPane.setStyle("-fx-background-color: lightgray;");
+        }
+
+
+
         Label Title = new Label("Organizers");
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
@@ -789,6 +978,34 @@ public class AdminGUI
 
     public static Scene ManageUserSuspension(Admin admin) {
         Pane usersuspensions = new Pane();
+
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            usersuspensions.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            usersuspensions.setStyle("-fx-background-color: lightgray;");
+        }
+
         Label usersSuspension = new Label("Users suspensions");
         usersSuspension.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         usersSuspension.setLayoutX(300);
@@ -906,6 +1123,34 @@ public class AdminGUI
 
     public static Scene manageCategoriesScene(Admin admin) {
         Pane manageCategoriesPane = new Pane();
+
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            manageCategoriesPane.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            manageCategoriesPane.setStyle("-fx-background-color: lightgray;");
+        }
+
         Label Title = new Label("Manage Categories");
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
@@ -955,6 +1200,34 @@ public class AdminGUI
 
     public static Scene AddCategoriesScene(Admin admin) {
         Pane AddCategoriesPane = new Pane();
+
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            AddCategoriesPane.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            AddCategoriesPane.setStyle("-fx-background-color: lightgray;");
+        }
+
         Label Title = new Label("Add Categories");
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
@@ -1087,6 +1360,33 @@ public class AdminGUI
     }
     public static Scene ShowCategoriesScene(Admin admin) {
         Pane showCategoriesPane = new Pane();
+
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            showCategoriesPane.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            showCategoriesPane.setStyle("-fx-background-color: lightgray;");
+        }
 
         // Title
         Label titleLabel = new Label("Categories");

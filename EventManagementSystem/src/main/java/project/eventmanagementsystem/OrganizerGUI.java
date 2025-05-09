@@ -39,7 +39,7 @@ public class OrganizerGUI {
         buttonsPane.setSpacing(10.0);
         buttonsPane.setAlignment(Pos.CENTER);
         root.setCenter(buttonsPane);
-        return new Scene(root, 800, 520);
+        return new Scene(root, 800, 600);
     }
 
     static Scene manageWallet(Organizer org) {
@@ -81,7 +81,7 @@ public class OrganizerGUI {
                 Main.primaryStage.setScene(dashboard(org));
             });
             Details.getChildren().addAll(LBalance,tfBalance,statusbalance,Btnupdate,BtnBack);
-            return new Scene(Pwallet,800,580);
+            return new Scene(Pwallet,800,600);
         }
 
     static Scene manageEvents(Organizer org) {
@@ -340,7 +340,7 @@ public class OrganizerGUI {
         Back.setOnAction(e -> Main.get_stage().setScene(manageEvents(org)));
         root.setBottom(Back);
         root.setCenter(mainLayout);
-        return new Scene(root, 800, 520);
+        return new Scene(root, 800, 600);
     }
 
     private static int rentRoom(Date eventDate) {
@@ -477,6 +477,6 @@ public class OrganizerGUI {
             Main.get_stage().setScene(dashboard(org));});
         root.setBottom(Back);
         root.setCenter(vbox);
-        return new Scene(root,800,520);
+        return new Scene(root,800,600);
     }
 }

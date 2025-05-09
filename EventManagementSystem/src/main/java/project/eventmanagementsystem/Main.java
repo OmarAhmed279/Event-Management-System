@@ -47,15 +47,15 @@ public class Main extends Application {
         Pane home = new Pane();
         home.setPrefSize(800, 520);
         Label salutation = new Label("Welcome to Event Management System");
-        salutation.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 35));
+        salutation.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 45));
         salutation.setAlignment(Pos.CENTER);
-        salutation.setTextFill(Color.WHITE);
-        salutation.setLayoutX(90);
+        salutation.setTextFill(Color.DARKGOLDENROD);
+        salutation.setLayoutX(100);
         salutation.setLayoutY(20);
 
         try {
             // Load the image
-            Image image = new Image(UserGUI.class.getResource("/Background3.png").toExternalForm());
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
 
             // Create background image that fills the entire pane
             BackgroundImage backgroundImage = new BackgroundImage(
@@ -95,31 +95,49 @@ public class Main extends Application {
         home.getChildren().add(HomeOptions);
         VBox NotesOptions = new VBox(60);
         Label l1 = new Label(" create new account as an organizer or attendee");
-        l1.setTextFill(Color.BEIGE);
-        l1.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
+        l1.setTextFill(Color.WHITE);
+        l1.setLayoutX(300);
+        l1.setLayoutY(100);
+        l1.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 20));
         Label l3 = new Label("I already have account or I am an admin");
-        l3.setTextFill(Color.BEIGE);
-        l3.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 14));
+        l3.setTextFill(Color.WHITE);
+        l3.setFont(Font.font("TimesNewRoman", FontWeight.SEMI_BOLD, 20));
+        l3.setLayoutX(300);
+        l3.setLayoutY(130);
         NotesOptions.getChildren().addAll(l1,  l3);
         home.getChildren().add(NotesOptions);
         NotesOptions.setLayoutX(320);
         NotesOptions.setLayoutY(105);
 
         ImageView imageView = new ImageView(UserGUI.class.getResource("/Hi.png").toExternalForm());
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(200);
-        imageView.setLayoutX(610);
+        imageView.setFitWidth(280);
+        imageView.setFitHeight(280);
+        imageView.setLayoutX(530);
         imageView.setLayoutY(320);
         home.getChildren().add(imageView);
 
-        Rectangle rectangle = new Rectangle();
-        rectangle.setWidth(550);
-        rectangle.setHeight(60);
-        rectangle.setFill(Color.BEIGE);
-        rectangle.setX(80);
-        rectangle.setY(350);
-        home.getChildren().add(rectangle);
-        Scene Home = new Scene(home, 800, 520);
+        ImageView imageView2 = new ImageView(UserGUI.class.getResource("/image.png").toExternalForm());
+        imageView2.setFitWidth(200);
+        imageView2.setFitHeight(200);
+        imageView2.setLayoutX(430);
+        imageView2.setLayoutY(300);
+        home.getChildren().add(imageView2);
+
+        ImageView imageView4 = new ImageView(UserGUI.class.getResource("/celebration.png").toExternalForm());
+        imageView4.setFitWidth(250);
+        imageView4.setFitHeight(280);
+        imageView4.setLayoutX(-20);
+        imageView4.setLayoutY(340);
+        home.getChildren().add(imageView4);
+
+        Label Hi = new Label("Welcome");
+        Hi.setFont(Font.font("TimesNewRoman", FontWeight.BOLD, 25));
+        Hi.setLayoutX(475);
+        Hi.setLayoutY(370);
+        Hi.setTextFill(Color.BLACK);
+        home.getChildren().add(Hi);
+
+        Scene Home = new Scene(home, 800, 600);
         // Correct way to set button action
         option1.setOnAction(event -> {
             primaryStage.setScene(UserGUI.signupRegistration());

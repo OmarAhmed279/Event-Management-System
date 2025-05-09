@@ -20,6 +20,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 class UserGUI {
     public static Scene signupRegistration() {
         Pane Signup = new Pane();
+
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            Signup.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            Signup.setStyle("-fx-background-color: lightgray;");
+        }
+
         VBox content = new VBox();
         content.setAlignment(Pos.TOP_LEFT);
         ScrollPane catPane = new ScrollPane();
@@ -28,7 +56,7 @@ class UserGUI {
         catPane.setLayoutY(270);
         catPane.setStyle("-fx-background-color: lightgray;");
         Signup.getChildren().add(catPane);
-        Scene SignupScene = new Scene(Signup, 800, 520);
+        Scene SignupScene = new Scene(Signup, 800, 600);
 
         // Title Label
         Label signupLabel = new Label("Create a new account");
@@ -341,13 +369,44 @@ class UserGUI {
         login.setAlignment(Pos.CENTER);
         login.setHgap(10);
         login.setVgap(10);
+
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            login.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            login.setStyle("-fx-background-color: lightgray;");
+        }
+
         Label loginLabel = new Label("Login");
+        loginLabel.setTextFill(Color.DARKGOLDENROD);
         loginLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
         login.add(loginLabel, 0, 0);
         Label username = new Label("Username");
+        username.setTextFill(Color.DARKGOLDENROD);
         username.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         login.add(username, 0, 1);
         Label password = new Label("Password");
+        password.setTextFill(Color.DARKGOLDENROD);
         password.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         login.add(password, 0, 2);
         TextField usernameField = new TextField();

@@ -62,7 +62,7 @@ public class AttendeeGUI {
        dashboard.setCenter(BtnPane);
        dashboard.setTop(LDashBorad);
        BorderPane.setAlignment(LDashBorad,Pos.CENTER);
-       return new Scene(dashboard,800,520);
+       return new Scene(dashboard,800,600);
     }
 
    private static Label statusUsername = new Label();
@@ -226,7 +226,7 @@ public class AttendeeGUI {
 
       profile.setCenter(Details);
 
-       return new Scene(profile,800,520);
+       return new Scene(profile,800,600);
     }
     public static Scene ManageWallet(Attendee attendee){
        BorderPane Pwallet= new BorderPane();
@@ -268,7 +268,7 @@ Pwallet.setCenter(Details);
             Main.primaryStage.setScene(AttendeeDashboard(attendee));
         });
         Details.getChildren().addAll(LBalance,tfBalance,statusbalance,Btnupdate,BtnBack);
-        return new Scene(Pwallet,800,580);
+        return new Scene(Pwallet,800,600);
     }
    /* public static Scene BrowseEvents (Attendee attendee){
        BorderPane borderPane = new BorderPane();
@@ -421,7 +421,7 @@ Pwallet.setCenter(Details);
         HBox btndown=new HBox();
         btndown.getChildren().addAll(BtnBack,BtnFilter);
         borderPane.setBottom(btndown);
-        return new Scene(borderPane,800,580);
+        return new Scene(borderPane,800,600);
     }
 
 
