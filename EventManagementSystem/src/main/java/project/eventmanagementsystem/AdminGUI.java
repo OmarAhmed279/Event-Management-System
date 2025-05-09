@@ -21,10 +21,14 @@ public class AdminGUI
         VBox AdminOptions = new VBox(20);
         AdminOptions.setAlignment(Pos.CENTER);
 
-        Label welcomeLabel = new Label("Welcome, Admin " + admin.getUsername());
+        VBox DashboardVBox = new VBox(20);
+        DashboardVBox.setLayoutY(80);
+        DashboardVBox.setLayoutX(250);
+        DashboardVBox.setPrefSize(800,520);
+        DashboardVBox.setAlignment(Pos.CENTER);
+
+        Label welcomeLabel = new Label("Welcome, " + admin.getUsername());
         welcomeLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 25));
-        welcomeLabel.setLayoutX(250);
-        welcomeLabel.setLayoutY(20);
         Button profileBtn = new Button("Manage Profile");
         profileBtn.setPrefSize(300, 30);
         Button manageUsersBtn = new Button("Manage Users");
@@ -37,7 +41,9 @@ public class AdminGUI
         manageCategoriesBtn.setPrefSize(300, 30);
         Button logoutBtn = new Button("Logout");
         logoutBtn.setPrefSize(300, 30);
-        AdminOptions.getChildren().addAll(profileBtn, manageUsersBtn, manageEventsBtn, manageRoomsBtn, manageCategoriesBtn, logoutBtn );
+
+        DashboardVBox.getChildren().addAll(profileBtn, manageUsersBtn, manageEventsBtn, manageRoomsBtn, manageCategoriesBtn, logoutBtn);
+        AdminOptions.getChildren().addAll(welcomeLabel, DashboardVBox);
 
         // Set button actions
         profileBtn.setOnAction(e -> {
