@@ -13,6 +13,14 @@ public class Category {
     private String description;
     private int ID;
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     Category(String name, String description) {
         this.name = name;
         this.description = description;
