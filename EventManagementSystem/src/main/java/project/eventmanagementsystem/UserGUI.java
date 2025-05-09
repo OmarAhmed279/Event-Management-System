@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -20,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 class UserGUI {
     public static Scene signupRegistration() {
         Pane Signup = new Pane();
+
 
         try {
             // Load the image
@@ -50,25 +52,28 @@ class UserGUI {
 
         VBox content = new VBox();
         content.setAlignment(Pos.TOP_LEFT);
-        ScrollPane catPane = new ScrollPane();
+        Image image2 = new Image(UserGUI.class.getResource("/Background1.png").toExternalForm());
+
+        // Create background image that fills the entire pane
+        ImageView imageView = new ImageView(image2);
+        ScrollPane catPane = new ScrollPane(imageView);
         catPane.setPrefSize(200, 200);
         catPane.setLayoutX(120);
         catPane.setLayoutY(270);
-        catPane.setStyle("-fx-background-color: lightgray;");
         Signup.getChildren().add(catPane);
         Scene SignupScene = new Scene(Signup, 800, 600);
 
         // Title Label
         Label signupLabel = new Label("Create a new account");
-        signupLabel.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 30));
+        signupLabel.setFont(Font.font("Monotype Corsiva", FontWeight.EXTRA_BOLD, 40));
         signupLabel.setAlignment(Pos.CENTER);
-        signupLabel.setTextFill(Color.BLACK);
-        signupLabel.setLayoutX(200);
-        signupLabel.setLayoutY(10);
+        signupLabel.setTextFill(Color.DARKGOLDENROD);
+        signupLabel.setLayoutX(270);
+        signupLabel.setLayoutY(5);
 
         // Username Field
         Label usernameLabel = new Label("Username");
-        usernameLabel.setTextFill(Color.BLACK);
+        usernameLabel.setTextFill(Color.WHEAT);
         usernameLabel.setLayoutX(20);
         usernameLabel.setLayoutY(70);
         usernameLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
@@ -82,7 +87,7 @@ class UserGUI {
 
         // Password Field
         Label passwordLabel = new Label("Password");
-        passwordLabel.setTextFill(Color.BLACK);
+        passwordLabel.setTextFill(Color.WHEAT);
         passwordLabel.setLayoutX(20);
         passwordLabel.setLayoutY(110);
         passwordLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
@@ -97,7 +102,7 @@ class UserGUI {
 
         // Date of Birth
         Label dobLabel = new Label("Date of Birth");
-        dobLabel.setTextFill(Color.BLACK);
+        dobLabel.setTextFill(Color.WHEAT);
         dobLabel.setLayoutX(20);
         dobLabel.setLayoutY(150);
         dobLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
@@ -112,9 +117,9 @@ class UserGUI {
         Label usernameMessage = new Label("Enter a username");
         Label passwordMessage = new Label("Enter a password");
         Label dobMessage = new Label("Select your date of birth");
-        usernameMessage.setTextFill(Color.BLUE);
-        passwordMessage.setTextFill(Color.BLUE);
-        dobMessage.setTextFill(Color.BLUE);
+        usernameMessage.setTextFill(Color.YELLOWGREEN);
+        passwordMessage.setTextFill(Color.YELLOWGREEN);
+        dobMessage.setTextFill(Color.YELLOWGREEN);
 
         // Message styling
         Font messageFont = Font.font("Times New Roman", FontWeight.BOLD, 16);
@@ -174,7 +179,7 @@ class UserGUI {
         femaleRadio.setLayoutY(240);
 
         Label addressLabel = new Label("Address");
-        addressLabel.setTextFill(Color.BLACK);
+        addressLabel.setTextFill(Color.WHEAT);
         addressLabel.setLayoutX(20);
         addressLabel.setLayoutY(210);
         addressLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
@@ -210,7 +215,7 @@ class UserGUI {
                         content.getChildren().add(catCheckboxes.get(i));
                     }
                     catPane.setContent(content);
-                    catPane.setStyle("-fx-background-color: white;");
+
                 }
                 if (wasPreviouslySelected)
                 {
@@ -242,7 +247,7 @@ class UserGUI {
                 dobMessage.setTextFill(Color.GREEN);
             } else {
                 dobMessage.setText("Please select date of birth");
-                dobMessage.setTextFill(Color.RED);
+                dobMessage.setTextFill(Color.INDIANRED);
             }
             updateCreateButtonState(createAccount, usernameField, passwordField, datePicker);
         });
@@ -328,13 +333,13 @@ class UserGUI {
             message.setTextFill(Color.WHITE);
         } else if (!Character.isLetter(username.charAt(0))) {
             message.setText("Must start with a letter");
-            message.setTextFill(Color.DARKRED);
+            message.setTextFill(Color.INDIANRED);
         } else if (username.contains(" ")) {
             message.setText("No spaces allowed");
-            message.setTextFill(Color.DARKRED);
+            message.setTextFill(Color.INDIANRED);
         } else if (username.length() < 4 || username.length() > 20) {
             message.setText("4-20 characters required");
-            message.setTextFill(Color.DARKRED);
+            message.setTextFill(Color.INDIANRED);
         } else {
             message.setText("Valid username");
             message.setTextFill(Color.GREEN);
@@ -347,7 +352,7 @@ class UserGUI {
             message.setTextFill(Color.WHITE);
         } else if (password.length() < 4 || password.length() > 20) {
             message.setText("4-20 characters required");
-            message.setTextFill(Color.DARKRED);
+            message.setTextFill(Color.INDIANRED);
         } else {
             message.setText("Valid password");
             message.setTextFill(Color.GREEN);
