@@ -62,6 +62,6 @@ public final class Database {
         organizers.get(0).getEvents().add(bigevent);
         Database.categories.add(new Category("a","a"));
         Attendee gooduser = new Attendee("gooduser", "1234", new Date(2000, 1, 1), "M", "G",new Category("a","a"));
-
+        System.out.println(Database.users.size());
     }
 }
