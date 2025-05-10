@@ -70,6 +70,15 @@ class UserGUI {
         signupLabel.setTextFill(Color.DARKGOLDENROD);
         signupLabel.setLayoutX(270);
         signupLabel.setLayoutY(5);
+        Button Back = new Button("Back");
+        Back.setPrefSize(150, 30);
+        Back.setLayoutX(20);
+        Back.setLayoutY(560);
+        Back.setTextFill(Color.BLACK);
+        Signup.getChildren().add(Back);
+        Back.setOnAction(e -> {
+            Main.get_stage().setScene((Main.Home()));
+        });
 
         // Username Field
         Label usernameLabel = new Label("Username");
@@ -407,22 +416,32 @@ class UserGUI {
         loginLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
         login.add(loginLabel, 0, 0);
         Label username = new Label("Username");
-        username.setTextFill(Color.DARKGOLDENROD);
+        username.setTextFill(Color.WHEAT);
         username.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         login.add(username, 0, 1);
         Label password = new Label("Password");
-        password.setTextFill(Color.DARKGOLDENROD);
+        password.setTextFill(Color.WHEAT);
         password.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         login.add(password, 0, 2);
         TextField usernameField = new TextField();
+        usernameField.setPrefSize(200, 30);
         login.add(usernameField, 1, 1);
         TextField passwordField = new TextField();
+        passwordField.setPrefSize(200, 30);
         login.add(passwordField, 1, 2);
+        Button Back = new Button("Back");
+        Back.setPrefSize(150, 30);
+        login.add(Back, 0, 9);
+        Back.setTextFill(Color.BLACK);
+        Back.setOnAction(e -> {
+            Main.get_stage().setScene((Main.Home()));
+        });
         Button loginButton = new Button("Login");
+        loginButton.setPrefSize(100, 30);
         login.add(loginButton, 1, 3);
         Scene loginScene = new Scene(login, 800, 600);
         Label message = new Label("Username or Password incorrect");
-        message.setTextFill(Color.DARKRED);
+        message.setTextFill(Color.INDIANRED);
         message.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         message.setText("");
         login.add(message, 3, 2);
@@ -444,6 +463,7 @@ class UserGUI {
                         } else {
                             isfound = true;
                             message.setText("User is suspended.");
+
                         }
                     }
                     else {

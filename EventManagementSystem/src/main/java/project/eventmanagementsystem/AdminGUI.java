@@ -48,10 +48,16 @@ public class AdminGUI
         VBox AdminOptions = new VBox(20);
         AdminOptions.setAlignment(Pos.CENTER);
 
-        Label welcomeLabel = new Label("Welcome, Admin " + admin.getUsername());
-        welcomeLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 25));
-        welcomeLabel.setLayoutX(250);
-        welcomeLabel.setLayoutY(20);
+        Label welcomeLabel1 = new Label("Welcome, Admin " );
+        welcomeLabel1.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+        welcomeLabel1.setLayoutX(200);
+        welcomeLabel1.setLayoutY(20);
+        welcomeLabel1.setTextFill(Color.DARKGOLDENROD);
+        Label welcomeLabel2 = new Label(admin.getUsername() );
+        welcomeLabel2.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+        welcomeLabel2.setLayoutX(450);
+        welcomeLabel2.setLayoutY(20);
+        welcomeLabel2.setTextFill(Color.WHEAT);
         Button profileBtn = new Button("Manage Profile");
         profileBtn.setPrefSize(300, 30);
         Button manageUsersBtn = new Button("Manage Users");
@@ -63,9 +69,25 @@ public class AdminGUI
         Button manageCategoriesBtn = new Button("Manage Categories");
         manageCategoriesBtn.setPrefSize(300, 30);
         Button logoutBtn = new Button("Logout");
-        logoutBtn.setPrefSize(300, 30);
+        logoutBtn.setPrefSize(150, 40);
+        logoutBtn.setLayoutX(20);
+        logoutBtn.setLayoutY(530);
+        dashboardPane.getChildren().add(logoutBtn);
+        VBox buttonContainer = new VBox(
+                10, // spacing between elements
+                profileBtn,
+                manageUsersBtn,
+                manageEventsBtn,
+                manageRoomsBtn,
+                manageCategoriesBtn
+        );
 
-        AdminOptions.getChildren().addAll(profileBtn, manageUsersBtn, manageEventsBtn, manageRoomsBtn, manageCategoriesBtn, logoutBtn );
+        buttonContainer.setPadding(new Insets(30));
+        buttonContainer.setAlignment(Pos.CENTER);
+        buttonContainer.setSpacing(20);
+        buttonContainer.setLayoutX(200);
+        buttonContainer.setLayoutY(50);
+        dashboardPane.getChildren().add(buttonContainer );
 
         // Set button actions
         profileBtn.setOnAction(e -> {
@@ -93,16 +115,43 @@ public class AdminGUI
         });
 
         dashboardPane.getChildren().addAll(
-                welcomeLabel, AdminOptions
+                welcomeLabel1, AdminOptions, welcomeLabel2
         );
         Scene AdminDashboard = new Scene(dashboardPane, 800, 600);
        return AdminDashboard;
     }
 
     private static Scene manageRoomsScene(Admin admin) {
-        // Main container
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(15));
+        vbox.setLayoutX(20);
+        vbox.setLayoutY(300);
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            vbox.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            vbox.setStyle("-fx-background-color: lightgray;");
+        }
 
         // Error label
         Label errorLabel = new Label("");
@@ -110,7 +159,10 @@ public class AdminGUI
 
         // Create a scroll pane to hold all events
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToWidth(true );
+        scrollPane.setFitToHeight(true);
+        scrollPane.setLayoutX(300);
+        scrollPane.setLayoutY(300);
         VBox RoomsContainer = new VBox(10);
         RoomsContainer = refreshManageRoomsPane(RoomsContainer,admin,errorLabel);
         scrollPane.setContent(RoomsContainer);
@@ -250,39 +302,48 @@ public class AdminGUI
 
        // Titel for Admin profile scene
        Label Title = new Label("Admin " + admin.getUsername() + " Profile");
-       Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 25));
+       Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
+       Title.setTextFill(Color.DARKGOLDENROD);
        Title.setLayoutX(250);
-       Title.setLayoutY(20);
+       Title.setLayoutY(10);
+
 
        Label nameError = new Label();
-       nameError.setLayoutX(20);
-       nameError.setLayoutY(220);
-       nameError.setTextFill(Color.DARKRED);
+       nameError.setLayoutX(500);
+       nameError.setLayoutY(65);
+       nameError.setTextFill(Color.INDIANRED);
+       nameError.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 20));
+
 
        Label passwordError = new Label();
-       passwordError.setLayoutX(20);
-       passwordError.setLayoutY(240);
-       passwordError.setTextFill(Color.DARKRED);
+       passwordError.setLayoutX(500);
+       passwordError.setLayoutY(115);
+       passwordError.setTextFill(Color.INDIANRED);
+       passwordError.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 20));
 
        Label errorMsgDay = new Label();
-       errorMsgDay.setLayoutX(480);
-       errorMsgDay.setLayoutY(130);
-       errorMsgDay.setTextFill(Color.DARKRED);
+       errorMsgDay.setLayoutX(500);
+       errorMsgDay.setLayoutY(215);
+       errorMsgDay.setTextFill(Color.INDIANRED);
+       errorMsgDay.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 20));
        errorMsgDay.setVisible(false);
 
+
        Label errorMsgMonth = new Label();
-       errorMsgMonth.setLayoutX(480);
-       errorMsgMonth.setLayoutY(150);
-       errorMsgMonth.setTextFill(Color.DARKRED);
+       errorMsgMonth.setLayoutX(500);
+       errorMsgMonth.setLayoutY(265);
+       errorMsgMonth.setTextFill(Color.INDIANRED);
+       errorMsgMonth.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 20));
        errorMsgMonth.setVisible(false);
 
        Label errorMsgYear = new Label();
-       errorMsgYear.setLayoutX(480);
-       errorMsgYear.setLayoutY(170);
-       errorMsgYear.setTextFill(Color.DARKRED);
+       errorMsgYear.setLayoutX(500);
+       errorMsgYear.setLayoutY(315);
+       errorMsgYear.setTextFill(Color.INDIANRED);
+       errorMsgYear.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 20));
        errorMsgYear.setVisible(false);
 
-       ShowAdminProfile.getChildren().addAll(nameError, passwordError, errorMsgDay, errorMsgMonth, errorMsgYear);
+       ShowAdminProfile.getChildren().addAll(Title, nameError, passwordError, errorMsgDay, errorMsgMonth, errorMsgYear);
 
        // Flags to validate the new inputs
        AtomicReference<Boolean> NameOk = new AtomicReference<>(true);
@@ -299,20 +360,20 @@ public class AdminGUI
        // Admin username data
        Label AdminUserName = new Label("Username: ");
        AdminUserName.setLayoutX(20);
-       AdminUserName.setLayoutY(50);
+       AdminUserName.setLayoutY(70);
        AdminUserName.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
-       AdminUserName.setTextFill(Color.BLACK);
+       AdminUserName.setTextFill(Color.WHEAT);
        TextField AdminUserNameField = new TextField();
        AdminUserNameField.setPrefSize(200, 30);
-       AdminUserNameField.setLayoutX(80);
-       AdminUserNameField.setLayoutY(50);
+       AdminUserNameField.setLayoutX(100);
+       AdminUserNameField.setLayoutY(65);
        AdminUserNameField.setText(admin.getUsername());
        AdminUserNameField.setEditable(Boolean.FALSE);
        Button EditNameBtn = new Button("Edit");
        EditNameBtn.setPrefSize(150, 30);
        EditNameBtn.setLayoutX(320);
-       EditNameBtn.setLayoutY(50);
-       EditNameBtn.setTextFill(Color.WHITE);
+       EditNameBtn.setLayoutY(65);
+       EditNameBtn.setTextFill(Color.BLACK);
        EditNameBtn.setOnAction(e -> {
            NameOkChanged.set(true);
            AdminUserNameField.setEditable(Boolean.TRUE);
@@ -343,20 +404,20 @@ public class AdminGUI
        // Admin password data
        Label AdminPassword = new Label("Password: ");
        AdminPassword.setLayoutX(20);
-       AdminPassword.setLayoutY(80);
+       AdminPassword.setLayoutY(120);
        AdminPassword.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
-       AdminPassword.setTextFill(Color.BLACK);
+       AdminPassword.setTextFill(Color.WHEAT);
        TextField AdminPasswordField = new TextField();
        AdminPasswordField.setPrefSize(200, 30);
-       AdminPasswordField.setLayoutX(80);
-       AdminPasswordField.setLayoutY(80);
+       AdminPasswordField.setLayoutX(100);
+       AdminPasswordField.setLayoutY(115);
        AdminPasswordField.setText(admin.getPassword());
        AdminPasswordField.setEditable(Boolean.FALSE);
        Button EditPasswordBtn = new Button("Edit");
        EditPasswordBtn.setPrefSize(150, 30);
        EditPasswordBtn.setLayoutX(320);
-       EditPasswordBtn.setLayoutY(80);
-       EditPasswordBtn.setTextFill(Color.WHITE);
+       EditPasswordBtn.setLayoutY(115);
+       EditPasswordBtn.setTextFill(Color.BLACK);
        EditPasswordBtn.setOnAction(e -> {
            PasswordOkChanged.set(true);
            AdminPasswordField.setEditable(Boolean.TRUE);
@@ -380,28 +441,28 @@ public class AdminGUI
        // Date of Birth label
        Label DateOfBirth = new Label("Date of Birth: ");
        DateOfBirth.setLayoutX(20);
-       DateOfBirth.setLayoutY(110);
+       DateOfBirth.setLayoutY(170);
        DateOfBirth.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
-       DateOfBirth.setTextFill(Color.BLACK);
+       DateOfBirth.setTextFill(Color.YELLOWGREEN);
 
 
        // Day of Birth
        Label AdminDayOfBirth = new Label("Day: ");
        AdminDayOfBirth.setLayoutX(20);
-       AdminDayOfBirth.setLayoutY(130);
+       AdminDayOfBirth.setLayoutY(220);
        AdminDayOfBirth.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
-       AdminDayOfBirth.setTextFill(Color.BLACK);
+       AdminDayOfBirth.setTextFill(Color.WHEAT);
        TextField AdminDayOfBirthField = new TextField();
        AdminDayOfBirthField.setEditable(Boolean.FALSE);
        AdminDayOfBirthField.setPrefSize(200, 30);
-       AdminDayOfBirthField.setLayoutX(80);
-       AdminDayOfBirthField.setLayoutY(130);
+       AdminDayOfBirthField.setLayoutX(100);
+       AdminDayOfBirthField.setLayoutY(215);
        AdminDayOfBirthField.setText(String.valueOf(admin.getDateOfBirth().getDay()));
        Button EditDayOfBirthBtn = new Button("Edit");
        EditDayOfBirthBtn.setPrefSize(150, 30);
        EditDayOfBirthBtn.setLayoutX(320);
-       EditDayOfBirthBtn.setLayoutY(130);
-       EditDayOfBirthBtn.setTextFill(Color.WHITE);
+       EditDayOfBirthBtn.setLayoutY(215);
+       EditDayOfBirthBtn.setTextFill(Color.BLACK);
        EditDayOfBirthBtn.setOnAction(e -> {
            DayOkChanged.set(true);
            AdminDayOfBirthField.setEditable(Boolean.TRUE);
@@ -427,20 +488,20 @@ public class AdminGUI
        //Month of Birth
        Label AdminMonthOfBirth = new Label("Month: ");
        AdminMonthOfBirth.setLayoutX(20);
-       AdminMonthOfBirth.setLayoutY(150);
+       AdminMonthOfBirth.setLayoutY(270);
        AdminMonthOfBirth.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
-       AdminMonthOfBirth.setTextFill(Color.BLACK);
+       AdminMonthOfBirth.setTextFill(Color.WHEAT);
        TextField AdminMonthOfBirthField = new TextField();
        AdminMonthOfBirthField.setEditable(Boolean.FALSE);
        AdminMonthOfBirthField.setPrefSize(200, 30);
-       AdminMonthOfBirthField.setLayoutX(80);
-       AdminMonthOfBirthField.setLayoutY(150);
+       AdminMonthOfBirthField.setLayoutX(100);
+       AdminMonthOfBirthField.setLayoutY(265);
        AdminMonthOfBirthField.setText(String.valueOf(admin.getDateOfBirth().getMonth()));
        Button EditMonthOfBirthBtn = new Button("Edit");
        EditMonthOfBirthBtn.setPrefSize(150, 30);
        EditMonthOfBirthBtn.setLayoutX(320);
-       EditMonthOfBirthBtn.setLayoutY(150);
-       EditMonthOfBirthBtn.setTextFill(Color.WHITE);
+       EditMonthOfBirthBtn.setLayoutY(265);
+       EditMonthOfBirthBtn.setTextFill(Color.BLACK);
        EditMonthOfBirthBtn.setOnAction(e -> {
            MonthOkChanged.set(true);
            AdminMonthOfBirthField.setEditable(Boolean.TRUE);
@@ -466,20 +527,20 @@ public class AdminGUI
        //Year of Birth
        Label AdminYearOfBirth = new Label("Year: ");
        AdminYearOfBirth.setLayoutX(20);
-       AdminYearOfBirth.setLayoutY(170);
+       AdminYearOfBirth.setLayoutY(320);
        AdminYearOfBirth.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
-       AdminYearOfBirth.setTextFill(Color.BLACK);
+       AdminYearOfBirth.setTextFill(Color.WHEAT);
        TextField AdminYearOfBirthField = new TextField();
        AdminYearOfBirthField.setEditable(Boolean.FALSE);
        AdminYearOfBirthField.setPrefSize(200, 30);
-       AdminYearOfBirthField.setLayoutX(80);
-       AdminYearOfBirthField.setLayoutY(170);
+       AdminYearOfBirthField.setLayoutX(100);
+       AdminYearOfBirthField.setLayoutY(315);
        AdminYearOfBirthField.setText(String.valueOf(admin.getDateOfBirth().getYear()));
        Button EditYearOfBirthBtn = new Button("Edit");
        EditYearOfBirthBtn.setPrefSize(150, 30);
        EditYearOfBirthBtn.setLayoutX(320);
-       EditYearOfBirthBtn.setLayoutY(170);
-       EditYearOfBirthBtn.setTextFill(Color.WHITE);
+       EditYearOfBirthBtn.setLayoutY(315);
+       EditYearOfBirthBtn.setTextFill(Color.BLACK);
        EditYearOfBirthBtn.setOnAction(e -> {
            YearOkChanged.set(true);
            AdminYearOfBirthField.setEditable(Boolean.TRUE);
@@ -505,20 +566,20 @@ public class AdminGUI
        // Admin Role
        Label AdminRole = new Label("Role: ");
        AdminRole.setLayoutX(20);
-       AdminRole.setLayoutY(190);
+       AdminRole.setLayoutY(370);
        AdminRole.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
-       AdminRole.setTextFill(Color.BLACK);
+       AdminRole.setTextFill(Color.WHEAT);
        TextField AdminRoleField = new TextField();
        AdminRoleField.setEditable(Boolean.FALSE);
        AdminRoleField.setPrefSize(200, 30);
-       AdminRoleField.setLayoutX(80);
-       AdminRoleField.setLayoutY(190);
+       AdminRoleField.setLayoutX(100);
+       AdminRoleField.setLayoutY(365);
        AdminRoleField.setText(admin.getRole());
        Button Back = new Button("Back");
        Back.setPrefSize(150, 30);
        Back.setLayoutX(20);
-       Back.setLayoutY(400);
-       Back.setTextFill(Color.WHITE);
+       Back.setLayoutY(550);
+       Back.setTextFill(Color.BLACK);
        Back.setOnAction(e -> {
            Main.get_stage().setScene(dashboardScene(admin));
        });
@@ -527,8 +588,8 @@ public class AdminGUI
        Button saveBtn = new Button("Save changes");
        saveBtn.setPrefSize(150, 30);
        saveBtn.setLayoutX(320);
-       saveBtn.setLayoutY(260);
-       saveBtn.setTextFill(Color.WHITE);
+       saveBtn.setLayoutY(500);
+       saveBtn.setTextFill(Color.DARKGREEN);
        saveBtn.setOnAction(e -> {
            System.out.println("HEY BUT OUTSIDE IF");
            if((NameOk.get() || !NameOkChanged.get()) && (PasswordOk.get() || !PasswordOkChanged.get()) && (DayOk.get() || !DayOkChanged.get()) && (MonthOk.get() || !MonthOkChanged.get()) && (YearOk.get() || !YearOkChanged.get()))
@@ -582,38 +643,29 @@ public class AdminGUI
        // Titel for Admin profile scene
        Label Title = new Label("Manage Users");
        Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
-       Title.setLayoutX(320);
+       Title.setLayoutX(300);
        Title.setLayoutY(20);
+       Title.setTextFill(Color.DARKGOLDENROD);
 
        VBox MangeuserVBox = new VBox(20);
-       MangeuserVBox.setAlignment(Pos.CENTER);
+       MangeuserVBox.setLayoutX(250);
+       MangeuserVBox.setLayoutY(100);
        Button ManageSuspension = new Button("Manage User suspensions ");
        ManageSuspension.setPrefSize(300, 40);
-       Button returnbtn = new Button("Return to Dashboard");
-       returnbtn.setPrefSize(300, 40);
        Button ShowUsersbtn = new Button("Show Users");
        ShowUsersbtn.setPrefSize(300, 40);
-
-       MangeuserVBox.setLayoutX(300);
-       MangeuserVBox.setLayoutY(150);
-
-       returnbtn.setPrefSize(130, 30);
+       Button returnbtn = new Button("Return to Dashboard");
+       returnbtn.setPrefSize(300, 40);
        returnbtn.setLayoutX(10);
        returnbtn.setLayoutY(550);
        returnbtn.setTextFill(Color.BLACK);
 
-
-       Button logout = new Button("Logout");
-       logout.setPrefSize(100, 30);
-       logout.setLayoutX(160);
-       logout.setLayoutY(550);
-       logout.setTextFill(Color.BLACK);
-       logout.setOnAction(ex -> {
-           Main.get_stage().setScene(Main.Home());
+       returnbtn.setOnAction(ex -> {
+           Main.get_stage().setScene(dashboardScene(admin));
        });
        MangeuserVBox.getChildren().addAll(ManageSuspension, ShowUsersbtn, returnbtn);
 
-       Mangeuser.getChildren().addAll(MangeuserVBox, Title, logout, returnbtn);
+       Mangeuser.getChildren().addAll(MangeuserVBox, Title, returnbtn);
 
 
        ManageSuspension.setOnAction(e -> {
@@ -658,19 +710,20 @@ public class AdminGUI
 
            Label showUsersLabel = new Label("Show users");
            showUsersLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
-           showUsersLabel.setLayoutX(320);
+           showUsersLabel.setLayoutX(280);
            showUsersLabel.setLayoutY(20);
+           showUsersLabel.setTextFill(Color.DARKGOLDENROD);
 
            Button showAttendeesBtn = new Button("Show Attendees");
            showAttendeesBtn.setPrefSize(300, 40);
-           showAttendeesBtn.setLayoutX(280);
-           showAttendeesBtn.setLayoutY(180);
+           showAttendeesBtn.setLayoutX(230);
+           showAttendeesBtn.setLayoutY(80);
            showAttendeesBtn.setTextFill(Color.BLACK);
 
            Button ShowOrganizersBtn = new Button("Show Organizers");
            ShowOrganizersBtn.setPrefSize(300, 40);
-           ShowOrganizersBtn.setLayoutX(280);
-           ShowOrganizersBtn.setLayoutY(260);
+           ShowOrganizersBtn.setLayoutX(230);
+           ShowOrganizersBtn.setLayoutY(140);
            ShowOrganizersBtn.setTextFill(Color.BLACK);
 
            showAttendeesBtn.setOnAction(ex -> {
@@ -681,7 +734,7 @@ public class AdminGUI
                Main.get_stage().setScene(showOrganizers(admin));
            });
 
-           showUsers.getChildren().addAll(showAttendeesBtn, ShowOrganizersBtn, showUsersLabel, logout, returnbtn);
+           showUsers.getChildren().addAll(showAttendeesBtn, ShowOrganizersBtn, showUsersLabel, returnbtn);
            Main.get_stage().setScene(new Scene(showUsers, 800, 600));
        });
 
@@ -726,11 +779,12 @@ public class AdminGUI
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
         Title.setLayoutY(20);
+        Title.setTextFill(Color.DARKGOLDENROD);
 
         Button retuenbtn = new Button("Return to Dashboard");
         retuenbtn.setPrefSize(150, 30);
-        retuenbtn.setLayoutX(20);
-        retuenbtn.setLayoutY(30);
+        retuenbtn.setLayoutX(300);
+        retuenbtn.setLayoutY(560);
         retuenbtn.setTextFill(Color.BLACK);
         retuenbtn.setOnAction(ex -> {
             Main.get_stage().setScene(dashboardScene(admin));
@@ -874,11 +928,12 @@ public class AdminGUI
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
         Title.setLayoutY(20);
+        Title.setTextFill(Color.DARKGOLDENROD);
 
         Button retuenbtn = new Button("Return to Dashboard");
         retuenbtn.setPrefSize(150, 30);
-        retuenbtn.setLayoutX(20);
-        retuenbtn.setLayoutY(30);
+        retuenbtn.setLayoutX(300);
+        retuenbtn.setLayoutY(550);
         retuenbtn.setTextFill(Color.BLACK);
         retuenbtn.setOnAction(ex -> {
             Main.get_stage().setScene(dashboardScene(admin));
@@ -1008,7 +1063,8 @@ public class AdminGUI
 
         Label usersSuspension = new Label("Users suspensions");
         usersSuspension.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
-        usersSuspension.setLayoutX(300);
+        usersSuspension.setTextFill(Color.DARKGOLDENROD);
+        usersSuspension.setLayoutX(270);
         usersSuspension.setLayoutY(20);
 
         ScrollPane usersuspensionsScrollPane = new ScrollPane();
@@ -1019,7 +1075,7 @@ public class AdminGUI
         usersuspensionsScrollPane.setPrefSize(600, 300);
 
         Button Back = new Button("Back");
-        Back.setPrefSize(100, 30);
+        Back.setPrefSize(200, 30);
         Back.setLayoutX(20);
         Back.setLayoutY(550);
         Back.setTextFill(Color.BLACK);
@@ -1029,9 +1085,9 @@ public class AdminGUI
 
         Button returnbtn = new Button("Return to Dashboard");
         returnbtn.setPrefSize(150, 30);
-        returnbtn.setLayoutX(20);
-        returnbtn.setLayoutY(30);
-        returnbtn.setTextFill(Color.BLACK);
+        returnbtn.setLayoutX(310);
+        returnbtn.setLayoutY(410);
+        returnbtn.setTextFill(Color.DARKGREEN);
         returnbtn.setOnAction(e -> {
             Main.get_stage().setScene(dashboardScene(admin));
         });
@@ -1155,6 +1211,7 @@ public class AdminGUI
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
         Title.setLayoutY(20);
+        Title.setTextFill(Color.DARKGOLDENROD);
 
         Button Back = new Button("Back");
         Back.setPrefSize(100, 30);
@@ -1165,25 +1222,16 @@ public class AdminGUI
             Main.get_stage().setScene(dashboardScene(admin));
         });
 
-        Button logout = new Button("Logout");
-        logout.setPrefSize(100, 30);
-        logout.setLayoutX(140);
-        logout.setLayoutY(480);
-        logout.setTextFill(Color.BLACK);
-        logout.setOnAction(ex -> {
-            Main.get_stage().setScene(Main.Home());
-        });
-
         Button AddCategoriesBtn = new Button("Add Categories");
         AddCategoriesBtn.setPrefSize(300, 40);
         AddCategoriesBtn.setLayoutX(280);
-        AddCategoriesBtn.setLayoutY(180);
+        AddCategoriesBtn.setLayoutY(100);
         AddCategoriesBtn.setTextFill(Color.BLACK);
 
         Button ShowCategoriesBtn = new Button("Show Categories");
         ShowCategoriesBtn.setPrefSize(300, 40);
         ShowCategoriesBtn.setLayoutX(280);
-        ShowCategoriesBtn.setLayoutY(260);
+        ShowCategoriesBtn.setLayoutY(160);
         ShowCategoriesBtn.setTextFill(Color.BLACK);
 
         AddCategoriesBtn.setOnAction(ex -> {
@@ -1193,7 +1241,7 @@ public class AdminGUI
         ShowCategoriesBtn.setOnAction(ex -> {
             Main.get_stage().setScene(ShowCategoriesScene(admin));
         });
-        manageCategoriesPane.getChildren().addAll(Title, Back, logout, AddCategoriesBtn, ShowCategoriesBtn);
+        manageCategoriesPane.getChildren().addAll(Title, Back, AddCategoriesBtn, ShowCategoriesBtn);
         Scene manageCategoriesScene = new Scene(manageCategoriesPane, 800, 600);
         return manageCategoriesScene;
     }
@@ -1232,10 +1280,12 @@ public class AdminGUI
         Title.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         Title.setLayoutX(300);
         Title.setLayoutY(20);
+        Title.setTextFill(Color.DARKGOLDENROD);
 
         Label nameLabel = new Label("Category Name:");
         nameLabel.setLayoutX(200);
         nameLabel.setLayoutY(120);
+        nameLabel.setTextFill(Color.WHEAT);
 
         TextField nameField = new TextField();
         nameField.setPromptText("Enter category name (letters only)");
@@ -1247,6 +1297,7 @@ public class AdminGUI
         Label descLabel = new Label("Description:");
         descLabel.setLayoutX(200);
         descLabel.setLayoutY(160);
+        descLabel.setTextFill(Color.WHEAT);
 
         TextArea descArea = new TextArea();
         descArea.setPromptText("Enter category description");
@@ -1260,6 +1311,7 @@ public class AdminGUI
         submitButton.setPrefSize(140, 35);
         submitButton.setLayoutX(350);
         submitButton.setLayoutY(300);
+        submitButton.setTextFill(Color.DARKGREEN);
 
         // Status message
         Label statusLabel = new Label();
@@ -1286,15 +1338,6 @@ public class AdminGUI
         });
 
 
-        Button logout = new Button("Logout");
-        logout.setPrefSize(100, 30);
-        logout.setLayoutX(140);
-        logout.setLayoutY(550);
-        logout.setTextFill(Color.BLACK);
-        logout.setOnAction(ex -> {
-            Main.get_stage().setScene(Main.Home());
-        });
-
         // Validation patterns
         String namePattern = "^[a-zA-Z\\s]+$"; // Only letters and spaces
         String descPattern = "^[a-zA-Z0-9\\s.,!?-]+$"; // Letters, numbers, and basic punctuation
@@ -1303,7 +1346,8 @@ public class AdminGUI
             String name = nameField.getText().trim();
             String description = descArea.getText().trim();
 
-            statusLabel.setTextFill(Color.DARKRED);
+            statusLabel.setTextFill(Color.INDIANRED);
+            statusLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 20));
 
             // Validate name
             if (name.isEmpty()) {
@@ -1347,14 +1391,15 @@ public class AdminGUI
 
             new Category(name, description);
             statusLabel.setText("Category added successfully!");
-            statusLabel.setStyle("-fx-text-fill: #00aa00;");
+            statusLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 20));
+            statusLabel.setTextFill(Color.DARKGREEN);
             nameField.clear();
             descArea.clear();
         });
 
 
 
-        AddCategoriesPane.getChildren().addAll(Title, nameLabel, nameField, descLabel, descArea, submitButton, statusLabel, backButton, returnbtn, logout);
+        AddCategoriesPane.getChildren().addAll(Title, nameLabel, nameField, descLabel, descArea, submitButton, statusLabel, backButton, returnbtn);
 
         return new Scene(AddCategoriesPane, 800, 600);
     }
@@ -1393,6 +1438,7 @@ public class AdminGUI
         titleLabel.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 40));
         titleLabel.setLayoutX(300);  // Centered
         titleLabel.setLayoutY(20);
+        titleLabel.setTextFill(Color.DARKGOLDENROD);
 
         // Scroll pane for categories list
         ScrollPane scrollPane = new ScrollPane();
@@ -1445,7 +1491,7 @@ public class AdminGUI
         editDescArea.setWrapText(true);
 
         editPanel.getChildren().addAll(
-                new Label("Edit Category:"),
+                new Label("Edit Category"),
                 editNameField,
                 editDescArea
         );
