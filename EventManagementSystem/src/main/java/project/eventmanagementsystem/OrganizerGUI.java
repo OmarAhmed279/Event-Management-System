@@ -1,34 +1,53 @@
 package project.eventmanagementsystem;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.InputMismatchException;
 import java.util.Set;
 
 public class OrganizerGUI {
     public static Scene dashboard(Organizer org) {
         BorderPane root = new BorderPane();
-        Button Logout = new Button("Logout");
-        Logout.setOnAction(e -> Main.get_stage().setScene(Main.Home()));
-        root.setBottom(Logout);
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            root.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            root.setStyle("-fx-background-color: lightgray;");
+        }
+        Button logoutbtn = new Button("Logout");
+        logoutbtn.setPrefSize(300, 30);
+        logoutbtn.setOnAction(e -> Main.get_stage().setScene(Main.Home()));
+        root.setBottom(logoutbtn);
         Button profile = new Button("Profile");
         profile.setOnAction(e -> Main.get_stage().setScene(showProfile(org)));
         Button manageEvents = new Button("Manage Events");
@@ -38,29 +57,65 @@ public class OrganizerGUI {
         HBox buttonsPane = new HBox(profile, manageEvents, manageWallet);
         buttonsPane.setSpacing(10.0);
         buttonsPane.setAlignment(Pos.CENTER);
+        Label welcomeLabel = new Label("Welcome " + org.getUsername());
+        welcomeLabel.setTextFill(Color.DARKGOLDENROD);
+        welcomeLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
         root.setCenter(buttonsPane);
+        root.setTop(welcomeLabel);
+        BorderPane.setAlignment(welcomeLabel,Pos.CENTER);
         return new Scene(root, 800, 600);
     }
 
     static Scene manageWallet(Organizer org) {
             BorderPane Pwallet= new BorderPane();
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            Pwallet.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            Pwallet.setStyle("-fx-background-color: lightgray;");
+        }
             Label Lwallet=new Label("Manage Wallet");
-            Lwallet.setFont(Font.font("Charter", FontWeight.EXTRA_BOLD, 30));
+            Lwallet.setTextFill(Color.DARKGOLDENROD);
+            Lwallet.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+            Lwallet.setAlignment(Pos.CENTER);
             Pwallet.setTop(Lwallet);
             BorderPane.setAlignment(Lwallet,Pos.CENTER);
             VBox Details = new VBox();
             Details.setSpacing(10.0);
             Details.setAlignment(Pos.CENTER);
             Pwallet.setCenter(Details);
-
             TextField tfBalance = new TextField();
             tfBalance.setPrefSize(200, 20);;
             tfBalance.setMaxWidth(Region.USE_PREF_SIZE);
             Label statusbalance=new Label();
             Label LBalance=new Label("Wallet Balance: "+org.getWallet().getBalance() );
-            Button Btnupdate= new Button("Update");
-            Btnupdate.setPrefWidth(200);
-            Btnupdate.setOnAction(e->{
+            LBalance.setTextFill(Color.DARKGOLDENROD);
+            LBalance.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
+            LBalance.setAlignment(Pos.CENTER);
+            Button updatebtn= new Button("Update");
+            updatebtn.setPrefSize(300, 30);
+            updatebtn.setPrefWidth(200);
+            updatebtn.setOnAction(e->{
                 try {
                     double newBalance = Double.parseDouble(tfBalance.getText());
                     if (newBalance>0) {
@@ -74,13 +129,13 @@ public class OrganizerGUI {
                 }
                 Main.primaryStage.setScene(manageWallet(org));
 
-            }); Button BtnBack = new Button("Go back");
-
-            BtnBack.setPrefWidth(200);
-            BtnBack.setOnAction(e->{
+            });
+            Button backbtn = new Button("Go back");
+            backbtn.setPrefSize(300, 30);
+            backbtn.setOnAction(e->{
                 Main.primaryStage.setScene(dashboard(org));
             });
-            Details.getChildren().addAll(LBalance,tfBalance,statusbalance,Btnupdate,BtnBack);
+            Details.getChildren().addAll(LBalance,tfBalance,statusbalance,updatebtn, backbtn);
             return new Scene(Pwallet,800,600);
         }
 
@@ -89,19 +144,47 @@ public class OrganizerGUI {
         vbox.setPadding(new Insets(15));
         Label errorLabel = new Label("");
         errorLabel.setStyle("-fx-text-fill: red;");
-        Button addEvent = new Button("Add Event");
-        addEvent.setOnAction(e -> Main.get_stage().setScene(addEvent(org)));
+        Button addEventbtn = new Button("Add Event");
+        addEventbtn.setPrefSize(300, 30);
+        addEventbtn.setOnAction(e -> Main.get_stage().setScene(addEvent(org)));
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
         VBox eventsContainer = new VBox(10);
         eventsContainer = refreshEvents(eventsContainer,org,errorLabel);
         scrollPane.setContent(eventsContainer);
-        vbox.getChildren().addAll(errorLabel, addEvent, scrollPane);
+        vbox.getChildren().addAll(errorLabel, addEventbtn, scrollPane);
         BorderPane root = new BorderPane();
-        Button back = new Button("Back");
-        back.setOnAction(e -> Main.get_stage().setScene(dashboard(org)));
-        root.setBottom(back);
+        Button backbtn = new Button("Back");
+        backbtn.setPrefSize(300, 30);
+        backbtn.setOnAction(e -> Main.get_stage().setScene(dashboard(org)));
+        root.setBottom(backbtn);
         root.setCenter(vbox);
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            root.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            root.setStyle("-fx-background-color: lightgray;");
+        }
         return new Scene(root, 800, 600);
     }
     private static VBox refreshEvents(VBox eventsContainer, Organizer org, Label errorLabel)
@@ -159,8 +242,14 @@ public class OrganizerGUI {
         mainLayout.setPadding(new Insets(15));
         mainLayout.setAlignment(Pos.CENTER);
         Label nameLabel = new Label("Event Name:");
+        nameLabel.setTextFill(Color.DARKGOLDENROD);
+        nameLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        nameLabel.setAlignment(Pos.CENTER);
         TextField nameField = new TextField();
         Label categoryLabel = new Label("Category:");
+        categoryLabel.setTextFill(Color.DARKGOLDENROD);
+        categoryLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        categoryLabel.setAlignment(Pos.CENTER);
         ComboBox<String> categoryCombo = new ComboBox<>();
         Set<String> addedCategories = new HashSet<>();
         int cnt = 1;
@@ -174,11 +263,17 @@ public class OrganizerGUI {
         }
         categoryCombo.setPromptText("choose category");
         Label descLabel = new Label("Description:");
+        descLabel.setTextFill(Color.DARKGOLDENROD);
+        descLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        descLabel.setAlignment(Pos.CENTER);
         TextArea descArea = new TextArea();
         descArea.setPrefRowCount(3);
 
         // Price - Using TextField with validation
         Label priceLabel = new Label("Price:");
+        priceLabel.setTextFill(Color.DARKGOLDENROD);
+        priceLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        priceLabel.setAlignment(Pos.CENTER);
         TextField priceField = new TextField();
         priceField.setPromptText("Enter price as whole number");
 
@@ -188,31 +283,51 @@ public class OrganizerGUI {
         dateGrid.setVgap(5);
 
         Label dateLabel = new Label("Event Date:");
+        dateLabel.setTextFill(Color.DARKGOLDENROD);
+        dateLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        dateLabel.setAlignment(Pos.CENTER);
         dateGrid.add(dateLabel, 0, 0, 2, 1);
 
         // Year
-        dateGrid.add(new Label("Year:"), 0, 1);
+        Label yearLabel = new Label("Year:");
+        yearLabel.setTextFill(Color.DARKGOLDENROD);
+        yearLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+        yearLabel.setAlignment(Pos.CENTER);
+        dateGrid.add(yearLabel, 0, 1);
         TextField yearField = new TextField(String.valueOf(LocalDateTime.now().getYear()));
         dateGrid.add(yearField, 1, 1);
 
         // Month
-        dateGrid.add(new Label("Month (1-12):"), 0, 2);
+        Label monthLabel = new Label("Month (1-12):");
+        monthLabel.setTextFill(Color.DARKGOLDENROD);
+        monthLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+        monthLabel.setAlignment(Pos.CENTER);
+        dateGrid.add(monthLabel, 0, 2);
         TextField monthField = new TextField("1");
         dateGrid.add(monthField, 1, 2);
 
         // Day
-        dateGrid.add(new Label("Day (1-31):"), 0, 3);
+        Label dayLabel = new Label("Day (1-31)");
+        dayLabel.setTextFill(Color.DARKGOLDENROD);
+        dayLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+        dayLabel.setAlignment(Pos.CENTER);
+        dateGrid.add(dayLabel, 0, 3);
         TextField dayField = new TextField("1");
         dateGrid.add(dayField, 1, 3);
 
         // Hour
-        dateGrid.add(new Label("Hour (0-23):"), 0, 4);
+        Label hourLabel = new Label("Hour (0-23):");
+        hourLabel.setTextFill(Color.DARKGOLDENROD);
+        hourLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+        hourLabel.setAlignment(Pos.CENTER);
+        dateGrid.add(hourLabel, 0, 4);
         TextField hourField = new TextField("12");
         dateGrid.add(hourField, 1, 4);
 
         // Submit Button
-        Button submitButton = new Button("Create Event");
-        submitButton.setStyle("-fx-base: #4CAF50; -fx-text-fill: white;");
+        Button submitebtn = new Button("Create Event");
+        submitebtn.setPrefSize(300, 30);
+        submitebtn.setStyle("-fx-base: #4CAF50; -fx-text-fill: white;");
 
         // Status Label
         Label statusLabel = new Label();
@@ -225,11 +340,11 @@ public class OrganizerGUI {
                 descLabel, descArea,
                 priceLabel, priceField,
                 dateGrid,
-                submitButton, statusLabel
+                submitebtn, statusLabel
         );
 
         // Submit Button Action
-        submitButton.setOnAction(e -> {
+        submitebtn.setOnAction(e -> {
             try {
                 // Validate inputs
                 if (nameField.getText().isEmpty()) {
@@ -336,10 +451,37 @@ public class OrganizerGUI {
             }
         });
         BorderPane root = new BorderPane();
-        Button Back = new Button("Back");
-        Back.setOnAction(e -> Main.get_stage().setScene(manageEvents(org)));
-        root.setBottom(Back);
+        Button backbtn = new Button("Back");
+         backbtn.setPrefSize(300, 30);
+        backbtn.setOnAction(e -> Main.get_stage().setScene(manageEvents(org)));
+        root.setBottom(backbtn);
         root.setCenter(mainLayout);
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            root.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            root.setStyle("-fx-background-color: lightgray;");
+        }
         return new Scene(root, 800, 600);
     }
 
@@ -397,25 +539,36 @@ public class OrganizerGUI {
 
     static Scene showProfile(Organizer org) {
         Label usernameLabel = new Label("Username:");
+        usernameLabel.setTextFill(Color.DARKGOLDENROD);
+        usernameLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         TextField usernameField = new TextField(org.getUsername());
         usernameField.setStyle("-fx-font-size: 14px; -fx-padding: 8px;");
         usernameLabel.setLabelFor(usernameField);
         HBox username = new HBox(usernameLabel, usernameField);
         username.setAlignment(Pos.CENTER);
         Label passwordLabel = new Label("Password:");
+        passwordLabel.setTextFill(Color.DARKGOLDENROD);
+        passwordLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         TextField passwordField = new TextField(org.getPassword());
         passwordField.setStyle("-fx-font-size: 14px; -fx-padding: 8px;");
         passwordLabel.setLabelFor(passwordField);
         HBox password = new HBox(passwordLabel, passwordField);
         password.setAlignment(Pos.CENTER);
         Label dateOfBirthLabel = new Label("Date of Birth: " + org.getDateOfBirth().getDate() + " / " + org.getDateOfBirth().getMonth() + " / " + org.getDateOfBirth().getYear());
+        dateOfBirthLabel.setTextFill(Color.DARKGOLDENROD);
+        dateOfBirthLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         dateOfBirthLabel.setAlignment(Pos.CENTER);
         Label walletBalanceLabel = new Label("Balance: " + String.valueOf(org.getWallet().getBalance()));
+        walletBalanceLabel.setTextFill(Color.DARKGOLDENROD);
+        walletBalanceLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         walletBalanceLabel.setAlignment(Pos.CENTER);
         Label eventLabel = new Label("Events:");
+        eventLabel.setTextFill(Color.DARKGOLDENROD);
+        eventLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         eventLabel.setAlignment(Pos.CENTER);
-        Button updateInfo = new Button("Update Information");
-        updateInfo.setOnAction(e->{
+        Button updatebtn = new Button("Update Information");
+        updatebtn.setPrefSize(300, 30);
+        updatebtn.setOnAction(e->{
             statuspassword.setText("");
             statusUsername.setText("");
             if (!usernameField.getText().isEmpty()) {
@@ -451,7 +604,7 @@ public class OrganizerGUI {
             }
             Main.primaryStage.setScene(showProfile(org));
         });
-        VBox vbox = new VBox(username, statusUsername, password, statuspassword, dateOfBirthLabel, walletBalanceLabel,  updateInfo, eventLabel);
+        VBox vbox = new VBox(username, statusUsername, password, statuspassword, dateOfBirthLabel, walletBalanceLabel,  updatebtn, eventLabel);
         vbox.setAlignment(Pos.CENTER);
         ScrollPane scrollPane = new ScrollPane();
         for (int i = 0; i < org.getEvents().size(); i++) {
@@ -470,13 +623,40 @@ public class OrganizerGUI {
         vbox.getChildren().add(scrollPane);
         vbox.setSpacing(10);
         BorderPane root = new BorderPane();
-        Button Back = new Button("Back");
-        Back.setOnAction(e -> {
+        Button backbtn = new Button("Back");
+        backbtn.setPrefSize(300, 30);
+        backbtn.setOnAction(e -> {
             statusUsername.setText("");
             statuspassword.setText("");
             Main.get_stage().setScene(dashboard(org));});
-        root.setBottom(Back);
+        root.setBottom(backbtn);
         root.setCenter(vbox);
+        try {
+            // Load the image
+            Image image = new Image(UserGUI.class.getResource("/Background4.png").toExternalForm());
+
+            // Create background image that fills the entire pane
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(
+                            100, 100,  // width/height percentages (100% for both)
+                            true,       // width as percentage
+                            true,       // height as percentage
+                            true,       // contain within bounds
+                            true        // cover entire area
+                    )
+            );
+
+            // Set the background
+            root.setBackground(new Background(backgroundImage));
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            // Fallback to solid color if image fails to load
+            root.setStyle("-fx-background-color: lightgray;");
+        }
         return new Scene(root,800,600);
     }
 }
